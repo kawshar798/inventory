@@ -18,6 +18,8 @@
     <link href="{{asset('/assets/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('/assets/css/icons.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    @stack('head_styles')
 
 </head>
 
@@ -41,7 +43,7 @@
         <!-- Start content -->
         <div class="content">
             <div class="container-fluid">
-                @include('layouts.partial.pagetitle)
+                @include('layouts.partials.pagetitle')
                 <!-- end page-title -->
 @yield('content')
             </div>
@@ -60,22 +62,26 @@
 </div>
 <!-- END wrapper -->
 
-<!-- jQuery  -->
-<script src="{{asset('assets/js/jquery.min.js')}}"></script>
-<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('assets/js/metismenu.min.js')}}"></script>
-<script src="{{asset('assets/js/jquery.slimscroll.js')}}"></script>
-<script src="{{asset('assets/js/waves.min.js')}}"></script>
 
-<!--Morris Chart-->
-<script src="{{asset('assets/plugins/morris/morris.min.js')}}"></script>
-<script src="{{asset('assets/plugins/raphael/raphael.min.js')}}"></script>
+@section('footerScripts')
+    <!-- jQuery  -->
+    <script src="{{asset('assets/js/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('assets/js/metismenu.min.js')}}"></script>
+    <script src="{{asset('assets/js/jquery.slimscroll.js')}}"></script>
+    <script src="{{asset('assets/js/waves.min.js')}}"></script>
 
-<script src="{{asset('assets/pages/dashboard.init.js')}}"></script>
+    <!--Morris Chart-->
+    <script src="{{asset('assets/plugins/morris/morris.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/raphael/raphael.min.js')}}"></script>
 
-<!-- App js -->
-<script src="{{asset('assets/js/app.js')}}"></script>
+    <script src="{{asset('assets/pages/dashboard.init.js')}}"></script>
 
+    <!-- App js -->
+    <script src="{{asset('assets/js/app.js')}}"></script>
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    {!! Toastr::message() !!}
+@show
 
 
 </body>
