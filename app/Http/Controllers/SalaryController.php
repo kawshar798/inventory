@@ -20,15 +20,13 @@ class SalaryController extends Controller
 
     public  function  allAdvancedSalary(){
 
-                $advanced_salary = DB::table('salaries')
-                    ->join('employees','salaries.employee_id','employees.id')
-                    ->select('salaries.*','employees.*')
+                $advanced_salaries = DB::table('advanced_salaries')
+                    ->join('employees','advanced_salaries.employee_id','employees.id')
+                    ->select('advanced_salaries.*','employees.*')
 //                    ->orderBy('id','DESC')
                     ->get();
-       return $advanced_salary;
 
-
-        return view($this->path.'all_advanced_salary');
+        return view($this->path.'all_advanced_salary',compact('advanced_salaries'));
     }
 
 
@@ -44,7 +42,7 @@ class SalaryController extends Controller
                 $month = $request->month;
                 $employee_id = $request->employee_id;
 
-                $existEmployee = Salary::where('month',$month)->where('employee_id',$employee_id)->first();
+                $existEmployee = DB::table('advanced_salaries')->where('month',$month)->where('employee_id',$employee_id)->first();
 
                 if($existEmployee === NULL){
                     $salary =  new Salary();
@@ -68,5 +66,11 @@ class SalaryController extends Controller
         }
         $employees = Employee::all();
         return view($this->path.'add_advanced_salary',compact('employees'));
+    }
+
+
+    public  function  paySalary(){
+        $employees = Employee::all();
+        return view($this->path.'pay_salary',compact('employees'));
     }
 }

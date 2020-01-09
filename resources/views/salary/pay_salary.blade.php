@@ -7,14 +7,14 @@
     <!-- Responsive datatable examples -->
     <link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endpush
-@section('title','Employee')
-@section('page_title','Employee')
+@section('title','Salary')
+@section('page_title','Salary')
 @section('breadcrumb')
     <li class="breadcrumb-item active">
-        <a href="{{route('employee.create')}}">Advanced  Salary</a>
+        <a href="{{route('employee.create')}}">Pay Salary </a>
     </li>
     <li class="breadcrumb-item active">
-       All Advanced
+        Pay Salary
     </li>
 
 @endsection
@@ -23,40 +23,41 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <a href="{{route('salary.advanced.add')}}" class="btn btn-primary mb-3" >Advanced salary   Add</a>
+                    <div class="d-flex justify-content-between mb-2"><a href="{{route('salary.advanced.add')}}" class="btn btn-primary" >Advanced  salary pay</a>
+                    <h2 style="margin: 0px;"><span class="d-flex badge badge-success align-items-center">{{date("F Y")}}</span></h2></div>
+
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
                             <th>S.L</th>
                             <th>Name</th>
                             <th>Photo</th>
+                            <th>Salary</th>
                             <th>Month</th>
-                            <th>Year</th>
-                            <th>Advanced Salary</th>
                             <th>Action</th>
                         </tr>
                         </thead>
 
 
                         <tbody>
-                        @foreach($advanced_salaries as $index=>$advanced_salary)
+                        @foreach($employees as $index=>$employee)
 
                             <tr>
                                 <td>{{++$index}}</td>
-                                <td>{{$advanced_salary->name}}</td>
+                                <td>{{$employee->name}}</td>
                                 <td>
-                                    <img src="{{url($advanced_salary->photo)}}" alt="{{$advanced_salary->name}}" style="width: 100px;height: 100px">
+                                    <img src="{{url($employee->photo)}}" alt="{{$employee->name}}" style="width: 80px;height: 80px">
                                 </td>
-                                <td>{{$advanced_salary->month}}
+                                <td>{{$employee->salary}}
                                 </td>
-                                <td>{{$advanced_salary->year}}</td>
-                                <td>{{$advanced_salary->advanced_salary}}</td>
+                                <td><h4><span class="badge badge-success">{{date("F",strtotime('-1 months'))}}</span></h4></td>
+
                                 <td>
-                                    {{--<a href="{{route('employee.edit',$employee->id)}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#" class="btn btn-warning"><i class="fas fa-arrow-circle-down"></i></a>
-                                    <a href="#" class="btn btn-success"><i class="fas fa-arrow-circle-up"></i></a>
-                                    <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                                    <a href="{{route('employee.delete',$employee->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>--}}
+                                   <a href="#" class="btn btn-info">Pay Now</a>
+                                    {{--<a href="#" class="btn btn-warning"><i class="fas fa-arrow-circle-down"></i></a>
+                                   <a href="#" class="btn btn-success"><i class="fas fa-arrow-circle-up"></i></a>
+                                   <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                   <a href="{{route('employee.delete',$employee->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>--}}
                                 </td>
                             </tr>
                         @endforeach

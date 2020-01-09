@@ -26,6 +26,8 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> People <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{route('salary.advanced.add')}}">Add Advanced Salary</a></li>
+                        <li><a href="{{route('salary.advanced.all')}}">All Advanced Salary</a></li>
+                        <li><a href="{{route('salary.pay')}}">Pay Salary</a></li>
 
 
 

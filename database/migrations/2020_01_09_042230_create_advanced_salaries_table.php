@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalariesTable extends Migration
+class CreateAdvancedSalariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateSalariesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salaries', function (Blueprint $table) {
+        //2020_01_09_042230_create_advanced_salaries_table
+        Schema::create('advanced_salaries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('employee_id');
-            $table->string('salary_month');
-            $table->double('paid_amount',10,2);
+            $table->string('month');
+            $table->string('year');
+            $table->double('advanced_salary',10,2);
             $table->timestamps();
         });
     }
