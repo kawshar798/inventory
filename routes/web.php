@@ -31,8 +31,9 @@ Route::any('customer/create','CustomerController@create')->name('customer.create
 
 //
 Route::group(['prefix'=>'salary','as'=>'salary.'],function (){
-    Route::any('add/advanced/salary','SalaryController@addAdvanced')->name('advanced.add');
-    Route::get('all/advanced/salary','SalaryController@allAdvancedSalary')->name('advanced.all');
+    Route::any('add/advanced/','SalaryController@addAdvanced')->name('advanced.add');
+    Route::get('all/advanced/','SalaryController@allAdvancedSalary')->name('advanced.all');
+    Route::get('pay','SalaryController@paySalary')->name('pay');
 });
 
 
