@@ -36,4 +36,11 @@ Route::group(['prefix'=>'salary','as'=>'salary.'],function (){
     Route::get('pay','SalaryController@paySalary')->name('pay');
 });
 
+Route::group(['prefix'=>'category','as'=>'category.'],function (){
+    Route::any('list','CategoryController@index')->name('index');
+    Route::any('create','CategoryController@create')->name('create');
+
+
+});
+
 

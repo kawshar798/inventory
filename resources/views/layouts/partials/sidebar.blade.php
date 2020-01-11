@@ -28,10 +28,13 @@
                         <li><a href="{{route('salary.advanced.add')}}">Add Advanced Salary</a></li>
                         <li><a href="{{route('salary.advanced.all')}}">All Advanced Salary</a></li>
                         <li><a href="{{route('salary.pay')}}">Pay Salary</a></li>
-
-
-
                     </ul>
+                </li>
+
+                <li>
+                    <a href="{{route('category.create')}}" class="waves-effect">
+                        <i class="icon-accelerator"></i> Category </span>
+                    </a>
                 </li>
 
             </ul>
