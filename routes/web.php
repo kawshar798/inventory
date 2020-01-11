@@ -37,8 +37,12 @@ Route::group(['prefix'=>'salary','as'=>'salary.'],function (){
 });
 
 Route::group(['prefix'=>'category','as'=>'category.'],function (){
-    Route::any('list','CategoryController@index')->name('index');
+    Route::get('list','CategoryController@index')->name('index');
     Route::any('create','CategoryController@create')->name('create');
+    Route::get('edit/{id}','CategoryController@edit')->name('edit');
+    Route::get('active/{id}','CategoryController@active')->name('active');
+    Route::get('inactive/{id}','CategoryController@inactive')->name('inactive');
+    Route::get('delete/{id}','CategoryController@delete')->name('delete');
 
 
 });

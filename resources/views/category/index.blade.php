@@ -42,13 +42,24 @@
                                 <td>{{++$index}}</td>
                                 <td>{{$category->cat_name}}</td>
                                 <td>{{$category->slug}}</td>
-                                <td>{{$category->cat_name}}</td>
                                 <td>
-                                    <a href="{{route('employee.edit',$category->id)}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#" class="btn btn-warning"><i class="fas fa-arrow-circle-down"></i></a>
-                                    <a href="#" class="btn btn-success"><i class="fas fa-arrow-circle-up"></i></a>
+                                    @if($category->status == 'Inactive')
+                                       <span class="badge badge-warning badge-pill">Inactive</span>
+                                    @else
+                                        <span class="badge badge-success badge-pill">Active</span>
+                                    @endif
+
+
+                                </td>
+                                <td>
+                                    <a href="{{route('category.edit',$category->id)}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+                                    @if($category->status == 'Inactive')
+                                        <a href="{{route('category.active',$category->id)}}" class="btn btn-warning" title="Make Active"><i class="fas fa-arrow-circle-down"></i></a>
+                                        @else
+                                        <a href="{{route('category.inactive',$category->id)}}" class="btn btn-success" title="Make Inactive"><i class="fas fa-arrow-circle-up"></i></a>
+                                        @endif
                                     <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                                    <a href="{{route('employee.delete',$category->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="{{route('category.delete',$category->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -69,7 +80,6 @@
     <!-- Responsive examples -->
     <script src="{{asset('assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
-
     <!-- Datatable init js -->
     <script src="{{asset('assets/pages/datatables.init.js')}}"></script>
 @stop
