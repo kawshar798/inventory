@@ -24,64 +24,105 @@ class CategoryController extends Controller
         return view($this->path.'index',compact('categories'));
     }
 
-    public  function  create(Request $request){
-
-        if($request->isMethod('post')){
-                DB::beginTransaction();
-                try {
-                    if($request->id){
-                        $category = Category::find($request->id);
-                    }else{
-                        $category = new Category();
-                    }
-                    $category->name = $request->name;
-                    $category->parent_id = $request->parent_id;
-                    $category->description = $request->description;
-                    $category->featured = $request->featured? 1 : 0;
-                    $category->slug = Str::slug( $request->name);
-
-                    if ($request->hasfile('image')) {
-                        $image = $request->image;
-                        $extension = $image->getClientOriginalExtension();
-                        $image_name = Str::slug($request->name) . "-" . time() . "." . $extension;
-                        $path = 'public/images/category/';
-                        if (!file_exists($path)) {
-                            mkdir($path, 0777, true);
-                        }
-                        $image->move($path, $image_name);
-                        $category->image = $path . $image_name;
-                    }
-
-                    if($category->status==NULL){
-                        $category->status  = 'Active';
-                    }else{
-                        $category->status  = $request->status;
-                    }
-                    $category->save();
-                    DB::commit();
-                    if($request->id){
-                        Toastr::success('Success', 'Category  Update Success');
-                    }else{
-                        Toastr::success('Success', 'Category  Create Success');
-                    }
-                    return redirect()->route('category.index');
-                }catch (\Exception $e){
-                    DB::rollBack();
-                    return $e->getMessage();
-                }
-        }
-        $categories = Category::where('parent_id', 0)->get();
-        $parent_categories ="";
-        if (!empty($categories)) {
-            $parent_categories = $categories;
-        }
-
+    public  function  create(){
+        $parent_categories = Category::where('parent_id', 0)->get();
         return view($this->path.'create',compact('parent_categories'));
     }
 
+
+    public  function  store(Request $request){
+        DB::beginTransaction();
+        try {
+            $category = new Category();
+            if (!empty($request->input('add_as_sub_cat')) &&  $request->input('add_as_sub_cat') == 1 && !empty($request->parent_id)) {
+                $category->parent_id = $request->parent_id;
+            } else {
+                $category->parent_id = 0;
+            }
+            $category->name         = $request->name;
+            $category->slug         = Str::slug( $request->name);
+            $category->description  = $request->description;
+            $category->featured     = $request->featured? 1 : 0;
+
+            if ($request->hasfile('image')) {
+                $image = $request->image;
+                $extension = $image->getClientOriginalExtension();
+                $image_name = Str::slug($request->name) . "-" . time() . "." . $extension;
+                $path = 'public/images/category/';
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $image->move($path, $image_name);
+                $category->image = $path . $image_name;
+            }
+            $category->status  = $request->status;
+            $category->save();
+            DB::commit();
+            Toastr::success('Success', 'Category  Create Success');
+            return redirect()->route('category.index');
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
+
+
     public  function  edit($id){
-        $category = Category::find($id);
-        return view($this->path.'create',compact('category'));
+        $parent_categories = Category::where('parent_id', 0)->get();
+        $category = Category::findOrFail($id);
+
+        if($category->parent_id==0){
+            $is_parent = true;
+        }else{
+            $is_parent = false;
+        }
+        return view($this->path.'edit',compact('category','parent_categories','is_parent'));
+    }
+
+
+    public function  update(Request $request){
+        $category = Category::find($request->id);
+        try {
+            if (!empty($request->input('add_as_sub_cat')) &&  $request->input('add_as_sub_cat') == 1 && !empty($request->parent_id)) {
+                $category->parent_id = $request->parent_id;
+            } else {
+                $category->parent_id = 0;
+            }
+            $category->name         = $request->name;
+            $category->slug         = Str::slug( $request->name);
+            $category->description  = $request->description;
+            $category->featured     = $request->featured? 1 : 0;
+
+            if ($request->hasfile('image')) {
+                $image = $request->image;
+                $extension = $image->getClientOriginalExtension();
+                $image_name = Str::slug($request->name) . "-" . time() . "." . $extension;
+                $path = 'public/images/category/';
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $image->move($path, $image_name);
+                //delete old image
+                if ($category->image) {
+                    unlink($category->image);
+                }
+                $category->image = $path . $image_name;
+            }
+
+            //update same database image
+            if ($category->image) {
+                $category->image = $category->image;
+            }
+            $category->status  = $request->status;
+            $category->save();
+            DB::commit();
+            Toastr::success('Success', 'Category  Update Success');
+            return redirect()->route('category.index');
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+
     }
     public  function  active($id){
         $category = Category::find($id);
@@ -101,7 +142,8 @@ class CategoryController extends Controller
 
     public  function  delete($id){
         $category = Category::findOrFail($id);
-  $category->delete();
+        unlink($category->image);
+        $category->delete();
         Toastr::success('Success', 'Category  Delete Success');
         return redirect()->back();
     }

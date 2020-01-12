@@ -18,6 +18,8 @@ class CreateBrandsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->string('logo')->nullable();
+            $table->enum('status',['Active','Inactive']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

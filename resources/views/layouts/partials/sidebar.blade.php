@@ -32,11 +32,20 @@
                 </li>
 
                 <li>
-                    <a href="{{route('category.create')}}" class="waves-effect">
+                    <a href="{{route('category.index')}}" class="waves-effect">
                         <i class="icon-accelerator"></i> Category </span>
                     </a>
                 </li>
-
+                <li>
+                    <a href="{{route('brand.index')}}" class="waves-effect">
+                        <i class="icon-accelerator"></i> Brand </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('unit.index')}}" class="waves-effect">
+                        <i class="icon-accelerator"></i> Unit </span>
+                    </a>
+                </li>
             </ul>
 
         </div>

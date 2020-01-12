@@ -38,13 +38,34 @@ Route::group(['prefix'=>'salary','as'=>'salary.'],function (){
 
 Route::group(['prefix'=>'category','as'=>'category.'],function (){
     Route::get('list','CategoryController@index')->name('index');
-    Route::any('create','CategoryController@create')->name('create');
+    Route::get('create','CategoryController@create')->name('create');
+    Route::post('store','CategoryController@store')->name('store');
     Route::get('edit/{id}','CategoryController@edit')->name('edit');
+    Route::post('update/','CategoryController@update')->name('update');
     Route::get('active/{id}','CategoryController@active')->name('active');
     Route::get('inactive/{id}','CategoryController@inactive')->name('inactive');
     Route::get('delete/{id}','CategoryController@delete')->name('delete');
+});
 
-
+Route::group(['prefix'=>'brand','as'=>'brand.'],function (){
+    Route::get('list','BrandController@index')->name('index');
+    Route::get('create','BrandController@create')->name('create');
+    Route::post('store','BrandController@store')->name('store');
+    Route::get('edit/{id}','BrandControllerr@edit')->name('edit');
+    Route::post('update/','BrandController@update')->name('update');
+    Route::get('active/{id}','BrandController@active')->name('active');
+    Route::get('inactive/{id}','BrandController@inactive')->name('inactive');
+    Route::get('delete/{id}','BrandController@delete')->name('delete');
+});
+Route::group(['prefix'=>'unit','as'=>'unit.'],function (){
+    Route::get('list','UnitController@index')->name('index');
+    Route::get('create','UnitController@create')->name('create');
+    Route::post('store','UnitController@store')->name('store');
+    Route::get('edit/{id}','UnitController@edit')->name('edit');
+    Route::post('update/','UnitController@update')->name('update');
+    Route::get('active/{id}','UnitController@active')->name('active');
+    Route::get('inactive/{id}','UnitController@inactive')->name('inactive');
+    Route::get('delete/{id}','UnitController@delete')->name('delete');
 });
 
 

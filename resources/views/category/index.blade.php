@@ -29,7 +29,10 @@
                         <tr>
                             <th>S.L</th>
                             <th>Name</th>
-                            <th>Slug</th>
+                            <th>URL</th>
+                            <th>Parent Category</th>
+                            <th>Image</th>
+                            <th>Featured</th>
                             <th>Status</th>
                             <th>Action</th>
 
@@ -40,8 +43,21 @@
                         @foreach($categories as $index=>$category)
                             <tr>
                                 <td>{{++$index}}</td>
-                                <td>{{$category->cat_name}}</td>
+                                <td>{{$category->name}}</td>
                                 <td>{{$category->slug}}</td>
+                                <td>{{isset($category->parent->name)?$category->parent->name:''}}</td>
+                                <td>
+                                    <img src="{{asset($category->image)}}" alt="{{$category->name}}" style="width: 100px;height: 100px">
+
+                                </td>
+                                <td>
+                                @if($category->featured==1)
+                                        <span class="badge badge-success">YES</span>
+                                    @else
+                                        <span class="badge badge-danger">NO</span>
+                                    @endif
+
+                                </td>
                                 <td>
                                     @if($category->status == 'Inactive')
                                        <span class="badge badge-warning badge-pill">Inactive</span>
@@ -67,6 +83,11 @@
                     </table>
 
                 </div>
+
+
+
+
+
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->

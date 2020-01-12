@@ -1,5 +1,5 @@
 /*
- Template Name: Stexo - Responsive Bootstrap 4 Admin Dashboard
+ Template Name:KAS
  Author: Themesdesign
  Website: www.themesdesign.in
  File: Main Css File
@@ -654,10 +654,10 @@ dt {
 ===================*/
 /*!
  * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE */
 .waves-effect {
   position: relative;
@@ -3672,3 +3672,10 @@ table.focus-on tbody tr.focused td {
   padding-left: 20px;
 }
 /*# sourceMappingURL=style.css.map */
+
+
+/*###  Custom css####*/
+.card-body {
+    border-top: 5px solid #02c58d;
+    border-radius: 5px;
+}

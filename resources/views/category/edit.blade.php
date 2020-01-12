@@ -6,7 +6,7 @@
         <a href="{{route('category.index')}}">Category</a>
     </li>
     <li class="breadcrumb-item active">
-        Category  Create
+        Category  Edit
     </li>
 
 @endsection
@@ -16,10 +16,11 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <h4 class="mt-0 header-title">Category Create</h4>
+                    <h4 class="mt-0 header-title">Category Edit</h4>
 
-                    <form class="" action="{{route('category.store')}}" method="POST" enctype="multipart/form-data">
+                    <form class="" action="{{route('category.update')}}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden"  name="id" value="{{isset($category->id)?$category->id:''}}" >
                         <div class="form-group row">
                             <div class="col-md-4">   <label>Category Name</label></div>
                             <div class="col-md-8">
@@ -27,44 +28,47 @@
                             </div>
                         </div>
                         @if($parent_categories->isNotEmpty())
-                        <div class="form-group row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-8">
-                                <input class="form-check-input" type="checkbox" id="add_as_sub_cat" name="add_as_sub_cat" value="1" class="toggler" data-toggle="collapse" data-target="#demo" />Add as sub-category
+                            <div class="form-group row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-8">
+                                    <input class="form-check-input" type="checkbox" id="add_as_sub_cat" name="add_as_sub_cat" value="1" class="toggler" data-toggle="collapse" data-target="#demo" @if($is_parent !=true) checked @endif/>Add as sub-category
+                                </div>
                             </div>
-                        </div>
 
 
-                            <div class="form-group row collapse"  id="demo">
+                            <div class="form-group row collapse @if($is_parent !=true) show @endif"  id="demo">
                                 <div class="col-md-4"><label>Parent Category</label></div>
                                 <div class="col-md-8">
                                     <select id=parent class="form-control" name="parent_id" >
                                         <option value="">Select a Parent Category</option>
-                                        @foreach($parent_categories as $category)
-                                            <option value="{{$category->id}}"> {{ $category->name }} </option>
+                                        @foreach($parent_categories as $p_category)
+                                            <option value="{{$p_category->id}}" @isset($category->parent_id){{$category->parent_id==$p_category->id?'Selected':''}}@endisset > {{ $p_category->name }} </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            @endif
+                        @endif
 
 
                         <div class="form-group row">
                             <div class="col-md-4"><label>Category Description</label></div>
                             <div class="col-md-8">
-                                <textarea class="form-control" name="description"></textarea>
+                                <textarea class="form-control" name="description">{{isset($category->description)?$category->description:''}}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4"><label> Category Image</label></div>
                             <div class="col-md-8">
-                                <input class="form-control" type="file" id="image" name="image"/>
+                                <input class="form-control" type="file" id="image" name="image" value="{{isset($category->image)?$category->image:''}}"/>
+                               @if(isset($category->image))
+                               <img src="{{asset($category->image)}}" alt="{{$category->name}}"  style="height: 100px;width: 100px;">
+                                   @endif
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4"></div>
                             <div class="col-md-8">
-                                <input class="form-check-input" type="checkbox" id="featured" name="featured" value="1"/>Featured Category
+                                <input class="form-check-input" type="checkbox" id="featured" name="featured" value="1 " @isset($category->featured){{$category->featured==1?'checked':''}}@endisset/>Featured Category
 
                             </div>
                         </div>

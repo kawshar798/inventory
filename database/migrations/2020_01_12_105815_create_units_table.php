@@ -17,6 +17,8 @@ class CreateUnitsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('slug');
+            $table->enum('status',['Active','Inactive']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
