@@ -37,7 +37,7 @@ class CategoryController extends Controller
                     $category->name = $request->name;
                     $category->parent_id = $request->parent_id;
                     $category->description = $request->description;
-                    $category->featured = $request->featured;
+                    $category->featured = $request->featured? 1 : 0;
                     $category->slug = Str::slug( $request->name);
                     if($category->status==NULL){
                         $category->status  = 'Active';
@@ -65,7 +65,6 @@ class CategoryController extends Controller
 
         return view($this->path.'create',compact('parent_categories'));
     }
-
 
     public  function  edit($id){
         $category = Category::find($id);

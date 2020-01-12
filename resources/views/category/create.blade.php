@@ -42,7 +42,7 @@
                                     <select id=parent class="form-control" name="parent_id" >
                                         <option value="0">Select a Parent Category</option>
                                         @foreach($parent_categories as $category)
-                                            <option value="{{$category}}"> {{ $category }} </option>
+                                            <option value="{{$category->id}}"> {{ $category->name }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,7 +65,8 @@
                         <div class="form-group row">
                             <div class="col-md-4"></div>
                             <div class="col-md-8">
-                                <input class="form-check-input" type="checkbox" id="featured" name="featured"/>Featured Category
+                                <input class="form-check-input" type="checkbox" id="featured" name="featured" value="1"/>Featured Category
+
                             </div>
                         </div>
                         <div class="form-group row">
