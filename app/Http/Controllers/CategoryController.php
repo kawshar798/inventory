@@ -20,6 +20,7 @@ class CategoryController extends Controller
 
     public  function  index(){
         $categories = Category::all();
+
         return view($this->path.'index',compact('categories'));
     }
 
@@ -33,8 +34,11 @@ class CategoryController extends Controller
                     }else{
                         $category = new Category();
                     }
-                    $category->cat_name = $request->cat_name;
-                    $category->slug = Str::slug( $request->cat_name);
+                    $category->name = $request->name;
+                    $category->parent_id = $request->parent_id;
+                    $category->description = $request->description;
+                    $category->featured = $request->featured;
+                    $category->slug = Str::slug( $request->name);
                     if($category->status==NULL){
                         $category->status  = 'Active';
                     }else{
@@ -53,8 +57,13 @@ class CategoryController extends Controller
                     return $e->getMessage();
                 }
         }
-        $categories = Category::where('status','Active')->get();
-        return view($this->path.'create',compact('categories'));
+        $categories = Category::where('parent_id', 0)->get();
+        $parent_categories ="";
+        if (!empty($categories)) {
+            $parent_categories = $categories;
+        }
+
+        return view($this->path.'create',compact('parent_categories'));
     }
 
 
