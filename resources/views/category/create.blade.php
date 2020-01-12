@@ -18,7 +18,7 @@
 
                     <h4 class="mt-0 header-title">Category Create</h4>
 
-                    <form class="" action="{{route('category.create')}}" method="POST">
+                    <form class="" action="{{route('category.create')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input value="{{isset($category->id)?$category->id:''}}" name="id" type="hidden">
                         <div class="form-group row">

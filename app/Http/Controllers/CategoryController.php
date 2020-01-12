@@ -39,6 +39,19 @@ class CategoryController extends Controller
                     $category->description = $request->description;
                     $category->featured = $request->featured? 1 : 0;
                     $category->slug = Str::slug( $request->name);
+
+                    if ($request->hasfile('image')) {
+                        $image = $request->image;
+                        $extension = $image->getClientOriginalExtension();
+                        $image_name = Str::slug($request->name) . "-" . time() . "." . $extension;
+                        $path = 'public/images/category/';
+                        if (!file_exists($path)) {
+                            mkdir($path, 0777, true);
+                        }
+                        $image->move($path, $image_name);
+                        $category->image = $path . $image_name;
+                    }
+
                     if($category->status==NULL){
                         $category->status  = 'Active';
                     }else{
@@ -87,7 +100,7 @@ class CategoryController extends Controller
     }
 
     public  function  delete($id){
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
   $category->delete();
         Toastr::success('Success', 'Category  Delete Success');
         return redirect()->back();
