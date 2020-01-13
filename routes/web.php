@@ -55,7 +55,7 @@ Route::group(['prefix'=>'brand','as'=>'brand.'],function (){
     Route::post('update/','BrandController@update')->name('update');
     Route::get('active/{id}','BrandController@active')->name('active');
     Route::get('inactive/{id}','BrandController@inactive')->name('inactive');
-    Route::get('delete/{id}','BrandController@delete')->name('delete');
+    Route::delete('delete/{id}','BrandController@delete')->name('delete');
 });
 Route::group(['prefix'=>'unit','as'=>'unit.'],function (){
     Route::get('list','UnitController@index')->name('index');
@@ -65,7 +65,7 @@ Route::group(['prefix'=>'unit','as'=>'unit.'],function (){
     Route::post('update/','UnitController@update')->name('update');
     Route::get('active/{id}','UnitController@active')->name('active');
     Route::get('inactive/{id}','UnitController@inactive')->name('inactive');
-    Route::get('delete/{id}','UnitController@delete')->name('delete');
+    Route::delete('delete/{id}','UnitController@delete')->name('delete');
 });
 
 

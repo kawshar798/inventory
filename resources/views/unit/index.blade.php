@@ -7,14 +7,14 @@
     <!-- Responsive datatable examples -->
     <link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endpush
-@section('title','Brand')
-@section('page_title','Brand')
+@section('title','Unit')
+@section('page_title','Unit')
 @section('breadcrumb')
     <li class="breadcrumb-item active">
-        <a href="{{route('category.index')}}">Brand</a>
+        <a href="{{route('category.index')}}">Unit</a>
     </li>
     <li class="breadcrumb-item active">
-        Brand   List
+        Unit   List
     </li>
 
 @endsection
@@ -24,7 +24,7 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#myModal">
-                        Brand Create
+                        Unit Create
                     </button>
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
@@ -32,33 +32,29 @@
                             <th>S.L</th>
                             <th>Name</th>
                             <th>URL</th>
-                            <th>Logo</th>
                             <th>Status</th>
                             <th>Action</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($brands as $index=>$brand)
+                        @foreach($units as $index=>$unit)
                             <tr>
                                 <td>{{++$index}}</td>
-                                <td>{{$brand->name}}</td>
-                                <td>{{$brand->slug}}</td>
-                                <td>
-                                    <img src="{{asset($brand->logo)}}" alt="{{$brand->name}}" style="height: 100px;width: 100px;">
-                                </td>
-                                <td>{{$brand->status}}</td>
+                                <td>{{$unit->name}}</td>
+                                <td>{{$unit->slug}}</td>
+                                <td>{{$unit->status}}</td>
 
                                 <td>
-                                    <a href="{{route('brand.edit',$brand->id)}}" class="btn btn-primary" data-toggle="modal" data-target="#editModal-{{$brand->id}}"><i class="fas fa-pencil-alt"></i></a>
-                                    @if($brand->status == 'Inactive')
-                                        <a href="{{route('brand.active',$brand->id)}}" class="btn btn-warning" title="Make Active" onclick="return confirm('Are you sure Active this brand????')"><i class="fas fa-arrow-circle-down"></i></a>
+                                    <a href="{{route('unit.edit',$unit->id)}}" class="btn btn-primary" data-toggle="modal" data-target="#editModal-{{$unit->id}}"><i class="fas fa-pencil-alt"></i></a>
+                                    @if($unit->status == 'Inactive')
+                                        <a href="{{route('unit.active',$unit->id)}}" class="btn btn-warning" title="Make Active" onclick="return confirm('Are you sure Active this Unit????')"><i class="fas fa-arrow-circle-down"></i></a>
                                     @else
-                                        <a href="{{route('brand.inactive',$brand->id)}}" class="btn btn-success" title="Make Inactive" onclick=" return confirm('Are you sure Active this brand????')"><i class="fas fa-arrow-circle-up"></i></a>
+                                        <a href="{{route('unit.inactive',$unit->id)}}" class="btn btn-success" title="Make Inactive" onclick=" return confirm('Are you sure Active this Unit????')"><i class="fas fa-arrow-circle-up"></i></a>
                                     @endif
-                                    <a href="#" class="btn btn-danger" onclick="deletebrand({{ $brand->id }})"><i class="fa fa-trash"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deletebrand({{ $unit->id }})"><i class="fa fa-trash"></i></a>
 
-                                    <form id="delete-brand-{{ $brand->id }}" action="{{route('brand.delete',$brand->id)}}" method="post" style="display: none;">
+                                    <form id="delete-brand-{{ $unit->id }}" action="{{route('unit.delete',$unit->id)}}" method="post" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -67,38 +63,31 @@
                             </tr>
 
                             <!-- Edit  Brand -->
-                        <div class="modal" id="editModal-{{$brand->id}}">
+                        <div class="modal" id="editModal-{{$unit->id}}">
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Edit  Brand</h4>
+                                        <h4 class="modal-title">Edit  Unit</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
 
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <form action="{{route('brand.update')}}" method="post" enctype="multipart/form-data">
+                                        <form action="{{route('unit.update')}}" method="post">
                                             @csrf
-                                            <input type="hidden" class="form-control"  value="{{$brand->id}}" name="id">
+                                            <input type="hidden" class="form-control"  value="{{$unit->id}}" name="id">
                                             <div class="form-group">
                                                 <label class="col-form-label">Brand Name</label>
-                                                <input type="text" class="form-control"  placeholder="Enter Brand  Name" name="name" value="{{$brand->name}}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Brand Logo</label>
-                                                <input type="file" class="form-control"  placeholder="Enter Brand  Logo" name="logo" value="{{$brand->logo}}">
-                                                @if($brand->logo)
-                                                    <img src="{{asset($brand->logo)}}" alt="{{$brand->name}}" style="width: 100px;height: 100px;"/>
-                                                    @endif
+                                                <input type="text" class="form-control"  placeholder="Enter Brand  Name" name="name" value="{{$unit->name}}">
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-form-label">Brand Status</label>
                                                 <select name="status" class="form-control">
                                                     <option value="">Select One</option>
-                                                    <option value="Active" @isset($brand->status){{$brand->status=='Active'?'Selected' : ''}} @endif >Active</option>
-                                                    <option value="Inactive" @isset($brand->status){{$brand->status=='Inactive'?'Selected' : ''}} @endif >Inactive</option>
+                                                    <option value="Active" @isset($unit->status){{$unit->status=='Active'?'Selected' : ''}} @endif >Active</option>
+                                                    <option value="Inactive" @isset($unit->status){{$unit->status=='Inactive'?'Selected' : ''}} @endif >Inactive</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -132,24 +121,20 @@
 
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <h4 class="modal-title">Create Brand</h4>
+                                <h4 class="modal-title">Create Unit</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
 
                             <!-- Modal body -->
                             <div class="modal-body">
-                               <form action="{{route('brand.store')}}" method="post" enctype="multipart/form-data">
+                               <form action="{{route('unit.store')}}" method="post">
                                    @csrf
                                    <div class="form-group">
-                                      <label class="col-form-label">Brand Name</label>
+                                      <label class="col-form-label">Unit Name</label>
                                        <input type="text" class="form-control"  placeholder="Enter Brand  Name" name="name">
                                    </div>
-                                       <div class="form-group">
-                                           <label class="col-form-label">Brand Logo</label>
-                                           <input type="file" class="form-control"  placeholder="Enter Brand  Logo" name="logo">
-                                       </div>
                                    <div class="form-group">
-                                       <label class="col-form-label">Brand Status</label>
+                                       <label class="col-form-label">Unit Status</label>
                                        <select name="status" class="form-control">
                                            <option value="">Select One</option>
                                            <option value="Active" >Active</option>
@@ -194,7 +179,7 @@
     <script type="text/javascript">
         function deletebrand(id) {
             swal({
-                title: 'Are you sure delete this Brand?',
+                title: 'Are you sure delete this Unit?',
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
