@@ -47,9 +47,7 @@ class UnitController extends Controller
     }
 
     public  function  update(Request $request){
-
         $unit = Unit::find($request->id);
-
         $unit->name  = $request->name;
         $unit->slug = Str::slug($request->name);
         $unit->status = $request->status;

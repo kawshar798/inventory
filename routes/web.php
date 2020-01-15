@@ -68,4 +68,21 @@ Route::group(['prefix'=>'unit','as'=>'unit.'],function (){
     Route::delete('delete/{id}','UnitController@delete')->name('delete');
 });
 
+//setting
+
+Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
+    //Tax Rate
+    Route::group(['prefix'=>'tax','as'=>'tax.'],function (){
+        Route::get('list','TaxRateController@index')->name('index');
+        Route::get('create','TaxRateController@create')->name('create');
+        Route::post('store','TaxRateController@store')->name('store');
+        Route::get('edit/{id}','TaxRateController@edit')->name('edit');
+        Route::post('update/','TaxRateController@update')->name('update');
+        Route::get('active/{id}','TaxRateController@active')->name('active');
+        Route::get('inactive/{id}','TaxRateController@inactive')->name('inactive');
+        Route::delete('delete/{id}','TaxRateController@delete')->name('delete');
+
+    });
+});
+
 
