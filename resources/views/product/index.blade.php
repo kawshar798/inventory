@@ -9,14 +9,14 @@
 
 
 @endpush
-@section('title','Category')
-@section('page_title','Category')
+@section('title','Product')
+@section('page_title','Product')
 @section('breadcrumb')
     <li class="breadcrumb-item active">
-        <a href="{{route('category.index')}}">Category</a>
+        <a href="{{route('product.index')}}">Product</a>
     </li>
     <li class="breadcrumb-item active">
-        Category   List
+        Product   List
     </li>
 
 @endsection
@@ -25,7 +25,7 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <a href="{{route('category.create')}}" class="btn btn-primary mb-3" >Category  Create</a>
+                    <a href="{{route('product.create')}}" class="btn btn-primary mb-3" >Product  Create</a>
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
@@ -42,52 +42,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach($categories as $index=>$category)
-                            <tr>
-                                <td>{{++$index}}</td>
-                                <td>{{$category->name}}</td>
-                                <td>{{$category->slug}}</td>
-                                <td>{{isset($category->parent->name)?$category->parent->name:''}}</td>
-                                <td>
-                                    <img src="{{asset($category->image)}}" alt="{{$category->name}}" style="width: 100px;height: 100px">
 
-                                </td>
-                                <td>
-                                @if($category->featured==1)
-                                        <span class="badge badge-success">YES</span>
-                                    @else
-                                        <span class="badge badge-danger">NO</span>
-                                    @endif
-
-                                </td>
-                                <td>
-                                    @if($category->status == 'Inactive')
-                                       <span class="badge badge-warning badge-pill">Inactive</span>
-                                    @else
-                                        <span class="badge badge-success badge-pill">Active</span>
-                                    @endif
-
-
-                                </td>
-                                <td>
-                                    <a href="{{route('category.edit',$category->id)}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
-                                    @if($category->status == 'Inactive')
-                                        <a href="{{route('category.active',$category->id)}}" class="btn btn-warning" title="Make Active"><i class="fas fa-arrow-circle-down"></i></a>
-                                        @else
-                                        <a href="{{route('category.inactive',$category->id)}}" class="btn btn-success" title="Make Inactive"><i class="fas fa-arrow-circle-up"></i></a>
-                                        @endif
-                                    <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-{{--                                    <a href="{{route('category.delete',$category->id)}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>--}}
-                                    <button class="btn btn-danger" type="button" title="DELETE"  onclick="deleteInstitute({{ $category->id }})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <form id="delete-form-{{ $category->id }}" action="{{ route('category.delete',$category->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
                         </tbody>
                     </table>
 

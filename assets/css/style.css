@@ -3679,3 +3679,8 @@ table.focus-on tbody tr.focused td {
     border-top: 5px solid #02c58d;
     border-radius: 5px;
 }
+
+
+.border_radius {
+    border-radius: 0px!important;
+}

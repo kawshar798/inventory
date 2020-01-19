@@ -67,7 +67,16 @@ Route::group(['prefix'=>'unit','as'=>'unit.'],function (){
     Route::get('inactive/{id}','UnitController@inactive')->name('inactive');
     Route::delete('delete/{id}','UnitController@delete')->name('delete');
 });
-
+Route::group(['prefix'=>'product','as'=>'product.'],function (){
+    Route::get('list','ProductController@index')->name('index');
+    Route::get('create','ProductController@create')->name('create');
+    Route::post('store','ProductController@store')->name('store');
+    Route::get('edit/{id}','ProductController@edit')->name('edit');
+    Route::post('update/','ProductController@update')->name('update');
+    Route::get('active/{id}','ProductController@active')->name('active');
+    Route::get('inactive/{id}','ProductController@inactive')->name('inactive');
+    Route::delete('delete/{id}','ProductController@delete')->name('delete');
+});
 //setting
 
 Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
