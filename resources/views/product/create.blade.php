@@ -122,7 +122,7 @@
                             <div class="col-md-4">
                                 <label>Product Tax</label>
                                 <select id=parent class="form-control border_radius" name="tax">
-                                    <option value="Single">Select</option>
+                                    <option value="">Select</option>
                                     @foreach($taxes as $tax)
                                         <option value="{{$tax->id}}">{{$tax->name}}</option>
                                         @endforeach

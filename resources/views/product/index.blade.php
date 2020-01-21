@@ -31,16 +31,34 @@
                         <tr>
                             <th>S.L</th>
                             <th>Name</th>
-                            <th>URL</th>
-                            <th>Parent Category</th>
                             <th>Image</th>
+                            <th>Category Name</th>
+                            <th>SubCategory Name</th>
+                            <th>Brand</th>
+                            <th>Unit</th>
+                            <th>Quantity</th>
+                            <th>Alert Quantity</th>
                             <th>Featured</th>
-                            <th>Status</th>
                             <th>Action</th>
 
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach($products as $index=>$product)
+                            <tr>
+                                <td>{{++$index}}</td>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->image}}</td>
+                                <td>{{$product->category_id}}</td>
+                                <td>{{$product->sub_category_id}}</td>
+                                <td>{{$product->brand_id}}</td>
+                                <td>{{$product->unit_id}}</td>
+                                <td>{{$product->quantity}}</td>
+                                <td>{{$product->alert_quantity}}</td>
+                                <td>{{$product->featured}}</td>
+                                <td>{{$product->featured}}</td>
+                            </tr>
+                            @endforeach
 
 
                         </tbody>
