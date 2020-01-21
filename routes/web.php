@@ -77,6 +77,9 @@ Route::group(['prefix'=>'product','as'=>'product.'],function (){
     Route::get('inactive/{id}','ProductController@inactive')->name('inactive');
     Route::delete('delete/{id}','ProductController@delete')->name('delete');
 });
+
+
+Route::get('subcategory/show/{id}','ProductController@showSubcat');
 //setting
 
 Route::group(['prefix'=>'setting','as'=>'setting.'],function (){

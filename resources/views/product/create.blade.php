@@ -27,16 +27,19 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Category Name</label>
-                                <select id=parent class="form-control border_radius " name="category_id">
+                                <select id=category class="form-control border_radius " name="category_id">
                                     <option value="">Select Category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endforeach
 
                                 </select>
                             </div>
 
                             <div class="col-md-4">
                                 <label>Sub Category Name</label>
-                                <select id=parent class="form-control border_radius " name="sub_category_id">
-                                    <option value="">Select Category</option>
+                                <select id=subcategory class="form-control border_radius " name="sub_category_id">
+                                    <option value="">Select Sub Category</option>
 
                                 </select>
                             </div>
@@ -47,6 +50,9 @@
                                 <label>Brand Name</label>
                                 <select id=parent class="form-control border_radius" name="brand_id">
                                     <option value="">Select Brand</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{$brand->id}}">{{$brand->name}}</option>
+                                        @endforeach
 
                                 </select>
                             </div>
@@ -54,7 +60,9 @@
                                 <label>Unit </label>
                                 <select id=parent class="form-control border_radius" name="unit_id">
                                     <option value="">Select Unit</option>
-
+                                    @foreach($units as $unit)
+                                        <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -115,7 +123,10 @@
                                 <label>Product Tax</label>
                                 <select id=parent class="form-control border_radius" name="tax">
                                     <option value="Single">Select</option>
-                                    <option value="Variantable">Variantable</option>
+                                    @foreach($taxes as $tax)
+                                        <option value="{{$tax->id}}">{{$tax->name}}</option>
+                                        @endforeach
+
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -153,6 +164,24 @@
     @parent
     <script src="{{asset('assets/plugins/tinymce/tinymce.min.js')}}"></script>
     <script>
+
+        $('#category').on('change',function () {
+            var catId = $(this).val();
+           if(catId){
+               $.ajax({
+                   url:'/inventory/subcategory/show/'+catId,
+                   type:"GET",
+                   dataType:"json",
+                   success:function (data) {
+                       $('#subcategory').empty();
+                       $.each(data, function(key, value) {
+                           $('#subcategory').append('<option value="'+ value.id +'">'+ value.name +'</option>');
+                       });
+                   }
+
+               });
+           }
+        });
         /*generate random product code*/
         var productName = document.getElementById('productName');
         var randomNumber;
