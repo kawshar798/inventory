@@ -28,11 +28,8 @@ class ProductController extends Controller
 
     public  function  store(Request $request){
         try{
-            $unit = new Unit();
-            $unit->name = $request->name;
-            $unit->slug = Str::slug($request->name);
-            $unit->status = $request->status;
-            $unit->save();
+
+            $request->all();
             DB::commit();
             Toastr::success('message', 'Unit create  Success');
             return redirect()->route('unit.index');

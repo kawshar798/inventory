@@ -18,7 +18,7 @@
 
                     <h4 class="mt-0 header-title">Product Create</h4>
 
-                    <form class="" action="{{route('product.store')}}" method="POST" enctype="multipart/form-data">
+                    <form class="" action="{{route('product.store')}}" method="POST" enctype="multipart/form-data"  >
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-4">
