@@ -18,8 +18,6 @@
                         <li><a href="{{route('employee.index')}}">Employee</a></li>
                         <li><a href="{{route('supplier.index')}}">Suppliers</a></li>
                         <li><a href="{{route('customer.index')}}">Customer</a></li>
-
-
                     </ul>
                 </li>
                 <li>
@@ -50,6 +48,13 @@
                     <a href="{{route('product.index')}}" class="waves-effect">
                         <i class="icon-accelerator"></i> Product </span>
                     </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Expense <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('expense.index')}}">Expense List</a></li>
+                        <li><a href="{{route('expense.index')}}">Expense Category</a></li>
+                    </ul>
                 </li>
 
                 <li>

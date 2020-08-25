@@ -85,6 +85,12 @@ Route::group(['prefix'=>'expense','as'=>'expense.'],function (){
     Route::get('active/{id}','ExpenseController@active')->name('active');
     Route::get('inactive/{id}','ExpenseController@inactive')->name('inactive');
     Route::delete('delete/{id}','ExpenseController@delete')->name('delete');
+
+    Route::get('/category','ExpenseCategory@index')->name('index');
+
+
+
+
 });
 
 Route::get('subcategory/show/{id}','ProductController@showSubcat');
