@@ -28,11 +28,13 @@
                     <a href="{{route('product.create')}}" class="btn btn-primary mb-3" >Product  Create</a>
 
                     <select   id="category" onchange="myFunction()" >
+                        <option value="all">All Select</option>
                        @foreach($categories as $category)
                             <option value="{{$category->id}}">{{$category->name}}</option>
                            @endforeach
                     </select>
                     <select class="band"  onchange="myFunction()" id="brand">
+                        <option value="all">All Select</option>
                         @foreach($brands as $brand)
                             <option value="{{$brand->id}}">{{$brand->name}}</option>
                         @endforeach

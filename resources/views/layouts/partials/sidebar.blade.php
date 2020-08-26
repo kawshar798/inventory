@@ -28,7 +28,13 @@
                         <li><a href="{{route('salary.pay')}}">Pay Salary</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Sale <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('pos.create')}}">Pos</a></li>
 
+                    </ul>
+                </li>
                 <li>
                     <a href="{{route('category.index')}}" class="waves-effect">
                         <i class="icon-accelerator"></i> Category </span>

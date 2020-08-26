@@ -18,7 +18,7 @@ class CreateExpensesTable extends Migration
             $table->integer('expense_category');
             $table->string('amount');
             $table->string('note')->nullable();
-            $table->integer('warehouse_id ')->nullable();
+            $table->integer('warehouse_id')->nullable();
             $table->string('month');
             $table->string('date');
             $table->timestamps();

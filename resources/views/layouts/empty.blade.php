@@ -27,9 +27,7 @@
 </div>
 <div class="wrapper-page">
     <div class="card card-pages shadow-none">
-
 @yield('content')
-
     </div>
 </div>
 <!-- END wrapper -->
