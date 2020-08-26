@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Salary;
+use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,10 +27,20 @@ class SalaryController extends Controller
 //                    ->orderBy('id','DESC')
                     ->get();
 
-        return view($this->path.'all_advanced_salary',compact('advanced_salaries'));
+
+        $customers  = User::all();
+
+
+        return view($this->path.'all_advanced_salary',compact('advanced_salaries','customers'));
     }
 
 
+    public function  testAdd(Request $request){
+
+
+        User::create($request->all());
+        return "kah ";
+    }
 
 
     public  function  addAdvanced(Request $request){

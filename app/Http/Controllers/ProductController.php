@@ -23,9 +23,20 @@ class ProductController extends Controller
     public  function  index(){
         $products = Product::all();
 
-        return view($this->path.'index',compact('products'));
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        return view($this->path.'index',compact('products','categories','brands'));
     }
 
+
+    public function  getProduct(Request $request){
+
+//        $producdts = Product::where('category_id',?)->where('brand_id',$id)->get();
+//        return $producdts->json();
+
+
+    }
     public  function  create(){
 
         $categories = Category::where('status','Active')->get();

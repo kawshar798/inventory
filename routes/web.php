@@ -33,8 +33,10 @@ Route::any('customer/create','CustomerController@create')->name('customer.create
 Route::group(['prefix'=>'salary','as'=>'salary.'],function (){
     Route::any('add/advanced/','SalaryController@addAdvanced')->name('advanced.add');
     Route::get('all/advanced/','SalaryController@allAdvancedSalary')->name('advanced.all');
+
     Route::get('pay','SalaryController@paySalary')->name('pay');
 });
+Route::any('add/customer','SalaryController@testAdd');
 
 Route::group(['prefix'=>'category','as'=>'category.'],function (){
     Route::get('list','CategoryController@index')->name('index');
@@ -76,6 +78,7 @@ Route::group(['prefix'=>'product','as'=>'product.'],function (){
     Route::get('active/{id}','ProductController@active')->name('active');
     Route::get('inactive/{id}','ProductController@inactive')->name('inactive');
     Route::delete('delete/{id}','ProductController@delete')->name('delete');
+    Route::get('products','ProductController@getProduct');
 });
 Route::group(['prefix'=>'expense','as'=>'expense.'],function (){
     Route::get('/','ExpenseController@index')->name('index');

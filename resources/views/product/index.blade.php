@@ -26,6 +26,17 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <a href="{{route('product.create')}}" class="btn btn-primary mb-3" >Product  Create</a>
+
+                    <select   id="category" onchange="myFunction()" >
+                       @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                           @endforeach
+                    </select>
+                    <select class="band"  onchange="myFunction()" id="brand">
+                        @foreach($brands as $brand)
+                            <option value="{{$brand->id}}">{{$brand->name}}</option>
+                        @endforeach
+                    </select>
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
@@ -118,5 +129,86 @@
                 }
             })
         }
+
+        // $(document).ready(function() {
+        //
+        //     function myFunction() {
+        //         var categoryId = $('#category :selected').val();
+        //         var brandId = $('#brand :selected').val();
+        //         var param = {};
+        //         console.log(categoryId)
+        //         param['categoryId'] = categoryId;
+        //         param['brandId'] = brandId;
+        //         $.ajax({
+        //             url: "product",
+        //             method: 'get',
+        //             data: param,
+        //             success: function (data) {
+        //
+        //                 console.log(data)
+        //                 // var html = "";
+        //                 // $.each(data, function (index, value) {
+        //                 //     html += "<div class=\"col-4 p-1 pointer\" onclick=\"productAdd(" + value.id + ")\">\n" +
+        //                 //         "                                        <div class=\"card p-2\">\n" +
+        //                 //         "                                            <img class=\"card-img-top\" src=\"" + value.image + "\"\n" +
+        //                 //         "                                                 height=\"100\">\n" +
+        //                 //         "                                            <hr>\n" +
+        //                 //         "                                            <div>\n" +
+        //                 //         "                                                <p>" + value.name + "" + (value.code) + "</p>\n" +
+        //                 //         "                                                Price : <span>" + value.price + "</span>\n" +
+        //                 //         "                                            </div>\n" +
+        //                 //         "                                        </div>\n" +
+        //                 //         "                                    </div>";
+        //                 // });
+        //                 // $('#products').empty();
+        //                 // $('#products').append(html);
+        //
+        //             }
+        //
+        //         });
+        //     }
+        //
+        // });
+    </script>
+    <script>
+
+
+            function myFunction() {
+                var categoryId = $('#category :selected').val();
+                var brandId = $('#brand :selected').val();
+                var param = {};
+                console.log(categoryId)
+                param['categoryId'] = categoryId;
+                param['brandId'] = brandId;
+                $.ajax({
+                    url: "products",
+                    method: 'get',
+                    data: param,
+                    success: function (data) {
+
+                        console.log(data)
+                        // var html = "";
+                        // $.each(data, function (index, value) {
+                        //     html += "<div class=\"col-4 p-1 pointer\" onclick=\"productAdd(" + value.id + ")\">\n" +
+                        //         "                                        <div class=\"card p-2\">\n" +
+                        //         "                                            <img class=\"card-img-top\" src=\"" + value.image + "\"\n" +
+                        //         "                                                 height=\"100\">\n" +
+                        //         "                                            <hr>\n" +
+                        //         "                                            <div>\n" +
+                        //         "                                                <p>" + value.name + "" + (value.code) + "</p>\n" +
+                        //         "                                                Price : <span>" + value.price + "</span>\n" +
+                        //         "                                            </div>\n" +
+                        //         "                                        </div>\n" +
+                        //         "                                    </div>";
+                        // });
+                        // $('#products').empty();
+                        // $('#products').append(html);
+
+                    }
+
+                });
+            }
+
+
     </script>
 @stop

@@ -19,6 +19,7 @@
     <link href="{{asset('/assets/css/icons.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
     @stack('head_styles')
 
 </head>
@@ -80,6 +81,7 @@
     <!-- App js -->
     <script src="{{asset('assets/js/app.js')}}"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     {!! Toastr::message() !!}
 @show
 
