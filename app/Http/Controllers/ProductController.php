@@ -71,7 +71,11 @@ class ProductController extends Controller
 
         try{
 
-            $product = new Product();
+            if($request->id){
+                $product = Product::find($request->id);
+            }else{
+                $product = new Product();
+            }
             $product->name = $request->name;
            $product->category_id = $request->category_id;
             $product->sub_category_id = $request->sub_category_id;
@@ -102,13 +106,27 @@ class ProductController extends Controller
             $product->status  = 'Active';
             $product->save();
             DB::commit();
-            Toastr::success('message', 'Product  create  Success');
+            if($request->id){
+                Toastr::success('message', 'Product  Update  Success');
+            }else{
+                Toastr::success('message', 'Product  create  Success');
+            }
             return redirect()->route('product.index');
         }catch (\Exception $e){
             DB::rollBack();
             //            return back()->with('error', $e->getMessage());
             return $e->getMessage();
         }
+    }
+
+    public  function  edit($id){
+        $product = Product::find($id);
+        $categories = Category::where('status','Active')->get();
+        $brands = Brand::where('status','Active')->get();
+        $units = Unit::where('status','Active')->get();
+        $taxes = TaxRate::where('status','Active')->get();
+        $sub_categories = Category::where( 'parent_id', '!=',0 )->where( 'status', 'Active' )->get();
+        return view($this->path.'create',compact('categories','brands','units','taxes','product','sub_categories'));
     }
 
 }

@@ -52,11 +52,11 @@
 
                                 </td>
                                 <td>
-                                @if($tax->type=='Percentage')
+{{--                                @if($tax->type=='Percentage')--}}
                                         {{$tax->amount}}%
-                                    @else
-                                        {{ number_format($tax->amount,2)}}৳
-                                    @endif
+{{--                                    @else--}}
+{{--                                        {{ number_format($tax->amount,2)}}৳--}}
+{{--                                    @endif--}}
 
                                 </td>
                                 <td>
@@ -182,14 +182,14 @@
                                        <label class="col-form-label">Tax Rate</label>
                                        <input type="text" class="form-control"  placeholder="Enter Tax  Rate" name="amount">
                                    </div>
-                                   <div class="form-group">
-                                       <label class="col-form-label">Tax Type</label>
-                                       <select name="type" class="form-control">
-                                           <option value="">Select One</option>
-                                           <option value="Percentage" >Percentage</option>
-                                           <option value="Fixed">Fixed</option>
-                                       </select>
-                                   </div>
+{{--                                   <div class="form-group">--}}
+{{--                                       <label class="col-form-label">Tax Type</label>--}}
+{{--                                       <select name="type" class="form-control">--}}
+{{--                                           <option value="">Select One</option>--}}
+{{--                                           <option value="Percentage" >Percentage</option>--}}
+{{--                                           <option value="Fixed">Fixed</option>--}}
+{{--                                       </select>--}}
+{{--                                   </div>--}}
                                    <div class="form-group">
                                        <label class="col-form-label">Tax Status</label>
                                        <select name="status" class="form-control">

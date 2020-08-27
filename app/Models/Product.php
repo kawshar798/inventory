@@ -31,4 +31,20 @@ class Product extends Model
         'barcode',
         'status',
         ];
+
+    public function category(){
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+    public function subcategory(){
+        return $this->belongsTo(Category::class,'sub_category_id','id');
+    }
+
+    public function brand(){
+        return $this->belongsTo(Brand::class,'brand_id','id');
+
+    }
+    public function unit(){
+        return $this->belongsTo(Unit::class,'unit_id','id');
+
+    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title','Category')
-@section('page_title','Category')
+@section('title','Product')
+@section('page_title','Product')
 @section('breadcrumb')
     <li class="breadcrumb-item active">
         <a href="{{route('product.index')}}">Product</a>
@@ -16,21 +16,27 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <h4 class="mt-0 header-title">Product Create</h4>
+                    @if(isset($product->id))
+                        <h4 class="mt-0 header-title">Product Update</h4>
+                        @else
+                        <h4 class="mt-0 header-title">Product Create</h4>
+                        @endif
+
 
                     <form class="" action="{{route('product.store')}}" method="POST" enctype="multipart/form-data"  >
                         @csrf
+                        <input name="id" value="{{isset($product->id)?$product->id : ''}}" />
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <label>Product Name</label>
-                                <input type="text" class="form-control  border_radius" name="name" id="productName">
+                                <input type="text" class="form-control  border_radius" name="name" id="productName" value="{{isset($product->name)?$product->name : ''}}">
                             </div>
                             <div class="col-md-4">
                                 <label>Category Name</label>
                                 <select id=category class="form-control border_radius " name="category_id">
                                     <option value="">Select Category</option>
                                     @foreach($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                        <option value="{{$category->id}}" @isset($product->category_id){{$product->category_id==$category->id?'selected':''}}@endisset>{{$category->name}}</option>
                                         @endforeach
 
                                 </select>
@@ -40,7 +46,9 @@
                                 <label>Sub Category Name</label>
                                 <select id=subcategory class="form-control border_radius " name="sub_category_id">
                                     <option value="">Select Sub Category</option>
-
+                                    @foreach($sub_categories as $category)
+                                        <option value="{{$category->id}}" @isset($product->category_id){{$product->category_id==$category->id?'selected':''}}@endisset>{{$category->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -51,8 +59,8 @@
                                 <select id=parent class="form-control border_radius" name="brand_id">
                                     <option value="">Select Brand</option>
                                     @foreach($brands as $brand)
-                                        <option value="{{$brand->id}}">{{$brand->name}}</option>
-                                        @endforeach
+                                        <option value="{{$brand->id}}" @isset($product->brand_id){{$product->brand_id==$brand->id?'selected':''}}@endisset>{{$brand->name}}</option>
+                                    @endforeach
 
                                 </select>
                             </div>
@@ -61,62 +69,74 @@
                                 <select id=parent class="form-control border_radius" name="unit_id">
                                     <option value="">Select Unit</option>
                                     @foreach($units as $unit)
-                                        <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                        <option value="{{$unit->id}}" @isset($product->unit_id){{$product->unit_id==$unit->id?'selected':''}}@endisset>{{$unit->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label>SKU </label>
 
-                                <input type="text" class="form-control  border_radius" name="sku">
+                                <input type="text" class="form-control  border_radius" name="sku" value="{{isset($product->sku)?$product->sku:''}}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <label>Product Cost</label>
-                                <input type="text" class="form-control  border_radius" name="cost_price">
+                                <input type="text" class="form-control  border_radius" name="cost_price"  value="{{isset($product->cost_price)?$product->cost_price:''}}">
                             </div>
                             <div class="col-md-4">
                                 <label>MRP </label>
-                                <input type="text" class="form-control  border_radius" name="mrp">
+                                <input type="text" class="form-control  border_radius" name="mrp" value="{{isset($product->mrp)?$product->mrp:''}}">
                             </div>
-                            <div class="col-md-4">
-                                <label>Barcode</label>
-                                <div class="input-group">
-                                    <input type="text" name="barcode" required="" class="form-control border_radius" id="barcode">
-                                    <div class="input-group-append">
-                                        <button
-                                            class="btn btn-info  tooltip-button border_radius "
-                                            type="button"
-                                            onclick="document.getElementById('barcode').value = generateCode()"
-                                            title="Click here to generate random code">Generate
-                                        </button>
+                            @if(isset($product->id))
+                    @else
+                                <div class="col-md-4">
+                                    <label>Barcode</label>
+                                    <div class="input-group">
+                                        <input type="text" name="barcode" required="" class="form-control border_radius" id="barcode">
+                                        <div class="input-group-append">
+                                            <button
+                                                class="btn btn-info  tooltip-button border_radius "
+                                                type="button"
+                                                onclick="document.getElementById('barcode').value = generateCode()"
+                                                title="Click here to generate random code">Generate
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                @endif
                         </div>
                         <div class="form-group row">
-                            <div class="col-md-4">
-                                <label>Alert Quantity</label>
-                                <input type="text" class="form-control  border_radius" name="alert_quantity">
-                            </div>
-                            <div class="col-md-4">
-                                <label>Product Type </label>
-                                <select id=parent class="form-control border_radius" name="type">
-                                    <option value="Single">Single</option>
-                                    <option value="Variantable">Variantable</option>
-                                </select>
-                            </div>
+
+{{--                            <div class="col-md-4">--}}
+{{--                                <label>Product Type </label>--}}
+{{--                                <select id=parent class="form-control border_radius" name="type">--}}
+{{--                                    <option value="Single">Single</option>--}}
+{{--                                    <option value="Variantable">Variantable</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
                             <div class="col-md-4">
                                 <label>Quantity</label>
-                                <input type="text" class="form-control  border_radius" name="quantity">
+                                <input type="text" class="form-control  border_radius" name="quantity" value="{{isset($product->quantity)?$product->quantity:''}}">
                             </div>
+                            <div class="col-md-4">
+                                <label>Alert Quantity</label>
+                                <input type="text" class="form-control  border_radius" name="alert_quantity" value="{{isset($product->alert_quantity)?$product->alert_quantity:''}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Image</label>
+                                <input type="file" class="form-control  border_radius" name="image" value="{{isset($product->image)?$product->image:''}}">
+                                @if($product->image_three)
+                                    <img src="{{asset($product->image_three)}}"  style="height: 80px;width:80px" id="three"/>
+                                @endif
+                            </div>
+
                         </div>
 
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <div class="" style="margin-left: 22px;">
-                                    <input class="form-check-input " type="checkbox" id="featured" name="featured" value="1" />Featured Product
+                                    <input class="form-check-input " type="checkbox" id="featured" name="featured" value="1" @isset($product->featured){{$product->featured==1?'checked':''}} @endisset  />Featured Product
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -124,14 +144,10 @@
                                 <select id=parent class="form-control border_radius" name="tax">
                                     <option value="">Select</option>
                                     @foreach($taxes as $tax)
-                                        <option value="{{$tax->id}}">{{$tax->name}}</option>
+                                        <option value="{{$tax->id}}" @isset($product->tax_id){{$product->tax_id==$unit->id?'selected':''}}@endisset>{{$tax->name}}</option>
                                         @endforeach
 
                                 </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Image</label>
-                                <input type="file" class="form-control  border_radius" name="image">
                             </div>
 
 
@@ -139,7 +155,7 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <label>Product Details</label>
-                                <textarea id="elm1" name="description"></textarea>
+                                <textarea id="elm1" name="description">{{isset($product->description)?$product->description:''}}</textarea>
                             </div>
 
                         </div>
@@ -147,9 +163,16 @@
 
                         <div class="form-group">
                             <div>
-                                <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                    Submit
-                                </button>
+                                @if(isset($product->id))
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                        Add Product
+                                    </button>
+                                @else
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                        Update Product
+                                    </button>
+                                    @endif
+
                             </div>
                         </div>
                     </form>

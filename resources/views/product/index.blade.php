@@ -46,7 +46,6 @@
                             <th>Name</th>
                             <th>Image</th>
                             <th>Category Name</th>
-                            <th>SubCategory Name</th>
                             <th>Brand</th>
                             <th>Unit</th>
                             <th>Quantity</th>
@@ -61,15 +60,38 @@
                             <tr>
                                 <td>{{++$index}}</td>
                                 <td>{{$product->name}}</td>
-                                <td>{{$product->image}}</td>
-                                <td>{{$product->category_id}}</td>
-                                <td>{{$product->sub_category_id}}</td>
-                                <td>{{$product->brand_id}}</td>
-                                <td>{{$product->unit_id}}</td>
+                                <td>
+                                    @if($product->image)
+                                        <img src="{{asset($product->image)}}" width="80px" alt="product Image"/>
+                                        @else
+                                        N/A
+                                        @endif
+
+
+                                </td>
+                                <td>{{isset($product->category_id)?$product->category->name:''}}</td>
+{{--                                <td>{{isset($product->sub_category_id)?$product->subcategory->name:''}}</td>--}}
+                                <td>{{isset($product->brand_id)?$product->brand->name:''}}</td>
+                                <td>{{ isset($product->unit_id)?$product->unit->name:''}}</td>
                                 <td>{{$product->quantity}}</td>
                                 <td>{{$product->alert_quantity}}</td>
-                                <td>{{$product->featured}}</td>
-                                <td>{{$product->featured}}</td>
+                                <td>
+                                @if($product->featured == 0)
+                                        N/A
+                                    @else
+                                  Yes
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{route('product.edit',$product->id)}}" class="btn btn-primary"> <i class="fas fa-pencil-alt"></i> Edit</a>
+                                    @if($category->status == 'Inactive')
+                                        <a href="{{route('product.active',$product->id)}}" class="btn btn-warning" title="Make Active"><i class="fas fa-arrow-circle-down"></i> Active </a>
+                                    @else
+                                        <a href="{{route('product.inactive',$product->id)}}" class="btn btn-success" title="Make Inactive"><i class="fas fa-arrow-circle-up"></i>  Inactive </a>
+                                    @endif
+                                    <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                                    <a href="#" class="btn btn-danger"><i class="fa fa-trash"></i> Deletes</a>
+                                </td>
                             </tr>
                             @endforeach
 
