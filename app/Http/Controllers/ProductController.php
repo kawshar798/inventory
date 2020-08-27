@@ -128,5 +128,37 @@ class ProductController extends Controller
         $sub_categories = Category::where( 'parent_id', '!=',0 )->where( 'status', 'Active' )->get();
         return view($this->path.'create',compact('categories','brands','units','taxes','product','sub_categories'));
     }
+    public function active($id){
+        $category = Product::find( $id );
+        $category->status = 'Active';
+        $category->save();
+        $output = ['success' => true,
+            'messege'            => "Product Active success",
+        ];
+        return $output;
+    }
+
+    public function inactive($id){
+        $category = Product::find( $id );
+        $category->status = 'Inactive';
+        $category->save();
+        $output = ['success' => true,
+            'messege'            => "Product InActive success",
+        ];
+        return $output;
+    }
+
+    public function delete( $id ) {
+        $product = Product::find( $id );
+        if (file_exists($product->image)) {
+            unlink( $product->image );
+        }
+
+        $product->delete();
+        $output = ['success' => true,
+            'messege'            => "Product Delete success",
+        ];
+        return $output;
+    }
 
 }

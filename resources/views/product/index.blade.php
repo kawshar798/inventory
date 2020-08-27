@@ -26,19 +26,6 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <a href="{{route('product.create')}}" class="btn btn-primary mb-3" >Product  Create</a>
-
-                    <select   id="category" onchange="myFunction()" >
-                        <option value="all">All Select</option>
-                       @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->name}}</option>
-                           @endforeach
-                    </select>
-                    <select class="band"  onchange="myFunction()" id="brand">
-                        <option value="all">All Select</option>
-                        @foreach($brands as $brand)
-                            <option value="{{$brand->id}}">{{$brand->name}}</option>
-                        @endforeach
-                    </select>
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
@@ -51,6 +38,7 @@
                             <th>Quantity</th>
                             <th>Alert Quantity</th>
                             <th>Featured</th>
+                            <th>Status</th>
                             <th>Action</th>
 
                         </tr>
@@ -83,14 +71,24 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('product.edit',$product->id)}}" class="btn btn-primary"> <i class="fas fa-pencil-alt"></i> Edit</a>
-                                    @if($category->status == 'Inactive')
-                                        <a href="{{route('product.active',$product->id)}}" class="btn btn-warning" title="Make Active"><i class="fas fa-arrow-circle-down"></i> Active </a>
+                                    @if($product->status == 'Inactive')
+                                        <span class="badge badge-warning ">Inactive</span>
                                     @else
-                                        <a href="{{route('product.inactive',$product->id)}}" class="btn btn-success" title="Make Inactive"><i class="fas fa-arrow-circle-up"></i>  Inactive </a>
+                                        <span class="badge badge-success">Active</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{route('product.edit',$product->id)}}" class="btn btn-primary"> <i class="fas fa-pencil-alt"></i> Edit</a>
+                                    @if($product->status == 'Inactive')
+                                        <button  data-success_url="{{url('product/list')}}" data-token="{{ csrf_token() }}" data-url="{{ url('product/active', $product->id) }}" class="btn btn-success active_product"
+                                                 data-id="{{ $product->id }}"  title="Inactive">Active</button>
+                                    @else
+                                        <button  data-success_url="{{url('product/list')}}" data-token="{{ csrf_token() }}" data-url="{{ url('product/inactive', $product->id) }}" class="btn btn-warning inactive_product"
+                                                 data-id="{{ $product->id }}"  title="Active">Inactive</button>
                                     @endif
                                     <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
-                                    <a href="#" class="btn btn-danger"><i class="fa fa-trash"></i> Deletes</a>
+                                    <button  data-success_url="{{url('product/list')}}" data-token="{{ csrf_token() }}" data-url="{{ url('product/delete', $product->id) }}" class="btn btn-danger delete_product"
+                                             data-id="{{ $product->id }}"  title="Delete"><i class="fa fa-trash"></i> Delete</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -120,119 +118,130 @@
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset('assets/pages/datatables.init.js')}}"></script>
-    <script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
-
-    <script type="text/javascript">
-        function deleteInstitute(id) {
-            swal({
-                title: 'Are you sure delete this Category?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger mr-2',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    event.preventDefault();
-                    document.getElementById('delete-form-'+id).submit();
-                } else if (
-                    // Read more about handling dismissals
-                    result.dismiss === swal.DismissReason.cancel
-                ) {
-                    swal(
-                        'Cancelled',
-                        'Your data is safe :)',
-                        'error'
-                    )
-                }
-            })
-        }
-
-        // $(document).ready(function() {
-        //
-        //     function myFunction() {
-        //         var categoryId = $('#category :selected').val();
-        //         var brandId = $('#brand :selected').val();
-        //         var param = {};
-        //         console.log(categoryId)
-        //         param['categoryId'] = categoryId;
-        //         param['brandId'] = brandId;
-        //         $.ajax({
-        //             url: "product",
-        //             method: 'get',
-        //             data: param,
-        //             success: function (data) {
-        //
-        //                 console.log(data)
-        //                 // var html = "";
-        //                 // $.each(data, function (index, value) {
-        //                 //     html += "<div class=\"col-4 p-1 pointer\" onclick=\"productAdd(" + value.id + ")\">\n" +
-        //                 //         "                                        <div class=\"card p-2\">\n" +
-        //                 //         "                                            <img class=\"card-img-top\" src=\"" + value.image + "\"\n" +
-        //                 //         "                                                 height=\"100\">\n" +
-        //                 //         "                                            <hr>\n" +
-        //                 //         "                                            <div>\n" +
-        //                 //         "                                                <p>" + value.name + "" + (value.code) + "</p>\n" +
-        //                 //         "                                                Price : <span>" + value.price + "</span>\n" +
-        //                 //         "                                            </div>\n" +
-        //                 //         "                                        </div>\n" +
-        //                 //         "                                    </div>";
-        //                 // });
-        //                 // $('#products').empty();
-        //                 // $('#products').append(html);
-        //
-        //             }
-        //
-        //         });
-        //     }
-        //
-        // });
-    </script>
-    <script>
 
 
-            function myFunction() {
-                var categoryId = $('#category :selected').val();
-                var brandId = $('#brand :selected').val();
-                var param = {};
-                console.log(categoryId)
-                param['categoryId'] = categoryId;
-                param['brandId'] = brandId;
-                $.ajax({
-                    url: "products",
-                    method: 'get',
-                    data: param,
-                    success: function (data) {
+<script>
+    // product Active
+    $(document).on('click', '.active_product', function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        var url = $(this).data("url");
+        var success_url = $(this).data("success_url");
+        var token = $("meta[name='csrf-token']").attr("content");
 
-                        console.log(data)
-                        // var html = "";
-                        // $.each(data, function (index, value) {
-                        //     html += "<div class=\"col-4 p-1 pointer\" onclick=\"productAdd(" + value.id + ")\">\n" +
-                        //         "                                        <div class=\"card p-2\">\n" +
-                        //         "                                            <img class=\"card-img-top\" src=\"" + value.image + "\"\n" +
-                        //         "                                                 height=\"100\">\n" +
-                        //         "                                            <hr>\n" +
-                        //         "                                            <div>\n" +
-                        //         "                                                <p>" + value.name + "" + (value.code) + "</p>\n" +
-                        //         "                                                Price : <span>" + value.price + "</span>\n" +
-                        //         "                                            </div>\n" +
-                        //         "                                        </div>\n" +
-                        //         "                                    </div>";
-                        // });
-                        // $('#products').empty();
-                        // $('#products').append(html);
-
-                    }
-
-                });
+        swal({
+            title:"Are You Sure Active this?",
+            // text: " ",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if (willDelete) {
+                $.ajax(
+                    {
+                        url: url,
+                        success_url:success_url,
+                        type: 'PUT',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function(result) {
+                            if (result.success == true) {
+                                toastr.success(result.messege);
+                                // setTimeout(function(){
+                                location.reload(success_url);
+                                // },  2000);
+                            } else {
+                                toastr.error(result.messege);
+                            }
+                        },
+                    });
             }
+        });
+    });
+
+    // product Inactive
+    $(document).on('click', '.inactive_product', function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        var url = $(this).data("url");
+        var success_url = $(this).data("success_url");
+        var token = $("meta[name='csrf-token']").attr("content");
+
+        swal({
+            title:"Are You Sure Inactive this?",
+            // text: " ",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if (willDelete) {
+                $.ajax(
+                    {
+                        url: url,
+                        success_url:success_url,
+                        type: 'PUT',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function(result) {
+                            if (result.success == true) {
+                                toastr.success(result.messege);
+                                // setTimeout(function(){
+                                location.reload(success_url);
+                                // },  2000);
+                            } else {
+                                toastr.error(result.messege);
+                            }
+                        },
+                    });
+            }
+        });
+    });
+
+    // product Delete
+    $(document).on('click', '.delete_product', function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        var url = $(this).data("url");
+        var success_url = $(this).data("success_url");
+        var token = $("meta[name='csrf-token']").attr("content");
+
+        swal({
+            title:"Are You Sure Delete this?",
+            // text: " ",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if (willDelete) {
+                $.ajax(
+                    {
+                        url: url,
+                        success_url:success_url,
+                        type: 'DELETE',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function(result) {
+                            if (result.success == true) {
+                                toastr.success(result.messege);
+                                // setTimeout(function(){
+                                location.reload(success_url);
+                                // },  2000);
+                            } else {
+                                toastr.error(result.messege);
+                            }
+                        },
+                    });
+            }
+        });
+    });
+
+</script>
 
 
-    </script>
 @stop

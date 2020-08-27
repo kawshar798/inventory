@@ -10,7 +10,7 @@
     <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
     <meta content="Themesdesign" name="author" />
     <link rel="shortcut icon" href="{{asset('/assets/images/favicon.ico')}}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--Morris Chart CSS -->
     <link rel="stylesheet" href="{{asset('/')}}assets/plugins/morris/morris.css">
 
@@ -20,6 +20,7 @@
     <link href="{{asset('/assets/css/style.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+
     @stack('head_styles')
 
 </head>
@@ -80,9 +81,30 @@
 
     <!-- App js -->
     <script src="{{asset('assets/js/app.js')}}"></script>
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+{{--    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-    {!! Toastr::message() !!}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <script src="{{ asset('https://unpkg.com/sweetalert/dist/sweetalert.min.js')}}"></script>
+    <script>
+            @if(Session::has('messege'))
+        var type="{{Session::get('alert-type','info')}}"
+        switch(type){
+            case 'info':
+                toastr.info("{{ Session::get('messege') }}");
+                break;
+            case 'success':
+                toastr.success("{{ Session::get('messege') }}");
+                break;
+            case 'warning':
+                toastr.warning("{{ Session::get('messege') }}");
+                break;
+            case 'error':
+                toastr.error("{{ Session::get('messege') }}");
+                break;
+        }
+        @endif
+    </script>
 @show
 
 

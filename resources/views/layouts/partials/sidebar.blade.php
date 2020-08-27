@@ -11,6 +11,45 @@
                         <i class="icon-accelerator"></i><span class="badge badge-success badge-pill float-right">9+</span> <span> Dashboard </span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="fa fas fa-cubes"></i><span> Product <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('category.index')}}">Category</a></li>
+                        <li><a href="{{route('brand.index')}}">Brand</a></li>
+                        <li><a href="{{route('product.index')}}">Product List</a></li>
+                        <li><a href="{{route('product.create')}}">Product Add</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="fas fa-money-bill"></i><span> Purchase <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('employee.index')}}">Purchase List</a></li>
+                        <li><a href="{{route('supplier.index')}}">Purchase Add</a></li>
+                        <li><a href="{{route('customer.index')}}">Import Purchase</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="fas fa-shopping-cart"></i><span> Sale <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('pos.create')}}">Pos</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="far fa-money-bill-alt"></i><span> Expense <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('expense.index')}}">Expense List</a></li>
+                        <li><a href="{{route('expense.index')}}">Expense Category</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Return <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{route('expense.index')}}">Sale</a></li>
+                        <li><a href="{{route('expense.index')}}">Purchase </a></li>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> People <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
@@ -21,53 +60,22 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> People <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> HRM <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{route('salary.advanced.add')}}">Add Advanced Salary</a></li>
                         <li><a href="{{route('salary.advanced.all')}}">All Advanced Salary</a></li>
                         <li><a href="{{route('salary.pay')}}">Pay Salary</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Sale <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                    <ul class="submenu">
-                        <li><a href="{{route('pos.create')}}">Pos</a></li>
 
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{route('category.index')}}" class="waves-effect">
-                        <i class="icon-accelerator"></i> Category </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('brand.index')}}" class="waves-effect">
-                        <i class="icon-accelerator"></i> Brand </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('unit.index')}}" class="waves-effect">
-                        <i class="icon-accelerator"></i> Unit </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('product.index')}}" class="waves-effect">
-                        <i class="icon-accelerator"></i> Product </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Expense <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                    <ul class="submenu">
-                        <li><a href="{{route('expense.index')}}">Expense List</a></li>
-                        <li><a href="{{route('expense.index')}}">Expense Category</a></li>
-                    </ul>
-                </li>
 
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Setting <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{route('setting.tax.index')}}">Tax Rate</a></li>
-
+                        <li>
+                            <a href="{{route('unit.index')}}" class="waves-effect">Unit</a>
+                        </li>
 
 
                     </ul>

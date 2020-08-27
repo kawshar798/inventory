@@ -75,8 +75,8 @@ Route::group(['prefix'=>'product','as'=>'product.'],function (){
     Route::post('store','ProductController@store')->name('store');
     Route::get('edit/{id}','ProductController@edit')->name('edit');
     Route::post('update/','ProductController@update')->name('update');
-    Route::get('active/{id}','ProductController@active')->name('active');
-    Route::get('inactive/{id}','ProductController@inactive')->name('inactive');
+    Route::any('active/{id}','ProductController@active')->name('active');
+    Route::any('inactive/{id}','ProductController@inactive')->name('inactive');
     Route::delete('delete/{id}','ProductController@delete')->name('delete');
     Route::get('products','ProductController@getProduct');
 });
