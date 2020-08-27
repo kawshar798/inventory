@@ -70,6 +70,45 @@
 @endpush
 @section('content')
     <div class="row">
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6">
+<div class="pos_header_right">
+    <!-- full screen -->
+    <ul class="navbar-right list-inline float-right mb-0">
+    <li class="dropdown notification-list list-inline-item d-none d-md-inline-block" title="Full Screen">
+        <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
+            <i class="mdi mdi-arrow-expand-all noti-icon"></i>
+        </a>
+    </li>
+   <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+       <a href="{{route('home')}}" class="btn btn-danger" title="Cancle Pos Srceen"><i class="fas fa-times"></i></a>
+    </li>
+
+    <li class="dropdown notification-list list-inline-item">
+        <div class="dropdown notification-list nav-pro-img">
+            <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+              Admin  <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                <!-- item-->
+                <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Profile</a>
+                <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> Wallet</a>
+                <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>
+                <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="#"><i class="mdi mdi-power text-danger"></i> Logout</a>
+            </div>
+        </div>
+    </li>
+    </ul>
+
+
+</div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-7">
             <div class="card m-b-30">
                 <div class="card-body">
@@ -83,7 +122,7 @@
                                     <th>Quantity</th>
                                     <th>Unit Price</th>
                                     <th>Sub Price</th>
-                                    <th><i class="kt-nav__link-icon flaticon-delete">dd</i></th>
+                                    <th> <i class="fa fa-trash text-danger"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody id="productTable">
@@ -120,17 +159,17 @@
                         </div>
                         <div class="col-sm-4">
                             <span class="summary_title"> Tax
-                                  <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#order-discountd">
+                                  <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#order-tax">
                                 <i class="fas fa-pencil-alt"></i></button>
                             </span>
-                            <span  id="item">0</span>
+                            <span  id="tax">0</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="summary_title"> Shipping
-                                  <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#order-discountf">
+                                  <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#shipping-cost-modal">
                                 <i class="fas fa-pencil-alt"></i></button>
                             </span>
-                            <span  id="item">0</span>
+                            <span  id="shippingcost"></span>
                         </div>
                         <div class="col-md-12">
                          <div class="total_summary">
@@ -193,46 +232,49 @@
 {{--                                </div>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
-{{--                        <!-- order_tax modal -->--}}
-{{--                        <div id="order-tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">--}}
-{{--                            <div role="document" class="modal-dialog">--}}
-{{--                                <div class="modal-content">--}}
-{{--                                    <div class="modal-header">--}}
-{{--                                        <h5 class="modal-title">{{trans('file.Order Tax')}}</h5>--}}
-{{--                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="modal-body">--}}
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="hidden" name="order_tax_rate">--}}
-{{--                                            <select class="form-control" name="order_tax_rate_select">--}}
-{{--                                                <option value="0">No Tax</option>--}}
-{{--                                                @foreach($lims_tax_list as $tax)--}}
-{{--                                                    <option value="{{$tax->rate}}">{{$tax->name}}</option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" name="order_tax_btn" class="btn btn-primary" data-dismiss="modal">{{trans('file.submit')}}</button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <!-- shipping_cost modal -->--}}
-{{--                        <div id="shipping-cost-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">--}}
-{{--                            <div role="document" class="modal-dialog">--}}
-{{--                                <div class="modal-content">--}}
-{{--                                    <div class="modal-header">--}}
-{{--                                        <h5 class="modal-title">{{trans('file.Shipping Cost')}}</h5>--}}
-{{--                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="modal-body">--}}
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="text" name="shipping_cost" class="form-control numkey" step="any">--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" name="shipping_cost_btn" class="btn btn-primary" data-dismiss="modal">{{trans('file.submit')}}</button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        <!-- order_tax modal -->
+                        <div id="order-tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+                            <div role="document" class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Order Tax</h5>
+                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input type="hidden" name="order_tax_rate">
+                                            <select class="form-control" name="order_tax_rate_select">
+                                                <option value="0">No Tax</option>
+                                                @foreach($taxs as $tax)
+                                                    <option value="{{$tax->amount}}">{{$tax->name}}{{$tax->type == 'Percentage'?'%':''}}{{$tax->type == 'Fixed'?'%':'৳'}}</option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                        <button type="button" name="order_tax_btn" class="btn btn-primary" data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- shipping_cost modal -->
+                        <div id="shipping-cost-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+                            <div role="document" class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Shipping Cost</h5>
+                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input type="text" name="shipping_cost" class="form-control numkey" step="any">
+                                        </div>
+                                        <button type="button" name="shipping_cost_btn" class="btn btn-primary" data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
 
@@ -328,15 +370,11 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
 
             });
         }
-
-
         //click the product from product gallery
         function productAdd(id) {
             forSearchPur(id);
         }
-
         var ids = [];
-
         //get the product
         function forSearchPur(id = 0) {
             // debugger
@@ -378,7 +416,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
                                 '                                            </td>\n' +
                                 '                                            <td>\n' +
                                 '                                                <a  onclick="removeProductPur(' + data.id + ')" class="kt-nav__link pointer">\n' +
-                                '                                                   delete\n' +
+                                '                                                   <i class="fa fa-trash"></i>\n' +
                                 '                                                </a>\n' +
                                 '\n' +
                                 '                                            </td>\n' +
@@ -410,42 +448,54 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         }
         //multiply the product
         function proMultiPur(id) {
-        // debugger
             var quantity = $("#proQuantity-" + id).val();
             var price = $("#proUnitPrice-" + id).text();
             var subPrice = quantity * price;
             $("#proSubPrice-" + id).text(subPrice);
             totalPur();
         }
-//Add some thing
+        //Order Discount
         $('button[name="order_discount_btn"]').on("click", function() {
             totalPur();
         });
-
-
+        //Shipping Cost
+        $('button[name="shipping_cost_btn"]').on("click", function() {
+            totalPur();
+        });
+        //Order Tax
+        $('button[name="order_tax_btn"]').on("click", function() {
+            totalPur();
+        });
         //total product price
         function totalPur() {
             var total = 0;
             var item = 0;
             var order_discount = parseFloat($('input[name="order_discount"]').val());
+            var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
+            var order_tax = parseFloat($('select[name="order_tax_rate_select"]').val());
         // debugger
-
             if (!order_discount)
                 order_discount = 0.00;
             $("#discount").text(order_discount.toFixed(2));
+            if (!shipping_cost)
+                shipping_cost = 0.00;
+            $("#shippingcost").text(shipping_cost.toFixed(2));
+
+            if (!order_tax)
+                order_tax = 0.00;
+
             $.each(ids, function (index, value) {
                 var subPrice = parseFloat($("#proSubPrice-" + value).text());
                 total = total + subPrice ;
                 var quantity = $("#proQuantity-" + value).val();
                 item = item + parseInt(quantity);
             });
-
-            var grandTotal = total - order_discount;
+            order_tax = (total - order_discount) * (order_tax / 100);
+            $("#tax").text(order_tax.toFixed(2));
+            var grandTotal = (total + shipping_cost + order_tax) - order_discount;
             $("#totalPrice").text(parseFloat(total));
             $("#grandtotalPrice").text(parseFloat(grandTotal));
             $("#total_item").text(parseInt(item));
-
-console.log(order_discount)
         }
 
 

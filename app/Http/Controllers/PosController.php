@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\TaxRate;
 use Illuminate\Http\Request;
 
 class PosController extends Controller
@@ -15,8 +16,9 @@ class PosController extends Controller
 
         $categories = Category::all();
         $brands = Brand::all();
+        $taxs = TaxRate::where('status','Active')->get();
 //        return view('sale.pos_create',compact('products','categories','brands'));
-        return view('sale.pos_create')->with(compact('categories','brands'));
+        return view('sale.pos_create')->with(compact('categories','brands','taxs'));
     }
     public function  getProduct(Request $request){
         $category_id  = $request->categoryId;

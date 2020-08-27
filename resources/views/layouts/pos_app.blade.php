@@ -26,7 +26,8 @@
 
 <body>
 <!-- Begin page -->
-<div id="wrapper" style="background: #f7f6f9;padding: 20px 0px">
+{{--<div id="wrapper" style="background: #f7f6f9;padding: 20px 0px">--}}
+<div id="wrapper">
     <div class="container-fluid">
         @yield('content')
     </div>
