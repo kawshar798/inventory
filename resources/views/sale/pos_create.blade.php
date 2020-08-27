@@ -417,7 +417,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             $("#proSubPrice-" + id).text(subPrice);
             totalPur();
         }
-
+//Add some thing
         $('button[name="order_discount_btn"]').on("click", function() {
             totalPur();
         });
