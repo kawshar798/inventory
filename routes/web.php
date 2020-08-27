@@ -95,7 +95,8 @@ Route::group(['prefix'=>'expense','as'=>'expense.'],function (){
 
 Route::group(['prefix'=>'pos','as'=>'pos.'],function (){
     Route::get('/','PosController@createPos')->name('create');
-    Route::get('/get/product','PosController@getProduct')->name('create');
+    Route::get('/get/product','PosController@getProduct');
+    Route::get('single/product/{id} ','PosController@singleProduct');
 
 
 });

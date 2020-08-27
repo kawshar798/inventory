@@ -33,4 +33,10 @@ class PosController extends Controller
         }
         return $products;
     }
+
+    public function  singleProduct($id){
+
+        $products = Product::where('id',$id)->first();
+        return $products;
+    }
 }
