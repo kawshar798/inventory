@@ -28,7 +28,7 @@ class TaxRateController extends Controller
             $tax->name = $request->name;
             $tax->code = $request->code;
             $tax->amount = $request->amount;
-            $tax->type = $request->type;
+//            $tax->type = $request->type;
             $tax->status = $request->status;
             $tax->save();
             DB::commit();
@@ -53,7 +53,7 @@ class TaxRateController extends Controller
         $tax->name = $request->name;
         $tax->code = $request->code;
         $tax->amount = $request->amount;
-        $tax->type = $request->type;
+//        $tax->type = $request->type;
         $tax->status = $request->status;
         $tax->save();
         DB::commit();

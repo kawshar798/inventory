@@ -33,7 +33,6 @@
                             <th>Name</th>
                             <th>Code</th>
                             <th>Rate</th>
-                            <th>Type</th>
                             <th>Status</th>
                             <th>Action</th>
 
@@ -60,8 +59,16 @@
                                     @endif
 
                                 </td>
-                                <td>{{$tax->type}}</td>
-                                <td>{{$tax->status}}</td>
+                                <td>
+
+                                @if($tax->status == 'Active')
+
+                                <span class="badge  badge-success">{{$tax->status}}</span>
+                                @else
+                                        <span class="badge  badge-warning">{{$tax->status}}</span>
+                                @endif
+
+                                </td>
 
                                 <td>
                                     <a href="{{route('setting.tax.edit',$tax->id)}}" class="btn btn-primary" data-toggle="modal" data-target="#editModal-{{$tax->id}}"><i class="fas fa-pencil-alt"></i></a>
@@ -108,14 +115,14 @@
                                                 <label class="col-form-label">Tax Rate </label>
                                                 <input type="text" class="form-control"   name="amount" value="{{isset($tax->amount)?$tax->amount:''}}">
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-form-label">Tax Type</label>
-                                                <select name="type" class="form-control">
-                                                    <option value="">Select One</option>
-                                                    <option value="Percentage"  @isset($tax->type){{$tax->type=='Percentage'?'Selected':'' }}@endif>Percentage</option>
-                                                    <option value="Fixed"   @isset($tax->type){{$tax->type=='Fixed'?'Selected':'' }}@endif>Fixed</option>
-                                                </select>
-                                            </div>
+{{--                                            <div class="form-group">--}}
+{{--                                                <label class="col-form-label">Tax Type</label>--}}
+{{--                                                <select name="type" class="form-control">--}}
+{{--                                                    <option value="">Select One</option>--}}
+{{--                                                    <option value="Percentage"  @isset($tax->type){{$tax->type=='Percentage'?'Selected':'' }}@endif>Percentage</option>--}}
+{{--                                                    <option value="Fixed"   @isset($tax->type){{$tax->type=='Fixed'?'Selected':'' }}@endif>Fixed</option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
                                             <div class="form-group">
                                                 <label class="col-form-label">Tax Status</label>
                                                 <select name="status" class="form-control">

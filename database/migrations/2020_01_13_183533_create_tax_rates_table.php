@@ -18,7 +18,7 @@ class CreateTaxRatesTable extends Migration
             $table->string('name');
             $table->string('code')->nullable();
             $table->float('amount',8,2);
-            $table->enum('type', ['Fixed', 'Percentage'])->nullable();
+//            $table->enum('type', ['Fixed', 'Percentage'])->nullable();
             $table->enum('status',['Active','Inactive'])->nullable();
             $table->softDeletes();
             $table->timestamps();
