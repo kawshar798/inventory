@@ -78,7 +78,8 @@ Route::group(['prefix'=>'product','as'=>'product.'],function (){
     Route::any('active/{id}','ProductController@active')->name('active');
     Route::any('inactive/{id}','ProductController@inactive')->name('inactive');
     Route::delete('delete/{id}','ProductController@delete')->name('delete');
-    Route::get('products','ProductController@getProduct');
+//    Route::get('products','ProductController@getProduct');
+    Route::get('print-barcode','ProductController@printBarcode')->name('print-barcode');
 });
 Route::group(['prefix'=>'expense','as'=>'expense.'],function (){
     Route::get('/','ExpenseController@index')->name('index');

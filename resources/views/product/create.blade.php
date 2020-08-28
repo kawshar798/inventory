@@ -107,7 +107,8 @@
                                     </div>
                                 </div>
                                 @endif
-
+                        </div>
+                        <div class="form-group row">
 
 {{--                            <div class="col-md-4">--}}
 {{--                                <label>Product Type </label>--}}

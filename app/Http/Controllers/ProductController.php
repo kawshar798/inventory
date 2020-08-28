@@ -148,6 +148,13 @@ class ProductController extends Controller
         return $output;
     }
 
+
+
+    public function printBarcode()
+    {
+        return view($this->path.'print_barcode');
+    }
+
     public function delete( $id ) {
         $product = Product::find( $id );
         if (file_exists($product->image)) {
@@ -160,5 +167,7 @@ class ProductController extends Controller
         ];
         return $output;
     }
+
+
 
 }
