@@ -37,6 +37,7 @@ class CreateProductsTable extends Migration
             $table->double('mrp')->nullable();
             $table->boolean('featured')->default(0);
             $table->string('barcode')->nullable();
+            $table->string('barcode_symbology');
             $table->enum('status',['Active','Inactive']);
             $table->timestamps();
         });

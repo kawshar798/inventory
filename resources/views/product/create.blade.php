@@ -23,7 +23,7 @@
                         @endif
 
 
-                    <form class="" action="{{route('product.store')}}" method="POST" enctype="multipart/form-data"  >
+                    <form class="" action="{{route('product.store')}}" method="POST" enctype="multipart/form-data" onsubmit="return bracode_validate()" >
                         @csrf
                         <input name="id" value="{{isset($product->id)?$product->id : ''}}" />
                         <div class="form-group row">
@@ -46,9 +46,11 @@
                                 <label>Sub Category Name</label>
                                 <select id=subcategory class="form-control border_radius " name="sub_category_id">
                                     <option value="">Select Sub Category</option>
+                                    @if(isset($sub_categories))
                                     @foreach($sub_categories as $category)
                                         <option value="{{$category->id}}" @isset($product->category_id){{$product->category_id==$category->id?'selected':''}}@endisset>{{$category->name}}</option>
                                     @endforeach
+                                        @endif
                                 </select>
                             </div>
 
@@ -105,8 +107,7 @@
                                     </div>
                                 </div>
                                 @endif
-                        </div>
-                        <div class="form-group row">
+
 
 {{--                            <div class="col-md-4">--}}
 {{--                                <label>Product Type </label>--}}
@@ -115,6 +116,18 @@
 {{--                                    <option value="Variantable">Variantable</option>--}}
 {{--                                </select>--}}
 {{--                            </div>--}}
+
+                            <div class="col-md-4">
+                                <label>Barcode Type</label>
+                                <select name="barcode_symbology" required class="form-control selectpicker">
+                                    <option value="C128">Code 128</option>
+                                    <option value="C39">Code 39</option>
+                                    <option value="UPCA">UPC-A</option>
+                                    <option value="UPCE">UPC-E</option>
+                                    <option value="EAN8">EAN-8</option>
+                                    <option value="EAN13">EAN-13</option>
+                                </select>
+                            </div>
                             <div class="col-md-4">
                                 <label>Quantity</label>
                                 <input type="text" class="form-control  border_radius" name="quantity" value="{{isset($product->quantity)?$product->quantity:''}}">
@@ -122,13 +135,6 @@
                             <div class="col-md-4">
                                 <label>Alert Quantity</label>
                                 <input type="text" class="form-control  border_radius" name="alert_quantity" value="{{isset($product->alert_quantity)?$product->alert_quantity:''}}">
-                            </div>
-                            <div class="col-md-4">
-                                <label>Image</label>
-                                <input type="file" class="form-control  border_radius" name="image" value="{{isset($product->image)?$product->image:''}}">
-                                @if($product->image_three)
-                                    <img src="{{asset($product->image_three)}}"  style="height: 80px;width:80px" id="three"/>
-                                @endif
                             </div>
 
                         </div>
@@ -149,6 +155,13 @@
 
                                 </select>
                             </div>
+                            <div class="col-md-4">
+                                <label>Image</label>
+                                <input type="file" class="form-control  border_radius" name="image" value="{{isset($product->image)?$product->image:''}}">
+                                @if(isset($product->image))
+                                    <img src="{{asset($product->image)}}"  style="height: 80px;width:80px" id="three"/>
+                                @endif
+                            </div>
 
 
                         </div>
@@ -165,11 +178,12 @@
                             <div>
                                 @if(isset($product->id))
                                     <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                        Add Product
+                                        Update Product
                                     </button>
                                 @else
-                                    <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                        Update Product
+
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light" id="submit_btn">
+                                        Add Product
                                     </button>
                                     @endif
 
@@ -216,13 +230,10 @@
             if(randomNumber){
                 return randomNumber.substring(0, 2) + (Math.floor(Math.random()*1000)+ 999);
             }else{
-                return Math.floor(Math.random()*90000) + 100000;
+                return Math.floor(Math.random()*90000) + 10000000;
             }
         }
         $(document).ready(function () {
-
-
-
             if($("#elm1").length > 0){
                 tinymce.init({
                     selector: "textarea#elm1",
@@ -246,6 +257,39 @@
                 });
             }
         });
+
+
+        // $('#submit_btn').on("click", function (e) {
+        //     if(validate()){
+        //         e.preventDefault();
+        //     }else{
+        //         return true;
+        //     }
+        //
+        // });
+
+        function bracode_validate() {
+            var product_code = $("input[name='barcode']").val();
+            var barcode_symbology = $('select[name="barcode_symbology"]').val();
+            var exp = /^\d+$/;
+
+            if (!(product_code.match(exp)) && (barcode_symbology == 'UPCA' || barcode_symbology == 'UPCE' || barcode_symbology == 'EAN8' || barcode_symbology == 'EAN13')) {
+                alert('Product code must be numeric.');
+                return false;
+            } else if (product_code.match(exp)) {
+                if (barcode_symbology == 'UPCA' && product_code.length > 11) {
+                    alert('Product code length must be less than 12');
+                    return false;
+                } else if (barcode_symbology == 'EAN8' && product_code.length > 7) {
+                    alert('Product code length must be less than 8');
+                    return false;
+                } else if (barcode_symbology == 'EAN13' && product_code.length > 12) {
+                    alert('Product code length must be less than 13');
+                    return false;
+                }
+            }
+        }
+
     </script>
 
 @stop
