@@ -31,6 +31,7 @@
                         <tr>
                             <th>S.L</th>
                             <th>Name</th>
+                            <th>barcode</th>
                             <th>Image</th>
                             <th>Category Name</th>
                             <th>Brand</th>
@@ -48,6 +49,8 @@
                             <tr>
                                 <td>{{++$index}}</td>
                                 <td>{{$product->name}}</td>
+                                <td>{{$product->barcode}}
+                                </td>
                                 <td>
                                     @if($product->image)
                                         <img src="{{asset($product->image)}}" width="80px" alt="product Image"/>

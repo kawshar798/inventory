@@ -11,6 +11,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Milon\Barcode\DNS1D;
 
 class ProductController extends Controller
 {
@@ -150,9 +151,36 @@ class ProductController extends Controller
 
 
 
-    public function printBarcode()
+    public function printBarcode(Request $request)
     {
+        if($request->product_name){
+            $q = $request->product_name;
+            $product = Product::where('name','LIKE','%'.$q.'%')->first();
+            return $product;
+        }
+
+
+
+//            if(count($user) > 0)
+//                return view('welcome')->withDetails($user)->withQuery ( $q );
+//            else return view ('welcome')->withMessage('No Details found. Try to search again !');
+
+
+
         return view($this->path.'print_barcode');
+    }
+    public function printgetBarcode(Request $request)
+    {
+
+        $lims_product_data = Product::where('barcode',$request->barcode)->first();
+        return $lims_product_data;
+        $product[] = $lims_product_data->name;
+        $product[] = $lims_product_data->code;
+        $product[] = $lims_product_data->price;
+
+        $product[] = DNS1D::getBarcodePNG($lims_product_data->barcode, $lims_product_data->barcode_symbology);
+            return $product;
+
     }
 
     public function delete( $id ) {

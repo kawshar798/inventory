@@ -18,7 +18,7 @@
                         <li><a href="{{route('brand.index')}}">Brand</a></li>
                         <li><a href="{{route('product.index')}}">Product List</a></li>
                         <li><a href="{{route('product.create')}}">Product Add</a></li>
-                        <li><a href="{{route('product.print-barcode')}}">Print Barcode</a></li>
+{{--                        <li><a href="{{route('product.print-barcode')}}">Print Barcode</a></li>--}}
 
                     </ul>
                 </li>
