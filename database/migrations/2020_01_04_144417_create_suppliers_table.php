@@ -16,17 +16,22 @@ class CreateSuppliersTable extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone')->nullable();
+            $table->string('image')->nullable();
+            $table->string('business_name');
+            $table->string('vat_number')->nullable();
+            $table->string('email');
+            $table->string('phone_number');
             $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('type');
-            $table->string('photo')->nullable();
-            $table->string('shop')->nullable();
-            $table->string('account_holder')->nullable();
-            $table->string('account_number')->nullable();
-            $table->string('bank_name')->nullable();
-            $table->string('branch_name')->nullable();
+            $table->string('city');
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('country')->nullable();
+            $table->enum('status',['Active','Inactive']);
+//            $table->string('shop')->nullable();
+//            $table->string('account_holder')->nullable();
+//            $table->string('account_number')->nullable();
+//            $table->string('bank_name')->nullable();
+//            $table->string('branch_name')->nullable();
             $table->timestamps();
         });
     }

@@ -25,6 +25,11 @@ Route::get('employee/delete/{id}','EmployeeController@delete')->name('employee.d
 
 Route::get('supplier','SupplierController@index')->name('supplier.index');
 Route::any('supplier/create','SupplierController@create')->name('supplier.create');
+Route::get('edit/{id}','SupplierController@edit')->name('edit');
+Route::post('update/','SupplierController@update')->name('update');
+Route::any('supplier/active/{id}','SupplierController@active')->name('active');
+Route::any('supplier/inactive/{id}','SupplierController@inactive')->name('inactive');
+Route::delete('supplier/delete/{id}','SupplierController@delete')->name('delete');
 
 Route::get('customer','CustomerController@index')->name('customer.index');
 Route::any('customer/create','CustomerController@create')->name('customer.create');

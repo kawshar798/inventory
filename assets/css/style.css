@@ -3676,7 +3676,7 @@ table.focus-on tbody tr.focused td {
 
 /*###  Custom css####*/
 .card-body {
-    border-top: 5px solid #02c58d;
+    /*border-top: 5px solid #02c58d;*/
     border-radius: 5px;
 }
 
