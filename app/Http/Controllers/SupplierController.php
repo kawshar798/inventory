@@ -18,17 +18,19 @@ class SupplierController extends Controller
 
     }
     public  function  index(){
- $suppliers =  Supplier::where('status','Active')->get();
+ $suppliers =  Supplier::get();
         return view($this->path.'index',compact('suppliers'));
     }
 
     public  function  create(Request $request){
         if($request->isMethod('post')){
             try{
-                $supplier = new Supplier();
+                if($request->id){
+                    $supplier = Supplier::find($request->id);
+                }else{
+                    $supplier = new Supplier();
+                }
                 $supplier->name  = $request->name;
-
-
                 $slug =  Str::slug( $request->name );
                 if ($request->hasFile( 'image' ) ) {
                     $image = $request->image;
@@ -69,6 +71,7 @@ class SupplierController extends Controller
     }
 
     public function active($id){
+
         $supplier = Supplier::find( $id );
         $supplier->status = 'Active';
         $supplier->save();
