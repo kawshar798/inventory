@@ -139,7 +139,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label text-md-right">Paid Amount</label>
-                                    <input class="form-control" name="document" type="text">
+                                    <input class="form-control" name="paid_amount" type="text">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -176,10 +176,10 @@
     <div class="container-fluid">
         <table class="table table-bordered table-condensed totals">
             <tbody><tr><td><strong>Items</strong>
-                    <span class="pull-right" id="item">2(10)</span>
+                    <span class="pull-right" id="total_main_item">0</span>(<span id="total_item">0</span>)
                 </td>
                 <td><strong>Total</strong>
-                    <span class="pull-right" id="subtotal">2350.00</span>
+                    <span class="pull-right" id="subtotal">0.00</span>
                 </td>
                 <td><strong>Tax</strong>
                     <span class="pull-right" id="order_tax">0.00</span>
@@ -191,10 +191,10 @@
                     <span class="pull-right" id="shipping_cost">0.00</span>
                 </td>
                 <td><strong>Paid Amount</strong>
-                    <span class="pull-right" id="grand_total">2360.00</span>
+                    <span class="pull-right" id="paid_amount">0.00</span>
                 </td>
                 <td><strong>Grand Total</strong>
-                    <span class="pull-right" id="grand_total">2360.00</span>
+                    <span class="pull-right" id="grandtotalPrice">0.00</span>
                 </td>
             </tr></tbody></table>
     </div>
@@ -277,8 +277,14 @@
     $('input[name="shipping_cost"]').on("input", function() {
         totalPur();
     });
-    //Order Tax
 
+    //Paid Amount
+    $('input[name="paid_amount"]').on("input", function() {
+        totalPur();
+    });
+
+
+    //Order Tax
     $('select[name="order_tax_rate"]').on("change", function() {
         totalPur();
     });
@@ -286,6 +292,11 @@
 
     //calculate the total price on the purchase
     function totalPur() {
+
+        var item = $('table.order-list tbody tr:last').index();
+        item = ++item;
+        $('#total_main_item').text(item);
+
         var total = 0;
         var total_quantity = 0;
 
@@ -297,11 +308,16 @@
 
         //Shipping Cost
         var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
-        console.log(shipping_cost)
         if (!shipping_cost)
             shipping_cost = 0.00;
         $("#shipping_cost").text(shipping_cost.toFixed(2));
 
+
+        var paid_amount = parseFloat($('input[name="paid_amount"]').val());
+        console.log(paid_amount);
+        if (!paid_amount)
+            paid_amount = 0.00;
+        $("#paid_amount").text(paid_amount.toFixed(2));
 
         //Order tax
         var order_tax = parseFloat($('select[name="order_tax_rate"]').val());
@@ -316,9 +332,13 @@
         });
         order_tax = (total - order_discount) * (order_tax / 100);
         $("#order_tax").text(order_tax.toFixed(2));
+        $("#subtotal").text(parseFloat(total.toFixed(2)));
+        var grandTotal = (total + shipping_cost + order_tax) - order_discount;
 
         $("#total").text(parseFloat(total));
         $("#total-qty").text(parseFloat(total_quantity));
+        $("#total_item").text(parseFloat(total_quantity));
+        $("#grandtotalPrice").text(parseFloat(grandTotal));
 
     }
     //end the purchase
