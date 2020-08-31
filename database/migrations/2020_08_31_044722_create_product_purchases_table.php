@@ -18,8 +18,7 @@ class CreateProductPurchasesTable extends Migration
             $table->integer('purchase_id');
             $table->integer('product_id');
             $table->double('qty');
-            $table->double('recieved');
-            $table->double('total');
+            $table->double('sub_total');
             $table->timestamps();
         });
     }

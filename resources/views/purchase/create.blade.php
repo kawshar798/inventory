@@ -37,7 +37,8 @@
                 <div class="card-body p_relative">
 
                     <h4 class="mt-0 header-title"> Create</h4>
-                    <form class="" action="#" novalidate="">
+                    <form class="" action="{{url('purchase/store')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="">Supplier</label>
@@ -83,17 +84,14 @@
                                         <tr>
                                             <th>name</th>
                                             <th>Quantity</th>
-                                            <th class="recieved-product-qty d-none">Recieved</th>
+                                            <th class="recieved-product-qty d-none">Received</th>
                                             <th>Net Unit Cost</th>
                                             <th>Subtotal</th>
                                             <th><i class="fa fa-trash"></i></th>
                                         </tr>
                                         </thead>
-
                                         <tbody id="productTable">
-
                                         </tbody>
-
                                         <tfoot class="tfoot active">
                                         <th>Total</th>
                                         <th id="total-qty" colspan="2">0</th>
@@ -108,6 +106,18 @@
 
                         <hr class="mb-0">
                         <hr>
+                        <hr>
+
+                        <input name="in_item"  class="in_item" />
+                        <input name="in_total_qty"  class="in_total_qty"/>
+                        <input name="in_total_tax"  class="in_total_tax"/>
+                        <input name="in_total_cost"  class="in_total_cost"/>
+                        <input name="in_order_discount"  class="in_order_discount"/>
+                        <input name="in_shipping_cost"  class="in_shipping_cost"/>
+                        <input name="in_grand_total"  class="in_grand_total"/>
+                        <input name="in_paid_amount"  class="in_paid_amount"/>
+                        <input name="in_single_subPrice"  class="in_single_subPrice"/>
+
                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -230,7 +240,7 @@
                     '                                                <input type="number" class="form-control" readonly id="proUnitPrice-' + data.id + '"  value="' + data.cost_price + '">\n' +
                     '                                            </td>\n' +
                     '                                            <td>\n' +
-                    '                                                <input type="number" class="form-control" readonly id="proSubPrice-' + data.id + '"  value="' + data.cost_price + '">\n' +
+                    '                                                <input type="number" class="form-control" readonly id="proSubPrice-' + data.id + '"  value="' + data.cost_price + '" name="prosubTotal[]">\n' +
                     '                                            </td>\n' +
                     '                                            <td>\n' +
                     '                                                <a  onclick="removeProductPur(' + data.id + ')" class="kt-nav__link">\n' +
@@ -266,6 +276,7 @@
         var price = $("#proUnitPrice-" + id).val();
         var subPrice = quantity * price;
         $("#proSubPrice-" + id).val(subPrice);
+        $(".in_single_subPrice").val(subPrice);
 
         totalPur();
     }
@@ -292,7 +303,6 @@
 
     //calculate the total price on the purchase
     function totalPur() {
-
         var item = $('table.order-list tbody tr:last').index();
         item = ++item;
         $('#total_main_item').text(item);
@@ -339,6 +349,20 @@
         $("#total-qty").text(parseFloat(total_quantity));
         $("#total_item").text(parseFloat(total_quantity));
         $("#grandtotalPrice").text(parseFloat(grandTotal));
+
+        $(".in_item").val(parseFloat(item));
+        $(".in_total_qty").val(parseFloat(total_quantity));
+        $(".in_order_discount").val(parseFloat(order_discount));
+        $(".in_total_tax").val(parseFloat(order_tax));
+        $(".in_shipping_cost").val(parseFloat(shipping_cost));
+        $(".in_grand_total").val(parseFloat(grandTotal));
+        $(".in_total_cost").val(parseFloat(paid_amount));
+        $(".in_paid_amount").val(parseFloat(total));
+
+
+
+
+
 
     }
     //end the purchase

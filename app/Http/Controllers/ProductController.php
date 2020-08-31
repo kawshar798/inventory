@@ -94,7 +94,6 @@ class ProductController extends Controller
             $product->featured = $request->featured?1:0;
             $product->tax = $request->tax;
             $product->description = $request->description;
-
             if ($request->hasfile('image')) {
                 $image = $request->image;
                 $extension = $image->getClientOriginalExtension();

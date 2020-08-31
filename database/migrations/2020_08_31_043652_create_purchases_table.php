@@ -18,8 +18,6 @@ class CreatePurchasesTable extends Migration
             $table->integer('supplier_id')->nullable();
             $table->integer('item');
             $table->integer('total_qty');
-            $table->double('total_discount');
-            $table->double('total_tax');
             $table->double('total_cost');
             $table->double('order_tax')->nullable();
             $table->double('order_discount')->nullable();
