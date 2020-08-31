@@ -25,9 +25,8 @@
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="fas fa-money-bill"></i><span> Purchase <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        <li><a href="{{route('employee.index')}}">Purchase List</a></li>
-                        <li><a href="{{route('supplier.index')}}">Purchase Add</a></li>
-                        <li><a href="{{route('customer.index')}}">Import Purchase</a></li>
+                        <li><a href="{{route('purchase.index')}}">Purchase List</a></li>
+                        <li><a href="{{route('purchase.create')}}">Purchase Add</a></li>
                     </ul>
                 </li>
                 <li>

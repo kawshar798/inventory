@@ -458,6 +458,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         $('button[name="order_discount_btn"]').on("click", function() {
             totalPur();
         });
+
         //Shipping Cost
         $('button[name="shipping_cost_btn"]').on("click", function() {
             totalPur();

@@ -30,14 +30,10 @@ class ProductController extends Controller
         return view($this->path.'index',compact('products','categories','brands'));
     }
 
-
+//for pos
     public function  getProduct(Request $request){
-
-
         $category_id  = $request->categoryId;
         $brand_id     = $request->brandId;
-
-
         $products = Product::all();
             if($category_id != 'all'){
                 $products = Product::where(function ($query) use ($category_id) {
@@ -49,11 +45,17 @@ class ProductController extends Controller
             $products = Product::where('brand_id', $brand_id)->get();
         }
         return  $products;
-
-
-
-
     }
+
+    //For product purchase
+    public function  getSingleProduct($id){
+
+        $product = Product::where('id',$id)->first();
+        return  $product;
+    }
+
+
+
     public  function  create(){
 
         $categories = Category::where('status','Active')->get();

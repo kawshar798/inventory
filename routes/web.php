@@ -82,7 +82,8 @@ Route::group(['prefix'=>'product','as'=>'product.'],function (){
     Route::post('update/','ProductController@update')->name('update');
     Route::any('active/{id}','ProductController@active')->name('active');
     Route::any('inactive/{id}','ProductController@inactive')->name('inactive');
-    Route::delete('delete/{id}','ProductController@delete')->name('delete');
+    //for product purchase
+    Route::get('get/single/{id}','ProductController@getSingleProduct')->name('delete');
 ////    Route::get('products','ProductController@getProduct');
 //    Route::any('print-barcode','ProductController@printBarcode')->name('print-barcode');
 //    Route::post('/barcode/preview','ProductController@printgetBarcode');
@@ -110,6 +111,19 @@ Route::group(['prefix'=>'pos','as'=>'pos.'],function (){
 
 Route::get('subcategory/show/{id}','ProductController@showSubcat');
 //setting
+
+Route::group(['prefix'=>'purchase','as'=>'purchase.'],function (){
+    //Tax Rate
+
+        Route::get('list','PurchaseController@index')->name('index');
+        Route::get('create','PurchaseController@create')->name('create');
+        Route::post('store','PurchaseController@store')->name('store');
+        Route::get('edit/{id}','PurchaseController@edit')->name('edit');
+        Route::post('update/','PurchaseController@update')->name('update');
+        Route::delete('delete/{id}','PurchaseController@delete')->name('delete');
+
+});
+
 
 Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
     //Tax Rate
