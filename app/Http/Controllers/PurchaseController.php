@@ -62,13 +62,18 @@ class PurchaseController extends Controller
         $product_id = $request->proId;
         $proQuantity = $request->proQuantity;
         $prosubTotal = $request->prosubTotal;
-        foreach ($product_id as $i => $item){
-       $product_purchase =   new ProductPurchase();
-       $product_purchase->product_id =   $item;
-       $product_purchase->purchase_id =   $purchase->id;
-       $product_purchase->qty =   $proQuantity[$i];
-       $product_purchase->sub_total =   $prosubTotal[$i];
-            $product_purchase->save();
+
+           foreach ($product_id as $i => $item){
+           $product_purchase =   new ProductPurchase();
+           $product_purchase->product_id =   $item;
+           $product_purchase->purchase_id =   $purchase->id;
+           $product_purchase->qty =   $proQuantity[$i];
+           $product_purchase->sub_total =   $prosubTotal[$i];
+           $product_purchase->save();
+
+        $product = Product::where('id',$product_id)->first();
+        $product->quantity = $product->quantity + $proQuantity[$i];
+        $product->save();
         }
         $output = ['success' => true,
             'messege'            => "Product Active success",

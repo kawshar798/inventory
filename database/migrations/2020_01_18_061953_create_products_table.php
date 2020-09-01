@@ -29,7 +29,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('tax')->unsigned()->nullable();
             $table->foreign('tax')->references('id')->on('tax_rates');
             $table->enum('tax_type', ['inclusive', 'exclusive'])->nullable();
-            $table->boolean('quantity')->default(0)->nullable();
+            $table->integer('quantity')->default(0)->nullable();
             $table->integer('alert_quantity')->nullable();
             $table->string('sku')->nullable();
             $table->string('image')->nullable();
