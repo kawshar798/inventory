@@ -36,7 +36,8 @@ class PurchaseController extends Controller
 //        return $request->proId;
         $purchase = new Purchase();
         $purchase->supplier_id = $request->supplier_id;
-        $purchase->reference_no ='pp' . date("Ymd") . '00'. date("his");
+        $purchase->reference_no ='PP' . date("Ymd") . '00';
+//        $purchase->reference_no ='PP' . date("Ymd") . '00'. date("his");
         $purchase->item = $request->in_item;
         $purchase->total_qty = $request->in_total_qty;
         $purchase->order_tax = $request->in_total_tax;
@@ -46,6 +47,7 @@ class PurchaseController extends Controller
         $purchase->grand_total = $request->in_grand_total;
         $purchase->paid_amount = $request->in_paid_amount;
         $purchase->status = $request->status;
+        $purchase->date = $request->date;
         $purchase->note = $request->note;
         $balance = $request->in_grand_total -  $purchase->grand_total;
         if ($balance < 0 || $balance > 0) {
@@ -89,4 +91,9 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.index')->with($output);
     }
 
+    public function  show($id){
+
+            $purchase = Purchase::where('id',$id)->first();
+        return view($this->path.'show',compact('purchase'));
+    }
 }

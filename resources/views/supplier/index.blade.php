@@ -12,6 +12,11 @@
             position: relative;
         }
 
+        @media screen and (min-width: 992px) {
+            .modal-lg {
+                width: 950px; /* New width for large modal */
+            }
+        }
         .card-body.p_relative:after {
             position: absolute;
             background: #02c58d;

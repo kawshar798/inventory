@@ -112,11 +112,11 @@ Route::get('subcategory/show/{id}','ProductController@showSubcat');
 
 Route::group(['prefix'=>'purchase','as'=>'purchase.'],function (){
     //Tax Rate
-
         Route::get('list','PurchaseController@index')->name('index');
         Route::get('create','PurchaseController@create')->name('create');
         Route::post('store','PurchaseController@store')->name('store');
         Route::get('edit/{id}','PurchaseController@edit')->name('edit');
+        Route::get('show/{id}','PurchaseController@show')->name('show');
         Route::post('update/','PurchaseController@update')->name('update');
         Route::delete('delete/{id}','PurchaseController@delete')->name('delete');
 

@@ -3,6 +3,7 @@
 @section('page_title','Purchase')
 @push('head_styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <style>
         .card-body.p_relative {
             position: relative;
@@ -108,15 +109,15 @@
                         <hr>
                         <hr>
 
-                        <input name="in_item"  class="in_item" />
-                        <input name="in_total_qty"  class="in_total_qty"/>
-                        <input name="in_total_tax"  class="in_total_tax"/>
-                        <input name="in_total_cost"  class="in_total_cost"/>
-                        <input name="in_order_discount"  class="in_order_discount"/>
-                        <input name="in_shipping_cost"  class="in_shipping_cost"/>
-                        <input name="in_grand_total"  class="in_grand_total"/>
-                        <input name="in_paid_amount"  class="in_paid_amount"/>
-                        <input name="in_single_subPrice"  class="in_single_subPrice"/>
+                        <input name="in_item"  class="in_item" type="hidden"/>
+                        <input name="in_total_qty"  class="in_total_qty" type="hidden"/>
+                        <input name="in_total_tax"  class="in_total_tax" type="hidden"/>
+                        <input name="in_total_cost"  class="in_total_cost" type="hidden"/>
+                        <input name="in_order_discount"  class="in_order_discount" type="hidden"/>
+                        <input name="in_shipping_cost"  class="in_shipping_cost" type="hidden"/>
+                        <input name="in_grand_total"  class="in_grand_total" type="hidden"/>
+                        <input name="in_paid_amount"  class="in_paid_amount" type="hidden"/>
+                        <input name="in_single_subPrice"  class="in_single_subPrice" type="hidden"/>
 
                         <div class="row mt-3">
                             <div class="col-md-4">
@@ -154,13 +155,16 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="col-form-label text-md-right">Document</label>
-
-                                        <input class="form-control-file" name="document" type="file">
-
+                                    <label class="col-form-label text-md-right">Purchase Date</label>
+                                        <input class="form-control" name="date" type="text" id="datetimepicker3">
                                 </div>
                             </div>
-
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label text-md-right">Document</label>
+                                    <input class="form-control-file" name="document" type="file">
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-form-label text-md-right">Description</label>
@@ -213,9 +217,18 @@
     @parent
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     <script src="{{asset('assets/plugins/tinymce/tinymce.min.js')}}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 <script>
-    $(document).ready(function() {
 
+
+    $(document).ready(function() {
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+
+                format: 'YYYY-MM-DD',
+            });
+        });
         $(".supplier_list_option").select2({
             tags: true
         });

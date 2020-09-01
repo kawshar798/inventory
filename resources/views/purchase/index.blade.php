@@ -36,16 +36,21 @@
                         <tr>
                             <td>{{++$index}}</td>
                             <td>{{$purchase->date}}</td>
-                            <td>{{$purchase->supplier_id}}</td>
+                            <td>{{isset($purchase->supplier)?$purchase->supplier->name:''}}</td>
                             <td>{{$purchase->reference_no}}</td>
                             <td>{{$purchase->grand_total}}</td>
                             <td>{{$purchase->paid_amount}}</td>
-                            <td>{{$purchase->paid_amount}}</td>
                             <td>{{$purchase->grand_total - $purchase->paid_amount}}</td>
-                            <td>{{$purchase->grand_total - $purchase->paid_amount}}</td>
-                            <td>{{$purchase->payment_status}}</td>
-                            <td>{{$purchase->status}}</td>
-
+                            <td>@if($purchase->payment_status == 2)
+                                    <span style="color: #fff; background: red;padding: 2px 5px;border-radius: 3px">Due</span>
+                                @else
+                                    <span style="color: #fff; background: green;padding: 2px 5px;border-radius: 3px">Due</span>
+                                @endif</td>
+                            <td>{{$purchase->status}}
+                            </td>
+                            <td>
+                                <a href="{{url('purchase/show',$purchase->id)}}">Show</a>
+                            </td>
                         </tr>
                             @endforeach
                         </tbody>
