@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\TaxRate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
@@ -19,6 +20,11 @@ class PurchaseController extends Controller
         $this->path = 'purchase.';
 
     }
+    public function  index(){
+       $purchases = Purchase::all();
+        return view($this->path.'index',compact('purchases'));
+
+    }
     public function  create(){
         $suppliers = Supplier::where('status','Active')->get();
         $products = Product::where('status','Active')->get();
@@ -26,11 +32,11 @@ class PurchaseController extends Controller
         return view($this->path.'create',compact('suppliers','products','taxes'));
 
     }
-
     public function  store(Request $request){
 //        return $request->proId;
         $purchase = new Purchase();
         $purchase->supplier_id = $request->supplier_id;
+        $purchase->reference_no ='pp' . date("Ymd") . '00'. date("his");
         $purchase->item = $request->in_item;
         $purchase->total_qty = $request->in_total_qty;
         $purchase->order_tax = $request->in_total_tax;
@@ -58,6 +64,7 @@ class PurchaseController extends Controller
             $image->move($path, $image_name);
             $purchase->receipt = $path . $image_name;
         }
+        $purchase->created_by = Auth::id();
         $purchase->save();
         $product_id = $request->proId;
         $proQuantity = $request->proQuantity;

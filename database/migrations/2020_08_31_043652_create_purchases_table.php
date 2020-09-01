@@ -17,6 +17,7 @@ class CreatePurchasesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('supplier_id')->nullable();
             $table->integer('item');
+            $table->string('reference_no');
             $table->integer('total_qty');
             $table->double('total_cost');
             $table->double('order_tax')->nullable();
@@ -26,8 +27,10 @@ class CreatePurchasesTable extends Migration
             $table->double('paid_amount');
             $table->string('status');
             $table->integer('payment_status');
+            $table->dateTime('date');
             $table->string('receipt')->nullable();
             $table->text('note')->nullable();
+            $table->integer('created_by')->nullable();
             $table->timestamps();
         });
     }
