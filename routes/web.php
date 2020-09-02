@@ -118,6 +118,8 @@ Route::group(['prefix'=>'purchase','as'=>'purchase.'],function (){
         Route::get('edit/{id}','PurchaseController@edit')->name('edit');
         Route::get('show/{id}','PurchaseController@show')->name('show');
         Route::post('update/','PurchaseController@update')->name('update');
+        Route::any('add/payment/','PurchaseController@addPayment')->name('add.payment');
+        Route::get('view/payment/{id}','PurchaseController@viewPayment')->name('view.payment');
         Route::delete('delete/{id}','PurchaseController@delete')->name('delete');
 
 });

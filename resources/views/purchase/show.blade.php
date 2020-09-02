@@ -68,11 +68,6 @@
                             <th>Subtotal</th>
                         </tr>
                         </thead>
-{{--{{$purchase->purchaseProduct}}--}}
-@php
-
-
-    @endphp
                         <tbody>
                                                 @foreach($purchase->purchaseProduct as $index=>$purchase_single)
                                                                                 <tr>
@@ -115,8 +110,6 @@
                                         <td>{{$payment->amount}}</td>
                                         <td>{{$payment->paying_method}}</td>
                                         <td>{{$payment->note}}</td>
-
-
                                     </tr>
                                 @endforeach
 

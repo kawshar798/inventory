@@ -10,6 +10,7 @@ use App\Models\Supplier;
 use App\Models\TaxRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
@@ -37,8 +38,8 @@ class PurchaseController extends Controller
 //        return $request->proId;
         $purchase = new Purchase();
         $purchase->supplier_id = $request->supplier_id;
-        $purchase->reference_no ='PP' . date("Ymd");
-//        $purchase->reference_no ='PP' . date("Ymd") . '00'. date("his");
+        $purchase->reference_no ='PP' . date("Ymd") . '/'. date("his");
+//        $purchase->reference_no ='PP' . date("Ymd") . '/'. date("his");
         $purchase->item = $request->in_item;
         $purchase->total_qty = $request->in_total_qty;
         $purchase->order_tax = $request->in_total_tax;
@@ -71,7 +72,7 @@ class PurchaseController extends Controller
         if( $purchase->save()){
             $payment = new Payment();
             $payment->purchase_id = $purchase->id;
-            $payment->payment_reference = 'PP' . date("Ymd");
+            $payment->payment_reference = 'PP' . date("Ymd") . '/'. date("his");
             $payment->user_id = Auth::id();
             $payment->cheque_number = $request->cheque_number;
             $payment->amount = $request->paid_amount;
@@ -103,8 +104,45 @@ class PurchaseController extends Controller
     }
 
     public function  show($id){
-
             $purchase = Purchase::where('id',$id)->first();
         return view($this->path.'show',compact('purchase'));
+    }
+
+    public function  addPayment(Request $request){
+        $purchase = Purchase::where('id',$request->id)->first();
+      try{
+          $purchase->paid_amount += $request->amount;
+          $balance =   $purchase->grand_total - $purchase->paid_amount;
+          if ($balance <= 0 ) {
+              $purchase->payment_status = 1;
+          } else {
+              $purchase->payment_status = 2;
+          }
+          $purchase->save();
+          $payment = new Payment();
+          $payment->purchase_id = $purchase->id;
+          $payment->payment_reference = 'PP' . date("Ymd") . '/'. date("his");
+          $payment->user_id = Auth::id();
+          $payment->cheque_number = $request->cheque_number;
+          $payment->amount = $request->amount;
+          $payment->paying_method = $request->paying_method;
+          $payment->note = $request->note;
+          $payment->save();
+          DB::commit();
+          $output = ['success' => true,
+              'messege'            => "Payment   success",
+          ];
+          return $output;
+      }catch (\Exception $e){
+          DB::rollBack();
+          return $e->getMessage();
+      }
+
+
+    }
+
+    public function  viewPayment($id){
+        $payment = Payment::where('purchase_id',$id)->get();
+        return $payment;
     }
 }
