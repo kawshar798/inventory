@@ -19,6 +19,9 @@
             top: -10px;
             border-radius: 10px;
         }
+        #cheque_number{
+            display: none;
+        }
     </style>
     @endpush
 
@@ -147,12 +150,12 @@
                                     <input type="number" name="shipping_cost" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="col-form-label text-md-right">Paid Amount</label>
-                                    <input class="form-control" name="paid_amount" type="text">
-                                </div>
-                            </div>
+{{--                            <div class="col-md-4">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="col-form-label text-md-right">Paid Amount</label>--}}
+{{--                                    <input class="form-control" name="paid_amount" type="text">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label text-md-right">Purchase Date</label>
@@ -168,10 +171,43 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-form-label text-md-right">Description</label>
-                                    <textarea id="elm1" name="description"></textarea>
+                                    <textarea class="form-control" name="description"></textarea>
                                 </div>
                             </div>
                         </div>
+
+                       <div class="payment_area">
+                           <h5>Payment Info*</h5>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+        <label>Amount</label>
+        <input name="paid_amount" class="form-control">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+        <label>Payment Method</label>
+        <select name="paying_method" id="payment_method" class="form-control">
+            <option value="Cash">Cash</option>
+            <option value="Cheque">Cheque</option>
+        </select>
+        </div>
+    </div>
+    <div class="col-md-12" id="cheque_number">
+        <div class="form-group">
+            <label>Cheque Number</label>
+            <input name="cheque_number"  class="form-control"/>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+        <label>Payment Note</label>
+        <textarea name="note" class="form-control"></textarea>
+        </div>
+    </div>
+</div>
+                       </div>
                         <div class="form-group">
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
@@ -223,15 +259,25 @@
 
 
     $(document).ready(function() {
+        //Date pikcer
         $(function () {
             $('#datetimepicker3').datetimepicker({
 
                 format: 'YYYY-MM-DD',
             });
         });
+        //Select2
         $(".supplier_list_option").select2({
             tags: true
         });
+    });
+//payment method select
+    $('#payment_method').on('change', function()
+    {
+        $payment = this.value;
+       if($payment == 'Cheque'){
+          $("#cheque_number").css("display", "block");
+       }
     });
     var ids = [];
     function forSearchPur() {

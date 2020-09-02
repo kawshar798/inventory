@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Purchase;
@@ -36,7 +37,7 @@ class PurchaseController extends Controller
 //        return $request->proId;
         $purchase = new Purchase();
         $purchase->supplier_id = $request->supplier_id;
-        $purchase->reference_no ='PP' . date("Ymd") . '00';
+        $purchase->reference_no ='PP' . date("Ymd");
 //        $purchase->reference_no ='PP' . date("Ymd") . '00'. date("his");
         $purchase->item = $request->in_item;
         $purchase->total_qty = $request->in_total_qty;
@@ -67,7 +68,17 @@ class PurchaseController extends Controller
             $purchase->receipt = $path . $image_name;
         }
         $purchase->created_by = Auth::id();
-        $purchase->save();
+        if( $purchase->save()){
+            $payment = new Payment();
+            $payment->purchase_id = $purchase->id;
+            $payment->payment_reference = 'PP' . date("Ymd");
+            $payment->user_id = Auth::id();
+            $payment->cheque_number = $request->cheque_number;
+            $payment->amount = $request->paid_amount;
+            $payment->paying_method = $request->paying_method;
+            $payment->note = $request->note;
+            $payment->save();
+        }
         $product_id = $request->proId;
         $proQuantity = $request->proQuantity;
         $prosubTotal = $request->prosubTotal;

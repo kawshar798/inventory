@@ -89,6 +89,7 @@ class ProductController extends Controller
             $product->cost_price = $request->cost_price;
             $product->mrp = $request->mrp;
             $product->barcode = $request->barcode;
+            $product->barcode_symbology = $request->barcode_symbology;
             $product->alert_quantity = $request->alert_quantity;
             $product->quantity = $request->quantity;
             $product->featured = $request->featured?1:0;
