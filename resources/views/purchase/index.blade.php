@@ -65,13 +65,15 @@
                                         class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#addSupply" id="add_payment">
                                    Add payment
                                 </button>
-                                <button type="button"
-                                        data-id="{{$purchase->id}}"
-                                        data-paid_amount="{{$purchase->paid_amount}}"
-                                        data-grand_total="{{$purchase->grand_total}}"
-                                        class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#viewpayment" id="viewpayment_btn">
-                                   View payment
-                                </button>
+                                <button  data-success_url="{{url('admin/brand')}}" data-token="{{ csrf_token() }}" data-url="{{ url('purchase/delete', $purchase->id) }}" class="btn btn-danger delete_brand"
+                                         data-id="{{ $purchase->id }}"  title="Delete">Delete</button>
+{{--                                <button type="button"--}}
+{{--                                        data-id="{{$purchase->id}}"--}}
+{{--                                        data-paid_amount="{{$purchase->paid_amount}}"--}}
+{{--                                        data-grand_total="{{$purchase->grand_total}}"--}}
+{{--                                        class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#viewpayment" id="viewpayment_btn">--}}
+{{--                                   View payment--}}
+{{--                                </button>--}}
                             </td>
                         </tr>
 
@@ -218,7 +220,7 @@
                 $("#cheque_number").hide();
             }
         });
-        //Store Supplier
+        //Store payment
         $(document).on('submit', '.ajax-form-submit', function(e) {
             e.preventDefault();
             var submit_url = $(this).attr("submit_url");
@@ -240,6 +242,47 @@
                         toastr.error(result.messege);
                     }
                 },
+            });
+        });
+
+
+        // Brand Delete
+        $(document).on('click', '.delete_brand', function(e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            var url = $(this).data("url");
+            var success_url = $(this).data("success_url");
+            var token = $("meta[name='csrf-token']").attr("content");
+
+            swal({
+                title:"Are You Sure Delete this?",
+                // text: " ",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then(willDelete => {
+                if (willDelete) {
+                    $.ajax(
+                        {
+                            url: url,
+                            success_url:success_url,
+                            type: 'DELETE',
+                            data: {
+                                _token: token,
+                                id: id
+                            },
+                            success: function(result) {
+                                if (result.success == true) {
+                                    toastr.success(result.messege);
+                                    // setTimeout(function(){
+                                    location.reload(success_url);
+                                    // },  2000);
+                                } else {
+                                    toastr.error(result.messege);
+                                }
+                            },
+                        });
+                }
             });
         });
     </script>

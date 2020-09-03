@@ -145,4 +145,8 @@ class PurchaseController extends Controller
         $payment = Payment::where('purchase_id',$id)->get();
         return $payment;
     }
+
+    public  function  delete($id){
+
+    }
 }
