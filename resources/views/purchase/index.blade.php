@@ -65,13 +65,6 @@
                                         class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#addSupply" id="add_payment">
                                    Add payment
                                 </button>
-                                <button type="button"
-                                        data-id="{{$purchase->id}}"
-                                        data-paid_amount="{{$purchase->paid_amount}}"
-                                        data-grand_total="{{$purchase->grand_total}}"
-                                        class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#viewpayment" id="viewpayment_btn">
-                                   View payment
-                                </button>
                             </td>
                         </tr>
 
