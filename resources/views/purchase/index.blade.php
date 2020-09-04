@@ -58,13 +58,16 @@
                             </td>
                             <td>
                                 <a href="{{url('purchase/show',$purchase->id)}}" class="btn btn-primary">Show</a>
+                                <a href="{{url('purchase/view/payment',$purchase->id)}}" class="btn btn-primary">Payment Show</a>
                                 <button type="button"
                                         data-id="{{$purchase->id}}"
                                         data-paid_amount="{{$purchase->paid_amount}}"
                                         data-grand_total="{{$purchase->grand_total}}"
-                                        class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#addSupply" id="add_payment">
+                                        class="btn btn-primary m-3 edit-btn add_payment" data-toggle="modal" data-target="#addSupply">
                                    Add payment
                                 </button>
+                                <button  data-success_url="{{url('admin/brand')}}" data-token="{{ csrf_token() }}" data-url="{{ url('purchase/delete', $purchase->id) }}" class="btn btn-danger delete_brand"
+                                         data-id="{{ $purchase->id }}"  title="Delete">Delete</button>
                             </td>
                         </tr>
 
@@ -77,36 +80,6 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-    <div class="modal fade bs-example-modal-lg" tabindex="-1"  id="viewpayment" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="modalTitile">View Payment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table payment-list">
-                        <thead>
-                        <tr>
-                            <td>#</td>
-                            <td>Date</td>
-                            <td>Reference No</td>
-                            <td>Amount</td>
-                            <td>Payment Mode</td>
-                            <td>Note</td>
-                        </tr>
-                        </thead>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
-
-
   <div class="modal fade bs-example-modal-lg" tabindex="-1"  id="addSupply" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -182,20 +155,13 @@
             }
 
         });
-        $('#viewpayment_btn').on('click', function (e) {
-            e.preventDefault();
-            $('#viewpayment').modal('show');
-        });
-
-
-
-        $('#add_payment').on('click', function (e) {
+        $('.add_payment').on('click', function (e) {
             e.preventDefault();
             var id        = $(this).data("id");
             var amount      = $(this).data("due_amount");
             var grand_total      = $(this).data("grand_total");
             var paid_amount      = $(this).data("paid_amount");
-            amount = grand_total - paid_amount
+            amount = grand_total - paid_amount;
             console.log(amount);
             $('.modal_amount').val(amount);
             $('.modal_id').val(id);
@@ -211,7 +177,7 @@
                 $("#cheque_number").hide();
             }
         });
-        //Store Supplier
+        //Store payment
         $(document).on('submit', '.ajax-form-submit', function(e) {
             e.preventDefault();
             var submit_url = $(this).attr("submit_url");
@@ -233,6 +199,47 @@
                         toastr.error(result.messege);
                     }
                 },
+            });
+        });
+
+
+        // Purchase delete Delete
+        $(document).on('click', '.delete_brand', function(e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            var url = $(this).data("url");
+            var success_url = $(this).data("success_url");
+            var token = $("meta[name='csrf-token']").attr("content");
+
+            swal({
+                title:"Are You Sure Delete this?",
+                // text: " ",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then(willDelete => {
+                if (willDelete) {
+                    $.ajax(
+                        {
+                            url: url,
+                            success_url:success_url,
+                            type: 'DELETE',
+                            data: {
+                                _token: token,
+                                id: id
+                            },
+                            success: function(result) {
+                                if (result.success == true) {
+                                    toastr.success(result.messege);
+                                    // setTimeout(function(){
+                                    location.reload(success_url);
+                                    // },  2000);
+                                } else {
+                                    toastr.error(result.messege);
+                                }
+                            },
+                        });
+                }
             });
         });
     </script>

@@ -102,7 +102,9 @@ class PurchaseController extends Controller
 
         return redirect()->route('purchase.index')->with($output);
     }
-
+public function  edit($id){
+    $purchase  = Purchase::find($id);
+}
     public function  show($id){
             $purchase = Purchase::where('id',$id)->first();
         return view($this->path.'show',compact('purchase'));
@@ -142,7 +144,28 @@ class PurchaseController extends Controller
     }
 
     public function  viewPayment($id){
-        $payment = Payment::where('purchase_id',$id)->get();
-        return $payment;
+        $purchase = Purchase::find($id);
+        $payments = Payment::where('purchase_id',$id)->get();
+          return view($this->path.'payment_list',compact('payments','purchase'));
+    }
+
+    public  function  delete($id){
+        $purchase  = Purchase::find($id);
+       $purchase_products  =  ProductPurchase::where('purchase_id',$purchase->id)->get();
+       foreach ($purchase_products as $productPurcahse){
+           $product = Product::where('id',$productPurcahse->product_id)->first();
+           $product->quantity -= $productPurcahse->qty;
+           $product->save();
+           $productPurcahse->delete();
+       }
+       $payments = Payment::where('purchase_id',$purchase->id)->get();
+        foreach ($payments as $payment){
+            $payment->delete();
+        }
+        $purchase->delete();
+        $output = ['success' => true,
+            'messege'            => "Purchase Delete  success",
+        ];
+        return $output;
     }
 }
