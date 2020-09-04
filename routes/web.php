@@ -123,7 +123,7 @@ Route::group(['prefix'=>'purchase','as'=>'purchase.'],function (){
         Route::delete('delete/{id}','PurchaseController@delete')->name('delete');
 });
 
-Route::delete('payment/delete/{id}','PaymentController@delete')->name('delete');
+Route::get('payment/delete/{id}','PaymentController@delete')->name('delete');
 
 
 Route::group(['prefix'=>'setting','as'=>'setting.'],function (){

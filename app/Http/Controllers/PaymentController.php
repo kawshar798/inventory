@@ -12,6 +12,9 @@ class PaymentController extends Controller
 
     public function  delete($id){
         $payment = Payment::find($id);
+        $purchase = Purchase::where('id',$payment->purchase_id)->first();
+        $purchase->paid_amount =   $purchase->paid_amount- $payment->amount;
+        $purchase->save();
         $payment->delete();
         $output = ['success' => true,
             'messege'            => "Payment Delete  success",

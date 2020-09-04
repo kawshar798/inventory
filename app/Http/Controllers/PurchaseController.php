@@ -121,26 +121,44 @@ public function  edit($id){
               $purchase->payment_status = 2;
           }
           $purchase->save();
-          $payment = new Payment();
+
+
+          if($request->payment_id){
+              $payment =  Payment::where('id',$request->payment_id)->first();
+          }else{
+              $payment = new Payment();
+          }
           $payment->purchase_id = $purchase->id;
-          $payment->payment_reference = 'PP' . date("Ymd") . '/'. date("his");
+          if($payment->payment_reference){
+              $payment->payment_reference =  $payment->payment_reference;
+
+          }else{
+              $payment->payment_reference = 'PP' . date("Ymd") . '/'. date("his");
+
+          }
           $payment->user_id = Auth::id();
           $payment->cheque_number = $request->cheque_number;
           $payment->amount = $request->amount;
           $payment->paying_method = $request->paying_method;
           $payment->note = $request->note;
+
           $payment->save();
           DB::commit();
-          $output = ['success' => true,
-              'messege'            => "Payment   success",
-          ];
+          if($request->payment_id){
+              $output = ['success' => true,
+                  'messege'            => "Payment  Update  success",
+              ];
+          }else{
+              $output = ['success' => true,
+                  'messege'            => "Payment   success",
+              ];
+          }
+
           return $output;
       }catch (\Exception $e){
           DB::rollBack();
           return $e->getMessage();
       }
-
-
     }
 
     public function  viewPayment($id){
