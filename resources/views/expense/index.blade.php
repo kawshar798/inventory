@@ -23,7 +23,7 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#myModal">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#showModal" id="create-new-expense">
                         Expense Create
                     </button>
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -47,124 +47,90 @@
                                 <td>{{$expense->date}}</td>
                                 <td>{{$expense->month}}</td>
                                 <td>
-                                    <a href="{{route('brand.edit',$expense->id)}}" class="btn btn-primary" data-toggle="modal" data-target="#editModal-{{$expense->id}}"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deletebrand({{ $expense->id }})"><i class="fa fa-trash"></i></a>
-
-                                    <form id="delete-brand-{{ $expense->id }}" action="{{route('brand.delete',$expense->id)}}" method="post" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
+                                    <button type="button"
+                                            data-amount="{{$expense->amount}}"
+                                            data-note="{{$expense->note}}"
+                                            data-id="{{$expense->id}}"
+                                            data-expense_category="{{$expense->expense_category}}"
+                                            class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#showModal">
+                                        Edit</i>
+                                    </button>
+                                    <button
+                                        data-success_url="{{url('expense/category')}}"
+                                        data-token="{{ csrf_token() }}"
+                                        data-url="{{ url('expense/category/delete', $expense->id) }}"
+                                        data-id="{{ $expense->id }}"
+                                        class="btn btn-danger delete_brand"
+                                        title="Delete">Delete</button>
                                 </td>
-
                             </tr>
-
                             <!-- Edit  Brand -->
-                            <div class="modal" id="editModal-{{$expense->id}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit  Brand</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <form action="{{route('brand.update')}}" method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="hidden" class="form-control"  value="{{$expense->id}}" name="id">
-                                                <div class="form-group">
-                                                    <label class="col-form-label">Brand Name</label>
-                                                    <input type="text" class="form-control"  placeholder="Enter Brand  Name" name="name" value="{{$expense->name}}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-form-label">Brand Logo</label>
-                                                    <input type="file" class="form-control"  placeholder="Enter Brand  Logo" name="logo" value="{{$expense->logo}}">
-                                                    @if($expense->logo)
-                                                        <img src="{{asset($expense->logo)}}" alt="{{$expense->name}}" style="width: 100px;height: 100px;"/>
-                                                    @endif
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-form-label">Brand Status</label>
-                                                    <select name="status" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="Active" @isset($expense->status){{$expense->status=='Active'?'Selected' : ''}} @endif >Active</option>
-                                                        <option value="Inactive" @isset($expense->status){{$expense->status=='Inactive'?'Selected' : ''}} @endif >Inactive</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div>
-                                                        <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                                            Submit
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                         </tbody>
                     </table>
 
                 </div>
 
-                <!-- Create  Brand -->
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
 
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Create Expense</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <form action="{{route('expense.store')}}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label class="col-form-label">Expense  Details</label>
-                                     <textarea class="form-control" rows="5" cols="10" name="details"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">Amount</label>
-                                        <input type="text" class="form-control"  placeholder="Enter Expense Amount" name="amount">
-                                    </div>
-                               <input type="hidden" name="date" value="{{date("d/m/y")}}">
-                               <input type="hidden" name="month" value="{{date("F")}}">
-                                    <div class="form-group">
-                                        <div>
-                                            <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                                Submit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-
+    <div class="modal" id="showModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                </tbody>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitile"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form class="ajax-form-submit"   id="k" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" class="success_url" value="{{url('expense/category')}}">
+                    <input type="hidden" class="submit_url" value="{{url('expense/store')}}">
+                    <input type="hidden" class="method" value="POST">
+                    <input type="hidden" class="id" name="id" value="">
+                @csrf
+                    <input type="hidden" name="date" value="{{date("d/m/y")}}">
+                    <input type="hidden" name="month" value="{{date("F")}}">
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label">Expense Category</label>
+                            <div class="col-sm-9">
+                                <span id="msg"></span>
+                                <select name="expense_category" class="form-control model_expense_category">
+                                    <option value="">Select One</option>
+                                    @foreach($expense_categories as $expenseCat)
+                                        <option value={{$expenseCat->id}}>{{$expenseCat->name}}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label">Expense Amount</label>
+                            <div class="col-sm-9">
+                                <input class="form-control modal_amount"  type="number" placeholder="Expense  Amount" name="amount">
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label">Note</label>
+                            <div class="col-sm-9">
+                                <textarea name="note" class="form-control note_modal"></textarea>
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger close_btn" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-save"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('footerScripts')
     @parent
@@ -176,39 +142,58 @@
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset('assets/pages/datatables.init.js')}}"></script>
-    <script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
-    <script type="text/javascript">
-        function deletebrand(id) {
-            swal({
-                title: 'Are you sure delete this Brand?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger mr-2',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    event.preventDefault();
-                    document.getElementById('delete-brand-'+id).submit();
-                } else if (
-                    // Read more about handling dismissals
-                    result.dismiss === swal.DismissReason.cancel
-                ) {
-                    swal(
-                        'Cancelled',
-                        'Your data is safe :)',
-                        'error'
-                    )
-                }
-            })
-        }
-    </script>
 
+<script>
+    //Create new expense category
+    $('#create-new-expense').on('click',function (e) {
+        e.preventDefault();
+        $("#modalTitile").html("Create New Expense ");
+        $(".btn-save").html("New Expense");
+        $("#showModal").show();
+    });
+
+    //Store Expense
+    $(document).on('submit', '.ajax-form-submit', function(e) {
+        e.preventDefault();
+        var submit_url = $(this).attr("submit_url");
+        var success_url = $(this).attr("success_url");
+        var fd = new FormData(document.getElementById("k"));
+        $.ajax({
+            method: 'POST',
+            url:"{{url('expense/store')}}",
+            data:fd,
+            processData: false,
+            contentType: false,
+            success: function(result) {
+                if (result.success == true) {
+                    $('#addFees').modal('hide');
+                    toastr.success(result.messege);
+                    location.reload(success_url);
+                } else {
+                    toastr.error(result.messege);
+                }
+            },
+        });
+    });
+
+    /*  When user click Edit user button */
+    $('.edit-btn').on('click', function (e) {
+        e.preventDefault();
+        console.log('kk');
+        var id        = $(this).data("id");
+        var amount    = $(this).data("amount");
+        var note      = $(this).data("note");
+        var expense_category    = $(this).data("expense_category");
+        $('.model_expense_category').val(expense_category);
+        $('.note_modal').val(note);
+        $('.modal_amount').val(amount);
+        $('.id').val(id);
+        $('.k').trigger("reset");
+        $('#modalTitile').html("Edit Category Expense");
+        $('.btn-save').html("Update Category Expense");
+        $("#showModal").show();
+    });
+
+</script>
 
 @stop

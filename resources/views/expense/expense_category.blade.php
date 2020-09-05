@@ -162,7 +162,7 @@
             },
         });
     });
-    // Brand Expense Category
+    //  Expense Category
     $(document).on('click', '.delete_brand', function(e) {
         e.preventDefault();
         var id = $(this).data("id");
