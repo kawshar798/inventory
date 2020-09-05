@@ -23,94 +23,41 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#myModal">
-                        Expense Create
+{{--                    <a href="javascript:void(0)" class="btn btn-success mb-2" id="create-new-expense-category">Create Expense Category</a>--}}
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#showModal" id="create-new-expense-category">
+                        Create Expense Category
                     </button>
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
                             <th>S.L</th>
-                            <th>Details</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Month</th>
+                            <th>Name</th>
                             <th>Action</th>
-
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($expenses as $index=>$expense)
+                        @foreach($expenses_Categories as $index=>$expense)
                             <tr>
                                 <td>{{++$index}}</td>
-                                <td>{{$expense->details}}</td>
-                                <td>{{$expense->amount}}</td>
-                                <td>{{$expense->date}}</td>
-                                <td>{{$expense->month}}</td>
+                                <td>{{$expense->name}}</td>
                                 <td>
-                                    <a href="{{route('brand.edit',$expense->id)}}" class="btn btn-primary" data-toggle="modal" data-target="#editModal-{{$expense->id}}"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deletebrand({{ $expense->id }})"><i class="fa fa-trash"></i></a>
+                                    <button type="button"
+                                            data-name="{{$expense->name}}"
+                                            data-id="{{$expense->id}}"
+                                            class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#showModal">
+                                        Edit</i>
+                                    </button>
+                                    <button
+                                        data-success_url="{{url('expense/category')}}"
+                                        data-token="{{ csrf_token() }}"
+                                        data-url="{{ url('expense/category/delete', $expense->id) }}"
+                                        data-id="{{ $expense->id }}"
+                                        class="btn btn-danger delete_brand"
+                                              title="Delete">Delete</button>
 
-                                    <form id="delete-brand-{{ $expense->id }}" action="{{route('brand.delete',$expense->id)}}" method="post" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
                                 </td>
 
                             </tr>
-
-                            <!-- Edit  Brand -->
-                            <div class="modal" id="editModal-{{$expense->id}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit  Brand</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <form action="{{route('brand.update')}}" method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="hidden" class="form-control"  value="{{$expense->id}}" name="id">
-                                                <div class="form-group">
-                                                    <label class="col-form-label">Brand Name</label>
-                                                    <input type="text" class="form-control"  placeholder="Enter Brand  Name" name="name" value="{{$expense->name}}">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-form-label">Brand Logo</label>
-                                                    <input type="file" class="form-control"  placeholder="Enter Brand  Logo" name="logo" value="{{$expense->logo}}">
-                                                    @if($expense->logo)
-                                                        <img src="{{asset($expense->logo)}}" alt="{{$expense->name}}" style="width: 100px;height: 100px;"/>
-                                                    @endif
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-form-label">Brand Status</label>
-                                                    <select name="status" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="Active" @isset($expense->status){{$expense->status=='Active'?'Selected' : ''}} @endif >Active</option>
-                                                        <option value="Inactive" @isset($expense->status){{$expense->status=='Inactive'?'Selected' : ''}} @endif >Inactive</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div>
-                                                        <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                                            Submit
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                         </tbody>
                     </table>
@@ -118,53 +65,46 @@
                 </div>
 
                 <!-- Create  Brand -->
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
 
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Create Expense</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <form action="{{route('expense.store')}}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label class="col-form-label">Expense  Details</label>
-                                        <textarea class="form-control" rows="5" cols="10" name="details"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label">Amount</label>
-                                        <input type="text" class="form-control"  placeholder="Enter Expense Amount" name="amount">
-                                    </div>
-                                    <input type="hidden" name="date" value="{{date("d/m/y")}}">
-                                    <input type="hidden" name="month" value="{{date("F")}}">
-                                    <div class="form-group">
-                                        <div>
-                                            <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                                Submit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-
+    <!-- The Modal for Create -->
+    <div class="modal" id="showModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                </tbody>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitile"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form class="ajax-form-submit"   id="k" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" class="success_url" value="{{url('expense/category')}}">
+                    <input type="hidden" class="submit_url" value="{{url('expense/category/store')}}">
+                    <input type="hidden" class="method" value="POST">
+                    <input type="hidden" class="id" name="id" value="">
+                @csrf
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input class="form-control name_modal"  type="text" placeholder="Expense Category Name" name="name">
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger close_btn" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-save"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('footerScripts')
     @parent
@@ -176,39 +116,94 @@
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset('assets/pages/datatables.init.js')}}"></script>
-    <script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
-    <script type="text/javascript">
-        function deletebrand(id) {
-            swal({
-                title: 'Are you sure delete this Brand?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger mr-2',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    event.preventDefault();
-                    document.getElementById('delete-brand-'+id).submit();
-                } else if (
-                    // Read more about handling dismissals
-                    result.dismiss === swal.DismissReason.cancel
-                ) {
-                    swal(
-                        'Cancelled',
-                        'Your data is safe :)',
-                        'error'
-                    )
+
+<script>
+    //Create new expense category
+    $('#create-new-expense-category').on('click',function (e) {
+        e.preventDefault();
+        $("#modalTitile").html("Create New Expense Category");
+        $(".btn-save").html("New Expense Category");
+        $("#showModal").show();
+    });
+    /*  When user click Edit user button */
+    $('.edit-btn').on('click', function (e) {
+        e.preventDefault();
+        console.log('kk');
+        var id        = $(this).data("id");
+        var name    = $(this).data("name");
+        $('.name_modal').val(name);
+        $('.id').val(id);
+        $('.k').trigger("reset");
+        $('#modalTitile').html("Edit Category Expense");
+        $('.btn-save').html("Update Category Expense");
+        $("#showModal").show();
+    });
+
+    //Store Expense Category
+    $(document).on('submit', '.ajax-form-submit', function(e) {
+        e.preventDefault();
+        var submit_url = $(this).attr("submit_url");
+        var success_url = $(this).attr("success_url");
+        var fd = new FormData(document.getElementById("k"));
+        $.ajax({
+            method: 'POST',
+            url:"{{url('expense/category/store')}}",
+            data:fd,
+            processData: false,
+            contentType: false,
+            success: function(result) {
+                if (result.success == true) {
+                    $('#addFees').modal('hide');
+                    toastr.success(result.messege);
+                    location.reload(success_url);
+                } else {
+                    toastr.error(result.messege);
                 }
-            })
-        }
-    </script>
+            },
+        });
+    });
+    // Brand Expense Category
+    $(document).on('click', '.delete_brand', function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        var url = $(this).data("url");
+        var success_url = $(this).data("success_url");
+        var token = $("meta[name='csrf-token']").attr("content");
+
+        swal({
+            title:"Are You Sure Delete this?",
+            // text: " ",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if (willDelete) {
+                $.ajax(
+                    {
+                        url: url,
+                        success_url:success_url,
+                        type: 'DELETE',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function(result) {
+                            if (result.success == true) {
+                                toastr.success(result.messege);
+                                // setTimeout(function(){
+                                location.reload(success_url);
+                                // },  2000);
+                            } else {
+                                toastr.error(result.messege);
+                            }
+                        },
+                    });
+            }
+        });
+    });
+
+
+</script>
 
 
 @stop
