@@ -49,4 +49,15 @@ class ExpenseController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function  delete($id)
+    {
+        $expense = Expense::find($id);
+        $expense->delete();
+        DB::commit();
+        $output = ['success' => true,
+            'messege'            => "Expense Delete Success",
+        ];
+        return $output;
+    }
 }

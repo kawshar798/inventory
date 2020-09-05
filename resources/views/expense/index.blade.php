@@ -30,10 +30,10 @@
                         <thead>
                         <tr>
                             <th>S.L</th>
-                            <th>Details</th>
-                            <th>Amount</th>
                             <th>Date</th>
-                            <th>Month</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Note</th>
                             <th>Action</th>
 
                         </tr>
@@ -42,10 +42,10 @@
                         @foreach($expenses as $index=>$expense)
                             <tr>
                                 <td>{{++$index}}</td>
-                                <td>{{$expense->details}}</td>
-                                <td>{{$expense->amount}}</td>
                                 <td>{{$expense->date}}</td>
-                                <td>{{$expense->month}}</td>
+                                <td>{{$expense->expense_category}}</td>
+                                <td>{{number_format($expense->amount,2)}}</td>
+                                <td>{{$expense->note}}</td>
                                 <td>
                                     <button type="button"
                                             data-amount="{{$expense->amount}}"
@@ -56,9 +56,9 @@
                                         Edit</i>
                                     </button>
                                     <button
-                                        data-success_url="{{url('expense/category')}}"
+                                        data-success_url="{{url('expense')}}"
                                         data-token="{{ csrf_token() }}"
-                                        data-url="{{ url('expense/category/delete', $expense->id) }}"
+                                        data-url="{{ url('expense/delete', $expense->id) }}"
                                         data-id="{{ $expense->id }}"
                                         class="btn btn-danger delete_brand"
                                         title="Delete">Delete</button>
@@ -142,7 +142,6 @@
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset('assets/pages/datatables.init.js')}}"></script>
-
 <script>
     //Create new expense category
     $('#create-new-expense').on('click',function (e) {
@@ -192,6 +191,44 @@
         $('#modalTitile').html("Edit Category Expense");
         $('.btn-save').html("Update Category Expense");
         $("#showModal").show();
+    });
+    $(document).on('click', '.delete_brand', function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        var url = $(this).data("url");
+        var success_url = $(this).data("success_url");
+        var token = $("meta[name='csrf-token']").attr("content");
+
+        swal({
+            title:"Are You Sure Delete this?",
+            // text: " ",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if (willDelete) {
+                $.ajax(
+                    {
+                        url: url,
+                        success_url:success_url,
+                        type: 'DELETE',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function(result) {
+                            if (result.success == true) {
+                                toastr.success(result.messege);
+                                // setTimeout(function(){
+                                location.reload(success_url);
+                                // },  2000);
+                            } else {
+                                toastr.error(result.messege);
+                            }
+                        },
+                    });
+            }
+        });
     });
 
 </script>

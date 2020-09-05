@@ -55,6 +55,5 @@ class ExpenseCategoryController extends Controller
             'messege'            => "Expense Category  Delete Success",
         ];
         return $output;
-
     }
 }
