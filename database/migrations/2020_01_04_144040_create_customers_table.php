@@ -17,10 +17,10 @@ class CreateCustomersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone')->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->string('photo')->nullable();
             $table->string('shop')->nullable();
             $table->string('account_holder')->nullable();

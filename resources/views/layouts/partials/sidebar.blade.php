@@ -43,13 +43,13 @@
                         <li><a href="{{route('expense.category.index')}}">Expense Category</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Return <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                    <ul class="submenu">
-                        <li><a href="{{route('expense.index')}}">Sale</a></li>
-                        <li><a href="{{route('expense.index')}}">Purchase </a></li>
-                    </ul>
-                </li>
+{{--                <li>--}}
+{{--                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Return <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>--}}
+{{--                    <ul class="submenu">--}}
+{{--                        <li><a href="{{route('expense.index')}}">Sale</a></li>--}}
+{{--                        <li><a href="{{route('expense.index')}}">Purchase </a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
 
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> People <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
@@ -59,16 +59,23 @@
                         <li><a href="{{route('customer.index')}}">Customer</a></li>
                     </ul>
                 </li>
+{{--                <li>--}}
+{{--                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> HRM <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>--}}
+{{--                    <ul class="submenu">--}}
+{{--                        <li><a href="{{route('salary.advanced.add')}}">Add Advanced Salary</a></li>--}}
+{{--                        <li><a href="{{route('salary.advanced.all')}}">All Advanced Salary</a></li>--}}
+{{--                        <li><a href="{{route('salary.pay')}}">Pay Salary</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> HRM <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Reports <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        <li><a href="{{route('salary.advanced.add')}}">Add Advanced Salary</a></li>
-                        <li><a href="{{route('salary.advanced.all')}}">All Advanced Salary</a></li>
-                        <li><a href="{{route('salary.pay')}}">Pay Salary</a></li>
+                        <li><a href="{{route('employee.index')}}">Employee</a></li>
+                        <li><a href="{{route('supplier.index')}}">Suppliers</a></li>
+                        <li><a href="{{route('customer.index')}}">Customer</a></li>
                     </ul>
                 </li>
-
-
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Setting <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
