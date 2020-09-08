@@ -113,6 +113,28 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <form action="" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control select2">
+                                        <option >Select Customer</option>
+                                        @foreach($customers as $customer)
+                                            <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control select2"   onchange="forSelectPro()" id="product">
+                                        <option>Select Product</option>
+                                        @foreach($products as $product)
+                                            <option value="{{$product->id}}">{{$product->name}}</option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="product_order_summary_table">
                             <table class="table table-striped- table-bordered table-hover table-checkable"
                                    id="kt_table_1">
@@ -184,21 +206,6 @@
                     </div>
 
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <div id="order-discount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
                             <div role="document" class="modal-dialog">
                                 <div class="modal-content">
@@ -300,7 +307,7 @@
                 </div>
                 <div class="col-md-6">
                     <select class="form-control" onchange="myFunction()" id="brand">
-                        <option value="all">All Categories</option>
+                        <option value="all">All Brand</option>
                         @foreach($brands as $brand)
                             <option value="{{$brand->id}}">{{$brand->name}}</option>
                         @endforeach
@@ -327,7 +334,12 @@
 
     <script>
 
+        $(document).ready(function () {
+            $('#product').focus();
+            $('.select2').select2();
 
+
+        });
         function myFunction() {
             var categoryId = $('#category :selected').val();
             var brandId = $('#brand :selected').val();
@@ -370,6 +382,14 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
 
             });
         }
+
+        //click the product from product list
+        function forSelectPro() {
+
+            var productID = $('#product :selected').val();
+            alert(productID);
+            forSearchPur(productID);
+        }
         //click the product from product gallery
         function productAdd(id) {
             forSearchPur(id);
@@ -378,6 +398,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         //get the product
         function forSearchPur(id = 0) {
             // debugger
+            console.log(id);
             var flus = false;
             var proId = id;
             if (proId == 0) {
