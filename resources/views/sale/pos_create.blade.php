@@ -114,15 +114,20 @@
                 <div class="card-body">
                     <form action="" method="POST">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
-                                    <select class="form-control select2">
+                                    <select class="form-control select2 customer_id" name="customer_id" id="cusotmer_list_show">
                                         <option >Select Customer</option>
-                                        @foreach($customers as $customer)
-                                            <option value="{{$customer->id}}">{{$customer->name}}</option>
-                                        @endforeach
+{{--                                        @foreach($customers as $customer)--}}
+{{--                                            <option value="{{$customer->id}}">{{$customer->name}}</option>--}}
+{{--                                        @endforeach--}}
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#showModal" id="create-new-expense">
+                                    <i class="fa fa-plus-circle"></i>
+                                </button>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -206,22 +211,8 @@
                     </div>
 
                         </div>
-                        <div id="order-discount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
-                            <div role="document" class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Order Discount</h5>
-                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input type="text" name="order_discount" class="form-control numkey" >
-                                        </div>
-                                        <button type="button" name="order_discount_btn"  class="btn btn-primary" data-dismiss="modal">Discount</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+
                         <!-- coupon modal -->
 {{--                        <div id="coupon-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">--}}
 {{--                            <div role="document" class="modal-dialog">--}}
@@ -284,13 +275,6 @@
                         </div>
 
 
-
-
-
-
-
-
-
                     </form>
                 </div>
             </div>
@@ -317,17 +301,68 @@
 
             <div class="row" id="products">
             </div>
-{{--            @forelse($products as $product)--}}
-
-{{--            @empty--}}
-
-{{--            @endforelse--}}
 
 
 
         </div> <!-- end col -->
     </div> <!-- end row -->
 
+
+    <div class="modal" id="showModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                </tbody>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitile"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form class="ajax-form-submit"   id="k" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" class="success_url" value="{{url('customer')}}">
+                    <input type="hidden" class="submit_url" value="{{url('customer/create')}}">
+                    <input type="hidden" class="method" value="POST">
+                    <input type="hidden" class="id" name="id" value="">
+                @csrf
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label"> Name</label>
+                            <div class="col-sm-9">
+                                <input class="form-control modal_name"  type="text" placeholder="Expense  Amount" name="name">
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label"> Email</label>
+                            <div class="col-sm-9">
+                                <input class="form-control modal_email"  type="email" placeholder="Expense  Email" name="email">
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label"> Phone</label>
+                            <div class="col-sm-9">
+                                <input class="form-control modal_phone"  type="text" placeholder="Enter Customer Phone" name="phone">
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-sm-3 col-form-label">Address</label>
+                            <div class="col-sm-9">
+                                <textarea name="address" class="form-control address_modal"></textarea>
+                                <span id="msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger close_btn" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-save"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('footerScripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -337,9 +372,50 @@
         $(document).ready(function () {
             $('#product').focus();
             $('.select2').select2();
-
-
         });
+        //new Customer Add
+        $('#create-new-expense').on('click',function (e) {
+            e.preventDefault();
+            $("#modalTitile").html("Create New Customer ");
+            $(".btn-save").html("New Customer");
+            $("#showModal").show();
+            $('.k').trigger("reset");
+        });
+        // $('.btn-save').on('click',function (e) {
+        //     // e.preventDefault();
+        //     $('#k').trigger("reset");
+        //     // $("form").trigger("reset");
+        // });
+
+
+        $(document).on('submit', '.ajax-form-submit', function(e) {
+            e.preventDefault();
+            var submit_url = $(this).attr("submit_url");
+            var success_url = $(this).attr("success_url");
+            var fd = new FormData(document.getElementById("k"));
+            $.ajax({
+                method: 'POST',
+                url:"{{url('customer/create')}}",
+                data:fd,
+                processData: false,
+                contentType: false,
+                success: function(result) {
+                    $("#showModal").modal('hide');
+                    if (result.success == true) {
+                        $("#showModal").hide();
+                        toastr.success(result.messege);
+                        getCustomer()
+                        $('#k').trigger("reset");
+                        // location.reload(success_url);
+                    } else {
+                        toastr.error(result.messege);
+                    }
+                },
+            });
+        });
+
+
+        //Category and brand wise data
         function myFunction() {
             var categoryId = $('#category :selected').val();
             var brandId = $('#brand :selected').val();
@@ -382,18 +458,33 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
 
             });
         }
-
+        getCustomer()
         //click the product from product list
         function forSelectPro() {
-
             var productID = $('#product :selected').val();
-            alert(productID);
+            // alert(productID);
             forSearchPur(productID);
         }
+        // $(document).ready(function() {
+
+            function getCustomer(){
+                $.ajax({
+                    url: "pos/all/customer",
+                    method: 'get',
+                    success: function (data) {
+                        $.each(data, function (index, value) {
+                            var html =    '<option value="'+ value.id +'">'+ value.name +'</option>'
+                            $("#cusotmer_list_show").append(html);
+                        });
+                    }
+                })
+            }
+
         //click the product from product gallery
         function productAdd(id) {
             forSearchPur(id);
         }
+
         var ids = [];
         //get the product
         function forSearchPur(id = 0) {

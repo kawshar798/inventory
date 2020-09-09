@@ -44,4 +44,10 @@ class PosController extends Controller
         $products = Product::where('id',$id)->first();
         return $products;
     }
+    public function  allCustomerList(){
+        $customers = Customer::get();
+        return $customers;
+    }
+
+
 }

@@ -110,6 +110,7 @@ Route::group(['prefix'=>'pos','as'=>'pos.'],function (){
 });
 
 Route::get('subcategory/show/{id}','ProductController@showSubcat');
+Route::get('pos/all/customer','PosController@allCustomerList');
 //setting
 
 Route::group(['prefix'=>'purchase','as'=>'purchase.'],function (){
