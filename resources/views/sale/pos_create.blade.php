@@ -179,10 +179,10 @@
                         </div>
                         <div class="col-sm-4">
                             <span class="summary_title">Coupon
-                                  <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#order-discountd">
+                                  <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#order-coupon">
                                 <i class="fas fa-pencil-alt"></i></button>
                             </span>
-                            <span  id="item">0</span>
+                            <span  id="coupon_item_value">0</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="summary_title"> Tax
@@ -209,27 +209,49 @@
                          </div>
                         </div>
                     </div>
-
                         </div>
 
 
-                        <!-- coupon modal -->
-{{--                        <div id="coupon-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">--}}
-{{--                            <div role="document" class="modal-dialog">--}}
-{{--                                <div class="modal-content">--}}
-{{--                                    <div class="modal-header">--}}
-{{--                                        <h5 class="modal-title">{{trans('file.Coupon Code')}}</h5>--}}
-{{--                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="modal-body">--}}
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="text" id="coupon-code" class="form-control" placeholder="Type Coupon Code...">--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" class="btn btn-primary coupon-check" data-dismiss="modal">{{trans('file.submit')}}</button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        <div id="order-coupon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+                            <div role="document" class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Coupon</h5>
+                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="k">
+                                            <div class="form-group">
+                                                <input type="text" name="coupon">
+                                                <input type="hidden" name="coupon_amount" id="coupon_amount">
+                                            </div>
+                                        </form>
+
+                                        <button type="button" name="coupon_btn" class="btn btn-primary" data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <!-- order Discount -->
+                        <div id="order-discount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+                            <div role="document" class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Order Discount</h5>
+                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input type="number" name="order_discount">
+                                        </div>
+                                        <button type="button" name="order_discount_btn" class="btn btn-primary" data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- order_tax modal -->
                         <div id="order-tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
                             <div role="document" class="modal-dialog">
@@ -255,7 +277,6 @@
                             </div>
                         </div>
 
-
                         <!-- shipping_cost modal -->
                         <div id="shipping-cost-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
                             <div role="document" class="modal-dialog">
@@ -273,8 +294,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -381,13 +400,6 @@
             $("#showModal").show();
             $('.k').trigger("reset");
         });
-        // $('.btn-save').on('click',function (e) {
-        //     // e.preventDefault();
-        //     $('#k').trigger("reset");
-        //     // $("form").trigger("reset");
-        // });
-
-
         $(document).on('submit', '.ajax-form-submit', function(e) {
             e.preventDefault();
             var submit_url = $(this).attr("submit_url");
@@ -414,7 +426,6 @@
             });
         });
 
-
         //Category and brand wise data
         function myFunction() {
             var categoryId = $('#category :selected').val();
@@ -429,7 +440,7 @@
                 success: function (data) {
                     var html = "";
                     $.each(data, function (index, value) {
-                        console.log(value.name);
+
 html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + value.id + ")\">\n" +
     "                    <div class=\"product-box\">\n" +
     "                        <div class=\"prodcut_img\">\n" +
@@ -459,14 +470,16 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             });
         }
         getCustomer()
+
+
         //click the product from product list
         function forSelectPro() {
             var productID = $('#product :selected').val();
             // alert(productID);
             forSearchPur(productID);
         }
-        // $(document).ready(function() {
 
+     //Get all customer
             function getCustomer(){
                 $.ajax({
                     url: "pos/all/customer",
@@ -489,7 +502,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         //get the product
         function forSearchPur(id = 0) {
             // debugger
-            console.log(id);
+            // console.log(id);
             var flus = false;
             var proId = id;
             if (proId == 0) {
@@ -507,7 +520,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
                         alert("Stock Out");
                     } else {
                         //check if id have in array product quantity price  is ++
-                        console.log(data);
+                        // console.log(data);
                         var index = ids.indexOf(data.id);
                         flus = index != -1 ? true : false;
                         // $(".data option:selected").prop("selected", false)
@@ -571,6 +584,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             totalPur();
         });
 
+
         //Shipping Cost
         $('button[name="shipping_cost_btn"]').on("click", function() {
             totalPur();
@@ -579,6 +593,35 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         $('button[name="order_tax_btn"]').on("click", function() {
             totalPur();
         });
+
+        // $('button[name="coupon_btn"]').on("click", function() {
+        //
+        // });
+
+//change copon code
+        $('input[name="coupon"]').on("change", function() {
+
+            var fd =  $('input[name="coupon"]').val();
+
+            $.ajax({
+                url: "check/coupon-code/"+fd,
+                data:fd,
+                method: 'get',
+                success: function (data) {
+                    if ( data.error == true) {
+                        // toastr.success('sadjfklsdjslkdf');
+
+                        toastr.error('Invalid Coupon code');
+                    } else {
+                        $('#coupon_amount').val(data);
+                        $("#order-coupon").modal('hide');
+                        totalPur();
+                    }
+                }
+            })
+
+
+        });
         //total product price
         function totalPur() {
             var total = 0;
@@ -586,6 +629,8 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             var order_discount = parseFloat($('input[name="order_discount"]').val());
             var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
             var order_tax = parseFloat($('select[name="order_tax_rate_select"]').val());
+            var coupon_amount = parseFloat($('#coupon_amount').val());
+
         // debugger
             if (!order_discount)
                 order_discount = 0.00;
@@ -593,9 +638,11 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             if (!shipping_cost)
                 shipping_cost = 0.00;
             $("#shippingcost").text(shipping_cost.toFixed(2));
-
             if (!order_tax)
                 order_tax = 0.00;
+            if(!coupon_amount)
+                coupon_amount = 0.00;
+            $("#coupon_item_value").text(coupon_amount.toFixed(2));
 
             $.each(ids, function (index, value) {
                 var subPrice = parseFloat($("#proSubPrice-" + value).text());
@@ -605,7 +652,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             });
             order_tax = (total - order_discount) * (order_tax / 100);
             $("#tax").text(order_tax.toFixed(2));
-            var grandTotal = (total + shipping_cost + order_tax) - order_discount;
+            var grandTotal = (total + shipping_cost + order_tax) - order_discount - coupon_amount;
             $("#totalPrice").text(parseFloat(total));
             $("#grandtotalPrice").text(parseFloat(grandTotal));
             $("#total_item").text(parseInt(item));

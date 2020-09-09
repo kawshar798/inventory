@@ -110,9 +110,13 @@ Route::group(['prefix'=>'pos','as'=>'pos.'],function (){
 });
 
 Route::get('subcategory/show/{id}','ProductController@showSubcat');
-Route::get('pos/all/customer','PosController@allCustomerList');
-//setting
+//get all customer for pos
 
+Route::get('pos/all/customer','PosController@allCustomerList');
+Route::get('check/coupon-code/{id}','PosController@checkCouponCode');
+
+
+//setting
 Route::group(['prefix'=>'purchase','as'=>'purchase.'],function (){
     //Tax Rate
         Route::get('list','PurchaseController@index')->name('index');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\TaxRate;
@@ -47,6 +48,20 @@ class PosController extends Controller
     public function  allCustomerList(){
         $customers = Customer::get();
         return $customers;
+    }
+
+    public  function  checkCouponCode($id){
+
+        $coupon = Coupon::where('code',$id)->where('status','Active')->first();
+        if($coupon){
+          return  $coupon->amount;
+        }else{
+            $output = ['error' => true,
+                'messege'            => "invalid",
+            ];
+            return $output;
+        }
+
     }
 
 
