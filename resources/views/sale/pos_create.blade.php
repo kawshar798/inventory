@@ -444,10 +444,10 @@
 html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + value.id + ")\">\n" +
     "                    <div class=\"product-box\">\n" +
     "                        <div class=\"prodcut_img\">\n" +
-    "                            <img src=\"\" />\n" +
+    "                            <img src="+ value.image+" />\n" +
     "                        </div>\n" +
-    "                        <h3 class=\"product_name\"></h3>\n" +
-    "                        <p class=\"product_price\"></p>\n" +
+    "                        <h3 class=\"product_name\">"+value.name +"</h3>\n" +
+    "                        <p class=\"product_price\">"+value.mrp +"</p>\n" +
     "                    </div>\n" +
     "                </div>"
                     //     html += "<div class=\"col-md-3 product-list\" onclick=\"productAdd(" + value.id + ")\">\n" +

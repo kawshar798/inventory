@@ -83,7 +83,9 @@
                         <li>
                             <a href="{{route('unit.index')}}" class="waves-effect">Unit</a>
                         </li>
-
+                        <li>
+                            <a href="{{route('coupon.index')}}" class="waves-effect">Coupon</a>
+                        </li>
 
                     </ul>
                 </li>

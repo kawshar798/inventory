@@ -25,7 +25,7 @@
 
                     <form class="" action="{{route('product.store')}}" method="POST" enctype="multipart/form-data" onsubmit="return bracode_validate()" >
                         @csrf
-                        <input name="id" value="{{isset($product->id)?$product->id : ''}}" />
+                        <input name="id" type="hidden" value="{{isset($product->id)?$product->id : ''}}" />
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <label>Product Name</label>
@@ -228,11 +228,12 @@
         }
 
         function generateCode() {
-            if(randomNumber){
-                return randomNumber.substring(0, 2) + (Math.floor(Math.random()*1000)+ 999);
-            }else{
-                return Math.floor(Math.random()*90000) + 10000000;
-            }
+            // if(randomNumber){
+            //     return randomNumber.substring(0, 2) + (Math.floor(Math.random()*1000)+ 999);
+            // }else{
+            //     return Math.floor(Math.random()*90000) + 10000000;
+            // }
+            return Math.floor(Math.random()*90000) + 10000000;
         }
         $(document).ready(function () {
             if($("#elm1").length > 0){

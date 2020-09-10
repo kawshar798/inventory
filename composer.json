@@ -13,8 +13,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
-        "milon/barcode": "^6.0"
-
+        "milon/barcode": "^7.0",
+        "orangehill/iseed": "2.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

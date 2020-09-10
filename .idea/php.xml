@@ -56,7 +56,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
       <path value="$PROJECT_DIR$/vendor/facade/flare-client-php" />
-      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
       <path value="$PROJECT_DIR$/vendor/facade/ignition" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/facade/ignition-contracts" />
@@ -84,9 +83,7 @@
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
-      <path value="$PROJECT_DIR$/vendor/jakub-onderka/php-console-color" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
-      <path value="$PROJECT_DIR$/vendor/jakub-onderka/php-console-highlighter" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/brian2694/laravel-toastr" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark" />
@@ -96,6 +93,14 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php70" />
       <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
       <path value="$PROJECT_DIR$/vendor/milon/barcode" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/vendor/voku/portable-ascii" />
+      <path value="$PROJECT_DIR$/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/vendor/brick/math" />
+      <path value="$PROJECT_DIR$/vendor/orangehill/iseed" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
