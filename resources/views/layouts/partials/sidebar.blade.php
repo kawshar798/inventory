@@ -52,7 +52,7 @@
 {{--                </li>--}}
 
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> People <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="fas fa-users"></i><span> People <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{route('employee.index')}}">Employee</a></li>
                         <li><a href="{{route('supplier.index')}}">Suppliers</a></li>

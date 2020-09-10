@@ -18,7 +18,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 offset-md-3">
             <div class="card m-b-30">
                 <div class="card-body">
                     @if(isset($employee->id))
@@ -26,8 +26,6 @@
                         @else
                         <h4 class="mt-0 header-title">Employee Create</h4>
                         @endif
-
-
                     <form class="" action="{{route('employee.create')}}" novalidate="" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input value="{{isset($employee->id)?$employee->id:''}}" name="id" type="hidden">

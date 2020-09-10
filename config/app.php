@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Brian2694\Toastr\ToastrServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class
 
     ],
 
