@@ -20,14 +20,14 @@ class CreateSalesTable extends Migration
             $table->integer('warehouse_id')->nullable();
             $table->integer('biller_id');
             $table->integer('item');
-            $table->double('total_qty',10,2);
+            $table->integer('total_qty');
             $table->double('total_discount',10,2);
             $table->double('total_tax',10,2);
             $table->double('total_price',10,2);
             $table->double('grand_total',10,2);
             $table->double('coupon_discount')->nullable();
             $table->double('shipping_cost')->nullable();
-            $table->integer('payment_status');
+            $table->string('payment_status');
             $table->string('document')->nullable();
             $table->double('paid_amount',10,2)->nullable();
             $table->double('due_amount',10,2)->nullable();

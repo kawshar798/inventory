@@ -112,7 +112,8 @@
         <div class="col-md-7">
             <div class="card m-b-30">
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <form action="{{url("sale/store")}}" method="POST">
+                        @csrf
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
@@ -141,7 +142,7 @@
                             </div>
                         </div>
                         <div class="product_order_summary_table">
-                            <table class="table table-striped- table-bordered table-hover table-checkable"
+                            <table class="table productTable table-striped- table-bordered table-hover table-checkable"
                                    id="kt_table_1">
                                 <thead>
                                 <tr>
@@ -164,7 +165,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <span class="summary_title">Items</span>
-                            <span  id="total_item">0</span>
+                            <span  id="total_main_item">0</span>(<span  id="total_item">0</span>)
                         </div>
                         <div class="col-sm-4">
                             <span class="summary_title">Total</span>
@@ -199,16 +200,42 @@
                             <span  id="shippingcost"></span>
                         </div>
                         <div class="col-md-12">
-                         <div class="total_summary">
+                         <div class="total_summary mt-3">
                              <div class="return">
-                                 <h5>Return <span>123</span></h5>
+                                 <h2>Grand Total: <span id="grandtotalPrice"></span></h2>
+
                              </div>
                              <div class="return">
-                                 <h2>Grand Total <span id="grandtotalPrice"></span></h2>
+                                 <label>Paid Amount</label>
+                                 <input type="text" name="paid_amount" id="paid_amount" placeholder="Paid Amount"/>
                              </div>
                          </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="total_summary">
+                                <div class="return">
+                                    <h2>Due Price: <span id="due_amount">0.00</span></h2>
+                                </div>
+                                <div class="return">
+                                    <h5>Return: <span id="return_amount">0.00</span></h5>
+                                </div>
+                                <div class="return">
+                                    <button class="btn btn-primary">Payment</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                            <input type="hidden" name="in_item" id="in_item" />
+                            <input type="hidden" name="total_qty" id="in_total_qty" />
+                            <input type="hidden" name="total_discount" id="in_total_discount" />
+                            <input type="hidden" name="total_tax" id="in_total_tax" />
+                            <input type="hidden" name="total_price" id="in_total_price" />
+                            <input type="hidden" name="grand_total" id="in_grand_total" />
+                            <input type="hidden" name="coupon_discount" id="in_coupon_discount" />
+                            <input type="hidden" name="shipping_cost" id="in_shipping_cost" />
+                            <input type="hidden" name="paid_amount" id="in_paid_amount" />
+                            <input type="hidden" name="due_amount" id="in_due_amount" />
                         </div>
 
 
@@ -385,9 +412,7 @@
 @endsection
 @section('footerScripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <script>
-
         $(document).ready(function () {
             $('#product').focus();
             $('.select2').select2();
@@ -534,7 +559,8 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
                                 '                                            <td><p id="proName" class="text-primary">' + data.name + '</p><input type="hidden" name="proId[]" value="' + data.id + '"></td>\n' +
                                 '                                            <td><input id="proQuantity-' + data.id + '" class="form-control" type="number" min="0" max="' + data.quantity + '" onchange="proMultiPur(' + data.id + ')" id="proQuantity-' + data.id + '" name="proQuantity[]" value="1"></td>\n' +
                                 '                                            <td>\n' +
-                                '                                                <div  class="form-control"><span id="proUnitPrice-' + data.id + '">' + data.mrp + '</span > </div>\n' +
+                                // '                                                <div  class="form-control"><span id="proUnitPrice-' + data.id + '">' + data.mrp + '</span > </div>\n' +
+                                '                                               <input id="proUnitPrice-' + data.id + '" class="form-control" readonly type="number" min="0"  id="proUnitPrice-' + data.id + '" value="' + data.mrp + '" name="proPrice[]">\n' +
                                 '                                            </td>\n' +
                                 '                                            <td>\n' +
                                 '                                                <div class="form-control"> <span id="proSubPrice-' + data.id + '">' + data.mrp + '</span></div>\n' +
@@ -574,7 +600,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         //multiply the product
         function proMultiPur(id) {
             var quantity = $("#proQuantity-" + id).val();
-            var price = $("#proUnitPrice-" + id).text();
+            var price = $("#proUnitPrice-" + id).val();
             var subPrice = quantity * price;
             $("#proSubPrice-" + id).text(subPrice);
             totalPur();
@@ -583,8 +609,6 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
         $('button[name="order_discount_btn"]').on("click", function() {
             totalPur();
         });
-
-
         //Shipping Cost
         $('button[name="shipping_cost_btn"]').on("click", function() {
             totalPur();
@@ -600,9 +624,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
 
 //change copon code
         $('input[name="coupon"]').on("change", function() {
-
             var fd =  $('input[name="coupon"]').val();
-
             $.ajax({
                 url: "check/coupon-code/"+fd,
                 data:fd,
@@ -610,7 +632,6 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
                 success: function (data) {
                     if ( data.error == true) {
                         // toastr.success('sadjfklsdjslkdf');
-
                         toastr.error('Invalid Coupon code');
                     } else {
                         $('#coupon_amount').val(data);
@@ -619,9 +640,12 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
                     }
                 }
             })
-
-
         });
+
+        $("#paid_amount").on("keyup",function(){
+            totalPur()
+        });
+
         //total product price
         function totalPur() {
             var total = 0;
@@ -630,7 +654,9 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
             var order_tax = parseFloat($('select[name="order_tax_rate_select"]').val());
             var coupon_amount = parseFloat($('#coupon_amount').val());
-
+            var mainitem = $('table.productTable tbody tr:last').index();
+            mainitem = ++mainitem;
+            $("#total_main_item").text(mainitem);
         // debugger
             if (!order_discount)
                 order_discount = 0.00;
@@ -656,6 +682,34 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             $("#totalPrice").text(parseFloat(total));
             $("#grandtotalPrice").text(parseFloat(grandTotal));
             $("#total_item").text(parseInt(item));
+            var paid_amount =  parseFloat($("#paid_amount").val());
+           var result_amount =  grandTotal - paid_amount;
+           if(result_amount < 0){
+               var return_amount  = Math.abs(result_amount);
+               $("#return_amount").text(parseFloat(return_amount));
+           }else{
+               $("#return_amount").text(parseFloat(0));
+           }
+            if(result_amount >= 0){
+                $("#due_amount").text(parseFloat(result_amount));
+                $("#in_due_amount").val(parseFloat(result_amount));
+            }else{
+                $("#due_amount").text(parseFloat(0));
+                $("#in_due_amount").val(parseFloat(result_amount));
+            }
+            $("#in_item").val(parseFloat(mainitem));
+            $("#in_total_qty").val(parseFloat(item));
+            $("#in_total_discount").val(parseFloat(order_discount));
+            $("#in_total_tax").val(parseFloat(order_tax));
+            $("#in_total_price").val(parseFloat(total));
+            $("#in_coupon_discount").val(parseFloat(coupon_amount));
+            $("#in_shipping_cost").val(parseFloat(shipping_cost));
+            $("#in_paid_amount").val(parseFloat(paid_amount));
+            $("#in_grand_total").val(parseFloat(grandTotal));
+
+
+
+            // $("due_amount".text(parseFloat()))
         }
 
 
