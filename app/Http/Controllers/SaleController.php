@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\ProductSale;
+use App\Models\Purchase;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,6 @@ class SaleController extends Controller
         }
 
     public function  saleStore(Request $request){
-//return $request->all();
       DB::beginTransaction();
     try{
         $sale = new Sale();
@@ -86,15 +86,16 @@ class SaleController extends Controller
         DB::rollBack();
         return $e->getMessage();
     }
-
     }
 
     public  function  saleInvoice(Request $request){
-
             $sale = Sale::where('invoice_no',$request->invoice_no)->first();
         return view($this->path.'invoice',compact('sale'));
     }
-
+    public function  show($id){
+        $sale = Sale::where('id',$id)->first();
+        return view($this->path.'show',compact('sale'));
+    }
     public function  addPayment(Request $request){
         $sale = Sale::where('id',$request->id)->first();
         try{
@@ -115,10 +116,8 @@ class SaleController extends Controller
             $payment->sale_id = $sale->id;
             if($payment->payment_reference){
                 $payment->payment_reference =  $payment->payment_reference;
-
             }else{
                 $payment->payment_reference = 'PS' . date("Ymd") . '/'. date("hi");
-
             }
             $payment->user_id = Auth::id();
             $payment->cheque_number = $request->cheque_number;

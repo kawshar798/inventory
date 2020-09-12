@@ -55,7 +55,7 @@
                                 @endif</td>
 
                             <td>
-                                <a href="{{url('purchase/show',$sale->id)}}" class="btn btn-primary">Show</a>
+                                <a href="{{url('sale/show',$sale->id)}}" class="btn btn-primary">Show</a>
                                 <a href="{{url('purchase/view/payment',$sale->id)}}" class="btn btn-primary">Payment Show</a>
                                 <button type="button"
                                         data-id="{{$sale->id}}"

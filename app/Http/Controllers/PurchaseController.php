@@ -102,14 +102,15 @@ class PurchaseController extends Controller
 
         return redirect()->route('purchase.index')->with($output);
     }
-public function  edit($id){
-    $purchase  = Purchase::find($id);
-}
+    public function  edit($id){
+        $purchase  = Purchase::find($id);
+    }
+
+
     public function  show($id){
             $purchase = Purchase::where('id',$id)->first();
         return view($this->path.'show',compact('purchase'));
     }
-
     public function  addPayment(Request $request){
         $purchase = Purchase::where('id',$request->id)->first();
       try{
