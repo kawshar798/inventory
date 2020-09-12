@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\ProductSale;
 use App\Models\Sale;
 use Illuminate\Http\Request;
@@ -18,9 +19,13 @@ class SaleController extends Controller
             $this->path = 'sale.';
         }
 
+        public function  saleList(){
+            $sales = Sale::all();
+            return view($this->path.'sale_list',compact('sales'));
+        }
+
     public function  saleStore(Request $request){
 //return $request->all();
-
       DB::beginTransaction();
     try{
         $sale = new Sale();
@@ -43,15 +48,13 @@ class SaleController extends Controller
         }
         $sale->paid_amount = $request->paid_amount;
 
-        if($request->paid_amount > $request->grand_total){
+        if($request->paid_amount >= $request->grand_total){
             $sale->due_amount = 0;
         }else{
             $sale->due_amount = $request->due_amount;
         }
 
         if($sale->save()){
-
-
            $productProId =  $request->proId;
            $productQty =  $request->proQuantity;
            $productPrice =  $request->proPrice;
@@ -65,6 +68,16 @@ class SaleController extends Controller
                $productSale->total = $productQty[$i] * $productPrice[$i];
                $productSale->save();
            }
+                $payment = new Payment();
+                $payment->sale_id = $sale->id;
+                $payment->payment_reference = 'PS.' . date("Ymd") . '/'. date("hi");
+                $payment->user_id = Auth::id();
+                $payment->cheque_number = $request->cheque_number;
+                $payment->amount = $request->paid_amount;
+                $payment->paying_method = 'Cash';
+                $payment->note = $request->note;
+                $payment->save();
+
         }
         DB::commit();
         return redirect('sale/invoice?invoice_no='.$sale->invoice_no);
@@ -80,5 +93,55 @@ class SaleController extends Controller
 
             $sale = Sale::where('invoice_no',$request->invoice_no)->first();
         return view($this->path.'invoice',compact('sale'));
+    }
+
+    public function  addPayment(Request $request){
+        $sale = Sale::where('id',$request->id)->first();
+        try{
+            $sale->paid_amount += $request->amount;
+            $balance =   $sale->grand_total - $sale->paid_amount;
+            $sale->due_amount =  $balance;
+            if($balance > 0){
+                $sale->payment_status = 'Due';
+            }else{
+                $sale->payment_status = 'Paid';
+            }
+            $sale->save();
+            if($request->payment_id){
+                $payment =  Payment::where('id',$request->payment_id)->first();
+            }else{
+                $payment = new Payment();
+            }
+            $payment->sale_id = $sale->id;
+            if($payment->payment_reference){
+                $payment->payment_reference =  $payment->payment_reference;
+
+            }else{
+                $payment->payment_reference = 'PS' . date("Ymd") . '/'. date("hi");
+
+            }
+            $payment->user_id = Auth::id();
+            $payment->cheque_number = $request->cheque_number;
+            $payment->amount = $request->amount;
+            $payment->paying_method = $request->paying_method;
+            $payment->note = $request->note;
+
+            $payment->save();
+            DB::commit();
+            if($request->payment_id){
+                $output = ['success' => true,
+                    'messege'            => "Payment  Update  success",
+                ];
+            }else{
+                $output = ['success' => true,
+                    'messege'            => "Payment   success",
+                ];
+            }
+
+            return $output;
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
     }
 }

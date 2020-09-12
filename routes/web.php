@@ -133,6 +133,8 @@ Route::group(['middleware' => 'auth'],function (){
     Route::get('payment/delete/{id}','PaymentController@delete')->name('delete');
     Route::post('sale/store','SaleController@saleStore')->name('sale.store');
     Route::get('sale/invoice','SaleController@saleInvoice')->name('sale.invoice');
+    Route::get('sale/list','SaleController@saleList')->name('sale.list');
+    Route::post('sale/add/payment','SaleController@addPayment')->name('sale.payment');
 
 
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){

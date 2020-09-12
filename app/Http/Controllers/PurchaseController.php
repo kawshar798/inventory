@@ -38,7 +38,7 @@ class PurchaseController extends Controller
 //        return $request->proId;
         $purchase = new Purchase();
         $purchase->supplier_id = $request->supplier_id;
-        $purchase->reference_no ='PP' . date("Ymd") . '/'. date("his");
+        $purchase->reference_no ='PP' . date("Ymd") . '/'. date("hi");
 //        $purchase->reference_no ='PP' . date("Ymd") . '/'. date("his");
         $purchase->item = $request->in_item;
         $purchase->total_qty = $request->in_total_qty;
@@ -72,7 +72,7 @@ class PurchaseController extends Controller
         if( $purchase->save()){
             $payment = new Payment();
             $payment->purchase_id = $purchase->id;
-            $payment->payment_reference = 'PP' . date("Ymd") . '/'. date("his");
+            $payment->payment_reference = 'PP' . date("Ymd") . '/'. date("hi");
             $payment->user_id = Auth::id();
             $payment->cheque_number = $request->cheque_number;
             $payment->amount = $request->paid_amount;
