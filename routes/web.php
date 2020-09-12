@@ -136,6 +136,7 @@ Route::group(['middleware' => 'auth'],function (){
     Route::get('sale/list','SaleController@saleList')->name('sale.list');
     Route::post('sale/add/payment','SaleController@addPayment')->name('sale.payment');
     Route::get('sale/show/{id}','SaleController@show')->name('sale.show');
+    Route::get('sale/view/payment/{id}','SaleController@viewPayment')->name('view.payment');
 
 
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){

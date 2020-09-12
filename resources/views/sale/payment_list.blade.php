@@ -17,61 +17,61 @@
         <div class="col-12">
             <div class="card m-b-30">
                 <div class="card-body">
+<div class="d-flex">
+    <h4 class="mt-0 header-title">
+        <button type="button"
+                data-id="{{$sale->id}}"
+                data-due_amount="{{$sale->due_amount}}"
+                class="btn btn-primary m-3 edit-btn add_payment" data-toggle="modal" data-target="#addSupply">
+            Add payment
+        </button>
+    </h4>
+        <h3 class="header-title d-flex align-items-center">Sale Invoice No: #{{$sale->invoice_no}}</h3>
+</div>
 
-                    <h4 class="mt-0 header-title"><a  href="#" class="btn btn-primary m-3">Sale List</a></h4>
 
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
-                            <th>S.L</th>
-                            <th>Date</th>
-                            <th>Invoice No</th>
-                            <th>Customer</th>
-                            <th>Grand Total</th>
-                            <th>Paid</th>
-                            <th>Due</th>
-                            <th>Total Quantity</th>
-                            <th>Payment status</th>
-                            <th>Action</th>
+                            <td>#</td>
+                            <td>Date</td>
+                            <td>Reference No</td>
+                            <td>Amount</td>
+                            <td>Payment Mode</td>
+                            <td>Note</td>
+                            <td>Delete</td>
                         </tr>
                         </thead>
 
 
                         <tbody>
-                        @foreach($sales as $index=>$sale)
-                        <tr>
-                            <td>{{++$index}}</td>
-                            <td>{{ date('d-m-Y', strtotime($sale->created_at))}}</td>
-                            <td>{{$sale->invoice_no}}</td>
-                            <td>{{$sale->customer?$sale->customer->name:''}}</td>
-                            <td>{{$sale->grand_total}}</td>
-                            <td>{{$sale->paid_amount}}</td>
-                            <td>{{$sale->due_amount }}</td>
-                            <td>{{$sale->total_qty }}</td>
-                            <td>@if($sale->payment_status == 'Due')
-                                    <span style="color: #fff; background: red;padding: 2px 5px;border-radius: 3px">Due</span>
-                                @else
-                                    <span style="color: #fff; background: green;padding: 2px 5px;border-radius: 3px">Paid</span>
-                                @endif</td>
+                        @foreach($payments as $index=>$payment)
+                            <tr>
+                                <td>{{++$index}}</td>
+                                <td>{{date('d-m-Y',strtotime($payment->created_at))}}</td>
+                                <td>{{$payment->payment_reference}}</td>
+                                <td>{{$payment->amount}}</td>
+                                <td>{{$payment->paying_method}}</td>
+                                <td>{{$payment->note}}</td>
+                                <td>
+                                    <button  data-success_url="{{url('purchase/view/payment',$sale->id)}}" data-token="{{ csrf_token() }}" data-url="{{ url('payment/delete', $payment->id) }}" class="btn btn-danger delete_payment"
+                                                data-id="{{ $payment->id }}"  title="Delete">Delete</button>
+                                    <button type="button"
+                                            data-note="{{$payment->note}}"
+                                            data-payment_reference="{{$payment->payment_reference}}"
+                                            data-paying_method="{{$payment->paying_method}}"
+                                            data-amount="{{$payment->amount}}"
+                                            data-cheque_number="{{$payment->cheque_number}}"
+                                            data-id="{{$sale->id}}"
+                                            data-payment_id="{{$payment->id}}"
+                                            class="btn btn-primary m-3 edit-btn" data-toggle="modal" data-target="#addFees1">
+                                        Edit</i>
+                                    </button>
+                                </td>
 
-                            <td>
-                                <a href="{{url('sale/show',$sale->id)}}" class="btn btn-primary">Show</a>
-                                <a href="{{url('sale/view/payment',$sale->id)}}" class="btn btn-primary">Payment Show</a>
-                                <a href="{{url('sale/invoice?invoice_no='.$sale->invoice_no)}}" class="btn btn-primary">Generate Invoice</a>
-                                <button type="button"
-                                        data-id="{{$sale->id}}"
-{{--                                        data-paid_amount="{{$sale->paid_amount}}"--}}
-                                        data-due_amount="{{$sale->due_amount}}"
-                                        class="btn btn-primary m-3 edit-btn add_payment" data-toggle="modal" data-target="#addSupply">
-                                   Add payment
-                                </button>
-                                <button  data-success_url="{{url('admin/brand')}}" data-token="{{ csrf_token() }}" data-url="{{ url('sale/delete', $sale->id) }}" class="btn btn-danger delete_brand"
-                                         data-id="{{ $sale->id }}"  title="Delete">Delete</button>
-                            </td>
-                        </tr>
+                            </tr>
+                        @endforeach
 
-
-                            @endforeach
                         </tbody>
                     </table>
 
@@ -79,11 +79,11 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-  <div class="modal fade bs-example-modal-lg" tabindex="-1"  id="addSupply" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade bs-example-modal-lg" tabindex="-1"  id="addSupply" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="modalTitile">Large modal</h5>
+                    <h5 class="modal-title mt-0" id="modalTitile">Add Payment</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -94,7 +94,8 @@
                         <input type="hidden" class="submit_url" value="{{url('purchase/add/payment')}}">
                         <input type="hidden" class="method" value="POST">
                         @csrf
-                        <input type="hidden" class="form-control modal_id "  name="id">
+                        <input type="hidden" class="form-control modal_payment_id"  name="payment_id">
+                        <input type="hidden" class="form-control modal_id"  name="id">
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label class="">Amount</label>
@@ -103,7 +104,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label>Payment Method</label>
-                                <select name="paying_method" id="payment_method" class="form-control">
+                                <select name="paying_method" id="payment_method" class="form-control modal_payment_method">
                                     <option value="Cash">Cash</option>
                                     <option value="Cheque">Cheque</option>
                                 </select>
@@ -111,20 +112,20 @@
                             <div class="col-md-12" id="cheque_number">
                                 <div class="form-group">
                                     <label>Cheque Number</label>
-                                    <input name="cheque_number"  class="form-control"/>
+                                    <input name="cheque_number"  class="form-control modal_cheque_number"/>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Payment Note</label>
-                                    <textarea name="note" class="form-control"></textarea>
+                                    <textarea name="note" class="form-control modal_note"></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div>
-                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light btn-save">
                                     Save Payment
                                 </button>
                             </div>
@@ -134,7 +135,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
-
 @endsection
 @section('footerScripts')
     @parent
@@ -154,6 +154,36 @@
             }
 
         });
+
+        /*  When user click add user button */
+        $('.edit-btn').on('click', function (e) {
+            e.preventDefault();
+            var payment_id        = $(this).data("payment_id");
+            var id        = $(this).data("id");
+            var note    = $(this).data("note");
+            var payment_reference  = $(this).data("payment_reference");
+            var paying_method  = $(this).data("paying_method");
+            var amount  = $(this).data("amount");
+            var cheque_number  = $(this).data("cheque_number");
+            $('.modal_amount').val(amount);
+            $('.modal_payment_method').val(paying_method);
+            $('.modal_note').val(note);
+            $('.modal_cheque_number').val(cheque_number);
+            $('.modal_payment_id').val(payment_id);
+            $('.modal_id').val(id);
+            $('.k').trigger("reset");
+            $('#modalTitile').html("Edit Payment");
+            $('.btn-save').html("Update Payment");
+            $('#addSupply').modal('show');
+        });
+        /*  When user click add user button */
+        $('.add_payment').click(function () {
+            $('.btn-save').html("Add Brand");
+            $('#k').trigger("reset");
+            $('#modalTitile').html("Add New Brand");
+            $('#addSupply').modal('show');
+        });
+
         $('.add_payment').on('click', function (e) {
             e.preventDefault();
             var id        = $(this).data("id");
@@ -184,7 +214,7 @@
             var fd = new FormData(document.getElementById("supplier_form"));
             $.ajax({
                 method: 'POST',
-                url:"{{url('sale/add/payment')}}",
+                url:"{{url('purchase/add/payment')}}",
                 data:fd,
                 processData: false,
                 contentType: false,
@@ -200,10 +230,8 @@
                 },
             });
         });
-
-
         // Purchase delete Delete
-        $(document).on('click', '.delete_brand', function(e) {
+        $(document).on('click', '.delete_payment', function(e) {
             e.preventDefault();
             var id = $(this).data("id");
             var url = $(this).data("url");
@@ -222,7 +250,7 @@
                         {
                             url: url,
                             success_url:success_url,
-                            type: 'DELETE',
+                            type: 'GET',
                             data: {
                                 _token: token,
                                 id: id

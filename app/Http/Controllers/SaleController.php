@@ -143,4 +143,10 @@ class SaleController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function  viewPayment($id){
+        $sale = Sale::find($id);
+        $payments = Payment::where('sale_id',$id)->get();
+        return view($this->path.'payment_list',compact('payments','sale'));
+    }
 }
