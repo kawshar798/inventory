@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 class SaleController extends Controller
 {
     //
+        protected $path;
+
+        public  function  __construct()
+        {
+            $this->path = 'sale.';
+        }
 
     public function  saleStore(Request $request){
 //return $request->all();
@@ -18,7 +24,7 @@ class SaleController extends Controller
       DB::beginTransaction();
     try{
         $sale = new Sale();
-        $sale->invoice_no  = date("Ymd").date("his");
+        $sale->invoice_no  = date("Ymd").date("hi");
         $sale->biller_id   = Auth::id();
         $sale->customer_id = $request->customer_id;
         $sale->item = $request->in_item;
@@ -29,13 +35,20 @@ class SaleController extends Controller
         $sale->grand_total = $request->grand_total;
         $sale->coupon_discount = $request->coupon_discount;
         $sale->shipping_cost = $request->shipping_cost;
+        $sale->return_amount = $request->in_return_amount;
         if($request->due_amount>0){
             $sale->payment_status = 'Due';
         }else{
             $sale->payment_status = 'Paid';
         }
         $sale->paid_amount = $request->paid_amount;
-        $sale->due_amount = $request->due_amount;
+
+        if($request->paid_amount > $request->grand_total){
+            $sale->due_amount = 0;
+        }else{
+            $sale->due_amount = $request->due_amount;
+        }
+
         if($sale->save()){
 
 
@@ -54,14 +67,18 @@ class SaleController extends Controller
            }
         }
         DB::commit();
-        return "kaj hoice";
+        return redirect('sale/invoice?invoice_no='.$sale->invoice_no);
 
     }catch(\Exception $e){
         DB::rollBack();
         return $e->getMessage();
     }
 
+    }
 
+    public  function  saleInvoice(Request $request){
 
+            $sale = Sale::where('invoice_no',$request->invoice_no)->first();
+        return view($this->path.'invoice',compact('sale'));
     }
 }

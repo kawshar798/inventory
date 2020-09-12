@@ -31,6 +31,7 @@ class CreateSalesTable extends Migration
             $table->string('document')->nullable();
             $table->double('paid_amount',10,2)->nullable();
             $table->double('due_amount',10,2)->nullable();
+            $table->double('return_amount',10,2)->nullable();
             $table->text('sale_note')->nullable();
             $table->timestamps();
         });

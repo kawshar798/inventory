@@ -236,6 +236,7 @@
                             <input type="hidden" name="shipping_cost" id="in_shipping_cost" />
                             <input type="hidden" name="paid_amount" id="in_paid_amount" />
                             <input type="hidden" name="due_amount" id="in_due_amount" />
+                            <input type="hidden" name="in_return_amount" id="in_return_amount" />
                         </div>
 
 
@@ -687,8 +688,10 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
            if(result_amount < 0){
                var return_amount  = Math.abs(result_amount);
                $("#return_amount").text(parseFloat(return_amount));
+               $("#in_return_amount").val(parseFloat(return_amount));
            }else{
                $("#return_amount").text(parseFloat(0));
+               $("#in_return_amount").val(parseFloat(0));
            }
             if(result_amount >= 0){
                 $("#due_amount").text(parseFloat(result_amount));
@@ -706,6 +709,7 @@ html += "      <div class=\"col-md-3 product-list\" onclick=\"productAdd(" + val
             $("#in_shipping_cost").val(parseFloat(shipping_cost));
             $("#in_paid_amount").val(parseFloat(paid_amount));
             $("#in_grand_total").val(parseFloat(grandTotal));
+
 
 
 
