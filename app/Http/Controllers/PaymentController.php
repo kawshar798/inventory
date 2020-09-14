@@ -21,7 +21,7 @@ class PaymentController extends Controller
             $sale = Sale::where('id',$payment->sale_id)->first();
             $sale->paid_amount = $sale->paid_amount - $payment->amount;
             $sale->due_amount = $sale->due_amount + $payment->amount;
-            if($sale->paid_amount >$sale->grand_total){
+            if($sale->due_amount >=0){
                 $sale->payment_status = 'Due';
             }else{
                 $sale->payment_status = 'Paid';

@@ -90,8 +90,8 @@
                 </div>
                 <div class="modal-body">
                     <form class="ajax-form-submit"   id="supplier_form"  method="POST">
-                        <input type="hidden" class="success_url" value="{{url('purchase/list')}}">
-                        <input type="hidden" class="submit_url" value="{{url('purchase/add/payment')}}">
+                        <input type="hidden" class="success_url" value="{{url('sale/list')}}">
+                        <input type="hidden" class="submit_url" value="{{url('sale/add/payment')}}">
                         <input type="hidden" class="method" value="POST">
                         @csrf
                         <input type="hidden" class="form-control modal_payment_id"  name="payment_id">
@@ -214,7 +214,7 @@
             var fd = new FormData(document.getElementById("supplier_form"));
             $.ajax({
                 method: 'POST',
-                url:"{{url('purchase/add/payment')}}",
+                url:"{{url('sale/add/payment')}}",
                 data:fd,
                 processData: false,
                 contentType: false,
