@@ -137,7 +137,7 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('sale/add/payment','SaleController@addPayment')->name('sale.payment');
     Route::get('sale/show/{id}','SaleController@show')->name('sale.show');
     Route::get('sale/view/payment/{id}','SaleController@viewPayment')->name('view.payment');
-
+    Route::delete('sale/delete/{id}','SaleController@delete')->name('delete');
 
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
         Route::group(['prefix'=>'tax','as'=>'tax.'],function (){

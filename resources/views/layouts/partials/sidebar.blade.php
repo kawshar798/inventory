@@ -32,6 +32,7 @@
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="fas fa-shopping-cart"></i><span> Sale <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
+                        <li><a href="{{route('sale.list')}}">Sale List</a></li>
                         <li><a href="{{route('pos.create')}}">Pos</a></li>
 
                     </ul>

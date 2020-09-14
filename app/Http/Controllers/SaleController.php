@@ -149,4 +149,21 @@ class SaleController extends Controller
         $payments = Payment::where('sale_id',$id)->get();
         return view($this->path.'payment_list',compact('payments','sale'));
     }
+
+    public  function  delete($id){
+        $sale  = Sale::find($id);
+        $sales_products  =  ProductSale::where('sale_id',$sale->id)->get();
+        foreach ($sales_products as $productPurcahse){
+            $productPurcahse->delete();
+        }
+        $payments = Payment::where('sale_id',$sale->id)->get();
+        foreach ($payments as $payment){
+            $payment->delete();
+        }
+        $sale->delete();
+        $output = ['success' => true,
+            'messege'            => "Sale Product Delete  success",
+        ];
+        return $output;
+    }
 }

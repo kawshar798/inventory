@@ -65,7 +65,7 @@
                                         class="btn btn-primary m-3 edit-btn add_payment" data-toggle="modal" data-target="#addSupply">
                                    Add payment
                                 </button>
-                                <button  data-success_url="{{url('admin/brand')}}" data-token="{{ csrf_token() }}" data-url="{{ url('sale/delete', $sale->id) }}" class="btn btn-danger delete_brand"
+                                <button  data-success_url="{{url('sale/list')}}" data-token="{{ csrf_token() }}" data-url="{{ url('sale/delete', $sale->id) }}" class="btn btn-danger delete_brand"
                                          data-id="{{ $sale->id }}"  title="Delete">Delete</button>
                             </td>
                         </tr>
