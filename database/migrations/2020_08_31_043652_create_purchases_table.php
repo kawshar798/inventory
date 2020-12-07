@@ -30,6 +30,7 @@ class CreatePurchasesTable extends Migration
             $table->dateTime('date');
             $table->string('receipt')->nullable();
             $table->text('note')->nullable();
+            $table->double('return_amount',10,2)->nullable();
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });

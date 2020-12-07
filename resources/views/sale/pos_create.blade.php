@@ -347,6 +347,20 @@
             </div>
 
             <div class="row" id="products">
+           
+
+                @foreach($products as $product)
+                    <div class="col-md-3 product-list">
+                        <div class="product-box">
+                            <div class="prodcut_img">
+                                <img src="{{$product->image}}" />
+                            </div>
+                            <h3 class="product_name">{{$product->name}}</h3>
+                            <p class="product_price">{{$product->price}}</p>
+                        </div>
+                    </div>
+                    @endforeach
+
             </div>
 
 
