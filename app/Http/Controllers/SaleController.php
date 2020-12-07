@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\ProductSale;
 use App\Models\Purchase;
 use App\Models\Sale;
@@ -67,6 +68,10 @@ class SaleController extends Controller
                $productSale->discount = 0;
                $productSale->total = $productQty[$i] * $productPrice[$i];
                $productSale->save();
+
+               $product = Product::where('id',$item)->first();
+               $product->quantity = $product->quantity - $productQty[$i];
+               $product->save();
            }
                 $payment = new Payment();
                 $payment->sale_id = $sale->id;
@@ -166,4 +171,8 @@ class SaleController extends Controller
         ];
         return $output;
     }
+
+    public  function  saleReturnView(){
+        return view($this->path.'sale_return');
+        }
 }

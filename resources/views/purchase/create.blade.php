@@ -392,6 +392,8 @@
         var order_tax = parseFloat($('select[name="order_tax_rate"]').val());
         if (!order_tax)
             order_tax = 0.00;
+
+        console.log(ids)
         // $('#order_tax').text(order_tax.toFixed(2));
         $.each(ids, function (index, value) {
             var subPrice = parseFloat($("#proSubPrice-" + value).val());
@@ -415,8 +417,8 @@
         $(".in_total_tax").val(parseFloat(order_tax));
         $(".in_shipping_cost").val(parseFloat(shipping_cost));
         $(".in_grand_total").val(parseFloat(grandTotal));
-        $(".in_total_cost").val(parseFloat(paid_amount));
-        $(".in_paid_amount").val(parseFloat(total));
+        $(".in_total_cost").val(parseFloat(total));
+        $(".in_paid_amount").val(parseFloat(paid_amount));
 
 
 

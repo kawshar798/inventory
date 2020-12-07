@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('sale/add/payment','SaleController@addPayment')->name('sale.payment');
     Route::get('sale/show/{id}','SaleController@show')->name('sale.show');
     Route::get('sale/view/payment/{id}','SaleController@viewPayment')->name('view.payment');
+    Route::get('sale/return/view','SaleController@saleReturnView')->name('sale.return');
     Route::delete('sale/delete/{id}','SaleController@delete')->name('delete');
 
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){

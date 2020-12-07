@@ -80,6 +80,7 @@ class PurchaseController extends Controller
             $payment->note = $request->note;
             $payment->save();
         }
+
         $product_id = $request->proId;
         $proQuantity = $request->proQuantity;
         $prosubTotal = $request->prosubTotal;
