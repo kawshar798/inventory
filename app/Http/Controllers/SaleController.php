@@ -173,6 +173,8 @@ class SaleController extends Controller
     }
 
     public  function  saleReturnView(){
-        return view($this->path.'sale_return');
+
+            $invoices = Sale::all();
+        return view($this->path.'sale_return',compact('invoices'));
         }
 }

@@ -25,7 +25,6 @@ class BrandController extends Controller
     public  function  store(Request $request){
         try{
             $brand = new Brand();
-
             $brand->name = $request->name;
             $brand->slug = Str::slug($request->name);
             if($request->hasfile('logo')){
@@ -58,9 +57,7 @@ class BrandController extends Controller
     }
 
     public  function  update(Request $request){
-
         $brand = Brand::find($request->id);
-
         $brand->name  = $request->name;
         $brand->slug = Str::slug($request->name);
         if($request->hasfile('logo')){
@@ -115,6 +112,4 @@ class BrandController extends Controller
         Toastr::success('Success', 'Brand  Delete Success');
         return redirect()->back();
     }
-
-
 }

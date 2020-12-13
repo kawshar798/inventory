@@ -20,7 +20,6 @@ class CategoryController extends Controller
 
     public  function  index(){
         $categories = Category::all();
-
         return view($this->path.'index',compact('categories'));
     }
 
@@ -34,7 +33,7 @@ class CategoryController extends Controller
         DB::beginTransaction();
         try {
             $category = new Category();
-            if (!empty($request->input('add_as_sub_cat')) &&  $request->input('add_as_sub_cat') == 1 && !empty($request->parent_id)) {
+            if (!empty($request->input('add_as_sub_cat')) &&  $request->input('add_as_sub_cat') == 1 && !empty                     ($request->parent_id)) {
                 $category->parent_id = $request->parent_id;
             } else {
                 $category->parent_id = 0;
@@ -83,7 +82,7 @@ class CategoryController extends Controller
     public function  update(Request $request){
         $category = Category::find($request->id);
         try {
-            if (!empty($request->input('add_as_sub_cat')) &&  $request->input('add_as_sub_cat') == 1 && !empty($request->parent_id)) {
+            if (!empty($request->input('add_as_sub_cat')) &&  $request->input('add_as_sub_cat') == 1 && !empty                      ($request->parent_id)) {
                 $category->parent_id = $request->parent_id;
             } else {
                 $category->parent_id = 0;
@@ -108,7 +107,6 @@ class CategoryController extends Controller
                 }
                 $category->image = $path . $image_name;
             }
-
             //update same database image
             if ($category->image) {
                 $category->image = $category->image;
@@ -122,8 +120,9 @@ class CategoryController extends Controller
             DB::rollBack();
             return $e->getMessage();
         }
-
     }
+
+
     public  function  active($id){
         $category = Category::find($id);
         $category->status = 'Active';

@@ -47,6 +47,9 @@
                             <label class="">Invoice</label>
                             <select name="supplier_id" class="form-control invoice_list_option">
                                 <option>Select Invoice</option>
+                                @foreach($invoices as $item)
+                                    <option value="{{$item->invoice_no}}">{{$item->invoice_no}}</option>
+                                    @endforeach
                             </select>
                         </div>
                     </div>
