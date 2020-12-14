@@ -43,25 +43,93 @@
                 <form>
                     @csrf
                     <div class="form-group row">
-                        <div class="col-md-6 offset-3">
-                            <label class="">Invoice</label>
-                            <select name="supplier_id" class="form-control invoice_list_option">
-                                <option>Select Invoice</option>
+                        <div class="col-md-4 ">
+                            <label class="">Customer Name<abbr style="color: red">*</abbr></label>
+                            <select name="customer_id" class="form-control customer_list">
+                                <option>Select Customer</option>
                                 @foreach($invoices as $item)
                                     <option value="{{$item->invoice_no}}">{{$item->invoice_no}}</option>
-                                    @endforeach
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 ">
+                            <label class="">Sale Invoice No</label>
+                            <input name="invoice_number" class="form-control" />
+                        </div>
+                        <div class="col-md-4 ">
+                            <label class="">Date<abbr style="color: red">*</abbr></label>
+                            <input name="date" class="form-control" id="date"/>
+                        </div>
+                    </div>
+                        <hr/>
+
+                    <div class="form-group row">
+                        <div class="col-md-8 offset-md-2 ">
+                            <label class="">Customer Name<abbr style="color: red">*</abbr></label>
+                            <select name="customer_id" class="form-control customer_list">
+                                <option>Select Customer</option>
+                                @foreach($invoices as $item)
+                                    <option value="{{$item->invoice_no}}">{{$item->invoice_no}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
-
-                    <table class="table table-bordered">
+                    <table id="myTable" class="table table-hover order-list">
+                        <thead>
                         <tr>
-                            <td>Product</td>
-                            <td>Unit Price</td>
-                            <td>Quantity</td>
-                            <td>Sub Total</td>
+                            <th>name</th>
+                            <th>Quantity</th>
+                            <th class="recieved-product-qty d-none">Received</th>
+                            <th>Discount</th>
+                            <th>Net Unit Cost</th>
+                            <th>Subtotal</th>
+                            <th><i class="fa fa-trash"></i></th>
                         </tr>
+                        </thead>
+                        <tbody id="productTable">
+                        </tbody>
+                        <tfoot class="tfoot active">
+                        <th>Total</th>
+                        <th id="total-qty" colspan="2">0</th>
+                        <th id="total-discount">0</th>
+                        <th class="recieved-product-qty d-none"></th>
+                        <th id="total"  align="center">0.00</th>
+                        <th><i class="fa fa-trash"></i></th>
+                        </tfoot>
                     </table>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label text-md-right">Return Note</label>
+                                <textarea class="form-control" name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <table class="table table-bordered table-condensed totals">
+                            <tbody><tr><td><strong>Items</strong>
+                                    <span class="pull-right" id="total_main_item">0</span>(<span id="total_item">0</span>)
+                                </td>
+                                <td><strong>Total</strong>
+                                    <span class="pull-right" id="subtotal">0.00</span>
+                                </td>
+                                <td><strong>Tax</strong>
+                                    <span class="pull-right" id="order_tax">0.00</span>
+                                </td>
+{{--                                <td><strong>Order Discount</strong>--}}
+{{--                                    <span class="pull-right" id="order_discount">0.00</span>--}}
+{{--                                </td>--}}
+{{--                                <td><strong>Shipping Cost</strong>--}}
+{{--                                    <span class="pull-right" id="shipping_cost">0.00</span>--}}
+{{--                                </td>--}}
+{{--                                <td><strong>Paid Amount</strong>--}}
+{{--                                    <span class="pull-right" id="paid_amount">0.00</span>--}}
+{{--                                </td>--}}
+                                <td><strong>Grand Total</strong>
+                                    <span class="pull-right" id="grandtotalPrice">0.00</span>
+                                </td>
+                            </tr></tbody></table>
+                    </div>
                 </form>
                 </div>
             </div>
@@ -81,13 +149,13 @@
         $(document).ready(function() {
             //Date pikcer
             $(function () {
-                $('#datetimepicker3').datetimepicker({
+                $('#date').datetimepicker({
 
                     format: 'YYYY-MM-DD',
                 });
             });
             //Select2
-            $(".invoice_list_option").select2({
+            $(".customer_list").select2({
                 tags: true
             });
         });
