@@ -42,7 +42,12 @@
                         <tr>
                             <td>{{++$index}}</td>
                             <td>{{ date('d-m-Y', strtotime($sale->created_at))}}</td>
-                            <td>{{$sale->invoice_no}}</td>
+                            <td>{{$sale->invoice_no}}
+                                @if(!empty($sale->return_amount))
+                                    <span style="color: red" title="some quantites are returned from this Sale"><i class="fas fa-undo-alt"></i></span>
+
+                                    @endif
+                            </td>
                             <td>{{$sale->customer?$sale->customer->name:''}}</td>
                             <td>{{$sale->grand_total}}</td>
                             <td>{{$sale->paid_amount}}</td>

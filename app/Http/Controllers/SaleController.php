@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductSale;
+use App\Models\ProductSaleReturn;
 use App\Models\Purchase;
 use App\Models\Sale;
+use App\Models\SaleReturn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\View;
 
 class SaleController extends Controller
 {
@@ -173,8 +178,66 @@ class SaleController extends Controller
     }
 
     public  function  saleReturnView(){
+        $customers = Customer::all();
+        $products = Product::all();
+        return view($this->path.'sale_return',compact('customers','products'));
+        }
 
-            $invoices = Sale::all();
-        return view($this->path.'sale_return',compact('invoices'));
+        public  function  getSingleProduct(Request $request,$id){
+           $data['product'] = Product::where('id',$id)->first();
+            if ($request->ajax()) return Response::json(View::make('sale.sale_return_product_list', $data)->render());
+        }
+
+        public  function  saleReturnProductStore(Request $request){
+
+//            return $request->all();
+           DB::beginTransaction();
+           try{
+
+               $sale_return  = new SaleReturn();
+               $sale_return->customer_id  = $request->customer_id;
+               $sale_return->reference_no  = date("Ymd").date("hi");
+               $sale_return->item         = $request->in_item;
+               $sale_return->total_qty    = $request->in_total_qty;
+               $sale_return->total_price  = $request->in_total_cost;
+               $sale_return->grand_total  = $request->in_grand_total;
+//               $sale_return->date  = $request->customer_id;
+               $sale_return->return_note  = $request->description;
+               $sale_return->save();
+
+
+               $product_id    = $request->proId;
+               $product_qty   = $request->proQuantity;
+               $product_price = $request->prosubTotal;
+               foreach ($product_id as $i=>$item){
+                   $product_sale_return = new ProductSaleReturn();
+                   $product_sale_return->sale_return_id = $sale_return->id;
+                   $product_sale_return->product_id = $item;
+                   $product_sale_return->qty = $product_qty[$i];
+                   $product_sale_return->unit_price = $product_price[$i];
+                   $product_sale_return->save();
+
+                   $product = Product::where('id',$product_id[$i])->first();
+                   $product->quantity = $product->quantity + $product_qty[$i];
+                   $product->save();
+               }
+
+               $sale = Sale::where('invoice_no',$request->invoice_number)->first();
+               $sale->return_amount = $request->in_grand_total;
+               $sale->save();
+               DB::commit();
+               return "kaj hoice";
+
+               $output = ['success' => true,
+                   'messege'            => "Product Active success",
+               ];
+
+               return "kaj hoice";
+               return redirect()->route('purchase.index')->with($output);
+
+           }catch (\Exception $e){
+               DB::rollBack();
+               return $e->getMessage();
+           }
         }
 }

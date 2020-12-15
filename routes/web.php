@@ -139,6 +139,8 @@ Route::group(['middleware' => 'auth'],function (){
     Route::get('sale/view/payment/{id}','SaleController@viewPayment')->name('view.payment');
     Route::get('sale/return/view','SaleController@saleReturnView')->name('sale.return');
     Route::delete('sale/delete/{id}','SaleController@delete')->name('delete');
+    Route::get('sale/get/single-product/{id}','SaleController@getSingleProduct')->name('getSingleProduct');
+    Route::any('sale/return/product/store','SaleController@saleReturnProductStore')->name('return-product-store');
 
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
         Route::group(['prefix'=>'tax','as'=>'tax.'],function (){
