@@ -137,10 +137,14 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('sale/add/payment','SaleController@addPayment')->name('sale.payment');
     Route::get('sale/show/{id}','SaleController@show')->name('sale.show');
     Route::get('sale/view/payment/{id}','SaleController@viewPayment')->name('view.payment');
-    Route::get('sale/return/view','SaleController@saleReturnView')->name('sale.return');
     Route::delete('sale/delete/{id}','SaleController@delete')->name('delete');
-    Route::get('sale/get/single-product/{id}','SaleController@getSingleProduct')->name('getSingleProduct');
+
+    Route::get('sale/return/view','SaleController@saleReturnView')->name('sale.return');
     Route::any('sale/return/product/store','SaleController@saleReturnProductStore')->name('return-product-store');
+    Route::any('sale/return/product/list','SaleController@saleReturnProductList')->name('sale-product-list');
+    Route::get('sale/get/single-product/{id}','SaleController@getSingleProduct')->name('getSingleProduct');
+    Route::delete('return/sale-product/delete/{id}','SaleController@saleReturnProductDelete')->name('sale-return.product');
+
 
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
         Route::group(['prefix'=>'tax','as'=>'tax.'],function (){

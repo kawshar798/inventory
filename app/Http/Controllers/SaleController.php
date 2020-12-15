@@ -189,8 +189,6 @@ class SaleController extends Controller
         }
 
         public  function  saleReturnProductStore(Request $request){
-
-//            return $request->all();
            DB::beginTransaction();
            try{
 
@@ -226,13 +224,9 @@ class SaleController extends Controller
                $sale->return_amount = $request->in_grand_total;
                $sale->save();
                DB::commit();
-               return "kaj hoice";
-
                $output = ['success' => true,
                    'messege'            => "Product Active success",
                ];
-
-               return "kaj hoice";
                return redirect()->route('purchase.index')->with($output);
 
            }catch (\Exception $e){
@@ -240,4 +234,25 @@ class SaleController extends Controller
                return $e->getMessage();
            }
         }
+
+        public  function  saleReturnProductList(){
+            $products = SaleReturn::all();
+            return view($this->path.'sale_return_all_product',compact('products'));
+        }
+
+        public  function  saleReturnProductDelete($id){
+            $product = SaleReturn::find($id);
+            $sale_return_product = ProductSaleReturn::where('sale_return_id',$product->id)->get();
+            foreach ($sale_return_product as $i=>$item){
+                $sale_return_product->delete();
+            }
+            $product->delete();
+            $output = ['success' => true,
+                'messege'            => "Product Active success",
+            ];
+            return  $output;
+
+        }
+
+
 }
