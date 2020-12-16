@@ -144,8 +144,10 @@ Route::group(['middleware' => 'auth'],function (){
     Route::any('sale/return/product/list','SaleController@saleReturnProductList')->name('sale-product-list');
     Route::get('sale/get/single-product/{id}','SaleController@getSingleProduct')->name('getSingleProduct');
     Route::delete('return/sale-product/delete/{id}','SaleController@saleReturnProductDelete')->name('sale-return.product');
+    Route::get('return/sale-product/view/{id}','SaleController@saleReturnProductView')->name('sale-return.product');
+    Route::get('return/sale-product/edit/{id}','SaleController@saleReturnProductEdit')->name('sale-return.product.edit');
 
-
+//    sale_return_product_show
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){
         Route::group(['prefix'=>'tax','as'=>'tax.'],function (){
             Route::get('list','TaxRateController@index')->name('index');

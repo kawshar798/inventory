@@ -182,9 +182,16 @@ class SaleController extends Controller
         $products = Product::all();
         return view($this->path.'sale_return',compact('customers','products'));
         }
+        public  function  saleReturnProductEdit($id){
+            $returnProduct = SaleReturn::where('id',$id)->first();
+            $customers = Customer::all();
+            $products = Product::all();
+            $product_sale_returns = ProductSaleReturn::where('sale_return_id',$id)->get();
+            return view($this->path.'sale_return_edit',compact('customers','products','returnProduct','product_sale_returns'));
+        }
 
         public  function  getSingleProduct(Request $request,$id){
-           $data['product'] = Product::where('id',$id)->first();
+           $data['product']= Product::where('id',$id)->first();
             if ($request->ajax()) return Response::json(View::make('sale.sale_return_product_list', $data)->render());
         }
 
@@ -228,7 +235,6 @@ class SaleController extends Controller
                    'messege'            => "Product Active success",
                ];
                return redirect()->route('purchase.index')->with($output);
-
            }catch (\Exception $e){
                DB::rollBack();
                return $e->getMessage();
@@ -239,12 +245,16 @@ class SaleController extends Controller
             $products = SaleReturn::all();
             return view($this->path.'sale_return_all_product',compact('products'));
         }
+        public  function  saleReturnProductView($id){
+            $return_product = SaleReturn::find($id);
+            return view($this->path.'sale_return_product_show',compact('return_product'));
+        }
 
         public  function  saleReturnProductDelete($id){
             $product = SaleReturn::find($id);
             $sale_return_product = ProductSaleReturn::where('sale_return_id',$product->id)->get();
             foreach ($sale_return_product as $i=>$item){
-                $sale_return_product->delete();
+                $item->delete();
             }
             $product->delete();
             $output = ['success' => true,

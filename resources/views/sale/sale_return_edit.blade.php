@@ -48,13 +48,13 @@
                             <select name="customer_id" class="form-control customer_list">
                                 <option>Select Customer</option>
                                 @foreach($customers as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}({{$item->phone}})</option>
+                                    <option value="{{$item->id}}"  {{$returnProduct->customer_id == $item->id?'selected':''}}>{{$item->name}}({{$item->phone}})</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-4 ">
                             <label class="">Sale Invoice No</label>
-                            <input name="invoice_number" class="form-control" />
+                            <input name="invoice_number" class="form-control"  value="{{$returnProduct->reference_no}}"/>
                         </div>
                         <div class="col-md-4 ">
                             <label class="">Date<abbr style="color: red">*</abbr></label>
@@ -87,6 +87,16 @@
                         </thead>
 
                         <tbody id="productTable">
+                        @foreach($product_sale_returns as $product)
+                            <tr id="pro-data{{isset($product->product->id)?$product->product->id:''}}">
+                                <td><p id="proName" class="text-primary">{{isset($product->product->name)?$product->product->name:''}}</p><input type="hidden" name="proId[]" value="{{$product->id}}"></td>
+                                <td><input class="form-control qty" type="number" min="0" onchange="proMultiPur({{isset($product->product->id)?$product->product->id:''}})" id="proQuantity-{{isset($product->product->id)?$product->product->id:''}}" name="proQuantity[]" value="1"></td>
+                                <td><input type="number" class="form-control " readonly id="proUnitdiscount-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->discount)?$product->product->discount:''}}"></td>
+                                <td><input type="number" class="form-control" readonly id="proUnitPrice-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->cost_price)?$product->product->cost_price:''}}"></td>
+                                <td><input type="number" class="form-control subtotal" readonly id="proSubPrice-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->cost_price)?$product->product->cost_price:''}}" name="prosubTotal[]"></td>
+                                <td><a  class="kt-nav__link"><i class="fa fa-trash text-danger ibtnDel"></i></a></td>
+                            </tr>
+                            @endforeach
                         </tbody>
 
                         <tfoot class="tfoot active">

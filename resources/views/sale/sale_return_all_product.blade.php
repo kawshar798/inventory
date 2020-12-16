@@ -44,19 +44,16 @@
                                 <td>{{ $product->grand_total}}</td>
                                 <td>{{ $product->total_qty}}</td>
                                 <td>
-                                    <a href="{{url('sale/show',$product->id)}}" class="btn btn-primary">Show</a>
+                                    <a href="{{url('return/sale-product/view',$product->id)}}" class="btn btn-primary">Show</a>
                                     <button  data-success_url="{{url('sale/return/product/list')}}"
                                              data-token="{{ csrf_token() }}"
                                              data-url="{{ url('return/sale-product/delete', $product->id) }}"
                                              data-id="{{ $product->id }}"
                                              class="btn btn-danger delete_sale_return_product"
                                              title="Delete">Delete</button>
+                                    <a  href="{{url('return/sale-product/edit',$product->id)}}" title="Edit" class="btn btn-info">Edit</a>
                                 </td>
-
-
                             </tr>
-
-
                         @endforeach
                         </tbody>
                     </table>
