@@ -18,6 +18,7 @@ class CreateSaleReturnsTable extends Migration
             $table->string('reference_no');
             $table->integer('customer_id')->nullable();
             $table->integer('warehouse_id')->nullable();
+            $table->string('sale_invoice_no')->nullable();
             $table->integer('staff_id')->nullable();
             $table->integer('item');
             $table->double('total_qty');

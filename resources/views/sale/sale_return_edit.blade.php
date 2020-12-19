@@ -40,7 +40,8 @@
             <div class="card m-b-30">
                 <div class="card-body p_relative">
                     <h4 class="mt-0 header-title"> Return Sale list</h4>
-                <form action="{{url('sale/return/product/store')}}" method="post">
+                <form action="{{url('sale/return/product/update')}}" method="post">
+                    <input name="return_product_id" value="{{$returnProduct->id}}"/>
                     @csrf
                     <div class="form-group row">
                         <div class="col-md-4 ">
@@ -89,8 +90,9 @@
                         <tbody id="productTable">
                         @foreach($product_sale_returns as $product)
                             <tr id="pro-data{{isset($product->product->id)?$product->product->id:''}}">
-                                <td><p id="proName" class="text-primary">{{isset($product->product->name)?$product->product->name:''}}</p><input type="hidden" name="proId[]" value="{{$product->id}}"></td>
-                                <td><input class="form-control qty" type="number" min="0" onchange="proMultiPur({{isset($product->product->id)?$product->product->id:''}})" id="proQuantity-{{isset($product->product->id)?$product->product->id:''}}" name="proQuantity[]" value="1"></td>
+                                <td><input value="{{$product->id}}" name="product_sale_returns[]"></td>
+                                <td><p id="proName" class="text-primary">{{isset($product->product->name)?$product->product->name:''}}</p><input type="hidden" name="proId[]" value="{{$product->product_id}}"></td>
+                                <td><input class="form-control qty" type="number" min="0" onchange="proMultiPur({{isset($product->product->id)?$product->product->id:''}})" id="proQuantity-{{isset($product->product->id)?$product->product->id:''}}" name="proQuantity[]" value="{{isset($product->qty)?$product->qty:''}}"></td>
                                 <td><input type="number" class="form-control " readonly id="proUnitdiscount-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->discount)?$product->product->discount:''}}"></td>
                                 <td><input type="number" class="form-control" readonly id="proUnitPrice-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->cost_price)?$product->product->cost_price:''}}"></td>
                                 <td><input type="number" class="form-control subtotal" readonly id="proSubPrice-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->cost_price)?$product->product->cost_price:''}}" name="prosubTotal[]"></td>

@@ -200,14 +200,15 @@ class SaleController extends Controller
            try{
 
                $sale_return  = new SaleReturn();
-               $sale_return->customer_id  = $request->customer_id;
-               $sale_return->reference_no  = date("Ymd").date("hi");
-               $sale_return->item         = $request->in_item;
-               $sale_return->total_qty    = $request->in_total_qty;
-               $sale_return->total_price  = $request->in_total_cost;
-               $sale_return->grand_total  = $request->in_grand_total;
+               $sale_return->customer_id             = $request->customer_id;
+               $sale_return->reference_no            = date("Ymd").date("hi");
+               $sale_return->item                    = $request->in_item;
+               $sale_return->sale_invoice_no         = $request->invoice_number;
+               $sale_return->total_qty               = $request->in_total_qty;
+               $sale_return->total_price             = $request->in_total_cost;
+               $sale_return->grand_total             = $request->in_grand_total;
 //               $sale_return->date  = $request->customer_id;
-               $sale_return->return_note  = $request->description;
+               $sale_return->return_note             = $request->description;
                $sale_return->save();
 
 
@@ -249,6 +250,56 @@ class SaleController extends Controller
             $return_product = SaleReturn::find($id);
             return view($this->path.'sale_return_product_show',compact('return_product'));
         }
+
+
+
+    public  function  saleReturnProductUpdate(Request $request){
+        DB::beginTransaction();
+        try{
+
+            $sale_return  = SaleReturn::where('id',$request->return_product_id)->first();
+            $sale_return->customer_id  = $request->customer_id;
+//            $sale_return->reference_no  = date("Ymd").date("hi");
+            $sale_return->item         = $request->in_item;
+            $sale_return->total_qty    = $request->in_total_qty;
+            $sale_return->total_price  = $request->in_total_cost;
+            $sale_return->grand_total  = $request->in_grand_total;
+//               $sale_return->date  = $request->customer_id;
+            $sale_return->return_note  = $request->description;
+            $sale_return->save();
+
+
+            $product_id    = $request->proId;
+            $sale_return_id    = $request->product_sale_returns;
+            $product_qty   = $request->proQuantity;
+            $product_price = $request->prosubTotal;
+            foreach ($product_id as $i=>$item){
+                $product_sale_return = ProductSaleReturn::where('id',$sale_return_id[$i])->first();
+                $product_sale_return->sale_return_id = $sale_return->id;
+                $product_sale_return->product_id = $item;
+                $product_sale_return->qty = $product_qty[$i];
+                $product_sale_return->unit_price = $product_price[$i];
+                $product_sale_return->save();
+
+                $product = Product::where('id',$product_id[$i])->first();
+                $product->quantity = $product->quantity + $product_qty[$i];
+                $product->save();
+            }
+
+            $sale = Sale::where('invoice_no',$sale_return->sale_invoice_no)->first();
+            $sale->return_amount = $request->in_grand_total;
+            $sale->save();
+            DB::commit();
+            $output = ['success' => true,
+                'messege'            => "Product Active success",
+            ];
+            return redirect()->route('purchase.index')->with($output);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
+
 
         public  function  saleReturnProductDelete($id){
             $product = SaleReturn::find($id);

@@ -141,6 +141,7 @@ Route::group(['middleware' => 'auth'],function (){
 
     Route::get('sale/return/view','SaleController@saleReturnView')->name('sale.return');
     Route::any('sale/return/product/store','SaleController@saleReturnProductStore')->name('return-product-store');
+    Route::any('sale/return/product/update','SaleController@saleReturnProductUpdate')->name('return-product-store');
     Route::any('sale/return/product/list','SaleController@saleReturnProductList')->name('sale-product-list');
     Route::get('sale/get/single-product/{id}','SaleController@getSingleProduct')->name('getSingleProduct');
     Route::delete('return/sale-product/delete/{id}','SaleController@saleReturnProductDelete')->name('sale-return.product');
