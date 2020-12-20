@@ -41,7 +41,7 @@
                 <div class="card-body p_relative">
                     <h4 class="mt-0 header-title"> Return Sale list</h4>
                 <form action="{{url('sale/return/product/update')}}" method="post">
-                    <input name="return_product_id" value="{{$returnProduct->id}}"/>
+                    <input type="hidden" name="return_product_id" value="{{$returnProduct->id}}"/>
                     @csrf
                     <div class="form-group row">
                         <div class="col-md-4 ">
@@ -90,7 +90,7 @@
                         <tbody id="productTable">
                         @foreach($product_sale_returns as $product)
                             <tr id="pro-data{{isset($product->product->id)?$product->product->id:''}}">
-                                <td><input value="{{$product->id}}" name="product_sale_returns[]"></td>
+                               <input value="{{$product->id}}" name="product_sale_returns[]" type="hidden">
                                 <td><p id="proName" class="text-primary">{{isset($product->product->name)?$product->product->name:''}}</p><input type="hidden" name="proId[]" value="{{$product->product_id}}"></td>
                                 <td><input class="form-control qty" type="number" min="0" onchange="proMultiPur({{isset($product->product->id)?$product->product->id:''}})" id="proQuantity-{{isset($product->product->id)?$product->product->id:''}}" name="proQuantity[]" value="{{isset($product->qty)?$product->qty:''}}"></td>
                                 <td><input type="number" class="form-control " readonly id="proUnitdiscount-{{isset($product->product->id)?$product->product->id:''}}"  value="{{isset($product->product->discount)?$product->product->discount:''}}"></td>
@@ -105,7 +105,7 @@
                         <th>Total</th>
                         <th id="total-qty" colspan="2">0</th>
                         <th id="total-discount">0</th>
-                        <th id="total"  align="center">0.00</th>
+                        <th id="total"  align="center">{{$returnProduct->total_price}}</th>
                         <th><i class="fa fa-trash"></i></th>
                         </tfoot>
                     </table>
@@ -135,7 +135,7 @@
                                     <span class="pull-right" id="total_main_item">0</span>(<span id="total_item">0</span>)
                                 </td>
                                 <td><strong>Total</strong>
-                                    <span class="pull-right" id="subtotal">0.00</span>
+                                    <span class="pull-right" id="subtotal">{{$returnProduct->total_price}}</span>
                                 </td>
                                 <td><strong>Tax</strong>
                                     <span class="pull-right" id="order_tax">0.00</span>
@@ -150,7 +150,7 @@
 {{--                                    <span class="pull-right" id="paid_amount">0.00</span>--}}
 {{--                                </td>--}}
                                 <td><strong>Grand Total</strong>
-                                    <span class="pull-right" id="grandtotalPrice">0.00</span>
+                                    <span class="pull-right" id="grandtotalPrice">{{$returnProduct->grand_total}}</span>
                                 </td>
                             </tr></tbody></table>
                     </div>
