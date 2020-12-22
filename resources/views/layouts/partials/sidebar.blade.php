@@ -48,7 +48,7 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Return <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{route('sale-product-list')}}">Sale</a></li>
-                        <li><a href="{{route('expense.index')}}">Purchase </a></li>
+                        <li><a href="{{route('purchase.product-list')}}">Purchase </a></li>
                     </ul>
                 </li>
 

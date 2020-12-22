@@ -128,6 +128,18 @@ Route::group(['middleware' => 'auth'],function (){
         Route::any('add/payment/','PurchaseController@addPayment')->name('add.payment');
         Route::get('view/payment/{id}','PurchaseController@viewPayment')->name('view.payment');
         Route::delete('delete/{id}','PurchaseController@delete')->name('delete');
+
+        Route::any('return/product/list','PurchaseReturnController@returnProductList')->name('product-list');
+        Route::get('return/view','PurchaseReturnController@returnView')->name('return');
+        Route::any('return/product/store','PurchaseReturnController@returnProductStore')->name('return.product.store');
+        Route::any('return/product/update','PurchaseReturnController@returnProductUpdate')->name('return.product.store');
+        Route::get('get/single-product/{id}','PurchaseReturnController@singleProduct')->name('getSingleProduct');
+        Route::delete('return/sale-product/delete/{id}','PurchaseReturnController@returnProductDelete')->name('return.product');
+        Route::get('return/sale-product/view/{id}','PurchaseReturnController@returnProductView')->name('return.product');
+        Route::get('return/sale-product/edit/{id}','PurchaseReturnController@returnProductEdit')->name('return.product.edit');
+        Route::delete('return/sale/single/product/delete/{id}','PurchaseReturnController@SinReturnProductDelete')->name('return.product.edit');
+
+
     });
 
     Route::get('payment/delete/{id}','PaymentController@delete')->name('delete');
@@ -147,6 +159,7 @@ Route::group(['middleware' => 'auth'],function (){
     Route::delete('return/sale-product/delete/{id}','SaleController@saleReturnProductDelete')->name('sale-return.product');
     Route::get('return/sale-product/view/{id}','SaleController@saleReturnProductView')->name('sale-return.product');
     Route::get('return/sale-product/edit/{id}','SaleController@saleReturnProductEdit')->name('sale-return.product.edit');
+    Route::delete('return/sale/single/product/delete/{id}','SaleController@saleSinReturnProductDelete')->name('sale-return.product.edit');
 
 //    sale_return_product_show
     Route::group(['prefix'=>'setting','as'=>'setting.'],function (){

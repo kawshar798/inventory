@@ -19,6 +19,7 @@ class CreatePurchaseReturnsTable extends Migration
             $table->integer('supplier_id')->nullable();
             $table->integer('warehouse_id')->nullable();
             $table->integer('staff_id')->nullable();
+            $table->integer('purchase_invoice_no')->nullable();
             $table->integer('account_id')->nullable();
             $table->integer('item');
             $table->double('total_qty');

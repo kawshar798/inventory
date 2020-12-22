@@ -45,6 +45,10 @@
                             <td>{{isset($purchase->supplier)?$purchase->supplier->name:''}}</td>
                             <td>
                                 <a href="{{url('purchase/show',$purchase->id)}}">{{$purchase->reference_no}}</a>
+                                @if(!empty($purchase->return_amount))
+                                    <span style="color: red" title="some quantites are returned from this purchase"><i class="fas fa-undo-alt"></i></span>
+
+                                @endif
                             </td>
                             <td>{{$purchase->grand_total}}</td>
                             <td>{{$purchase->paid_amount}}</td>

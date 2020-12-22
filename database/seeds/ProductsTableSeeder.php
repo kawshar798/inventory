@@ -12,12 +12,12 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('products')->delete();
-        
+
         \DB::table('products')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'name' => 'Medium sicily bag in aria matelassé calfskin',
@@ -42,10 +42,10 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2020-09-10 03:29:46',
                 'updated_at' => '2020-09-10 03:29:46',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
-                'name' => 'Medium Sicily Bag In Aria Matelassé Calfskin',
+                'name' => 'Medium Sicily Bag In Aria Matelassé Calfskin2',
                 'type' => NULL,
                 'description' => '<p>An icon of the brand for excellence, the medium sized Sicily bag is offered in aria matelass&eacute; calfskin for the FW20, in shades that are pair perfectly with the &ldquo;In the wood&rdquo; theme. Versatile and feminine, it unites both practicality and elegance:<br />&bull; Front flap with hidden press-stud closure<br />&bull; Logoed bigalvanic plate<br />&bull; On top handle with removable and adjustable aria calfskin strap<br />&bull; Printed fabric lining<br />&bull; Internal pocket with logoed zipper and smartphone pocket<br />&bull; Metal bag feet on the base<br />&bull; Item is equipped with a themed and logoed dust bag<br />&bull; Measurements: 26 x 21 x 12cm - 10 x 8 x 4.7 inches<br />&bull; Made in Italy</p>',
                 'unit_id' => 1,
@@ -67,10 +67,10 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2020-09-10 03:31:52',
                 'updated_at' => '2020-09-10 03:31:52',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
-                'name' => 'Medium Sicily Bag In Aria Matelassé Calfskin',
+                'name' => 'Medium Sicily Bag In Aria Matelassé Calfskin3',
                 'type' => NULL,
                 'description' => '<p>An icon of the brand for excellence, the medium sized Sicily bag is offered in aria matelass&eacute; calfskin for the FW20. Versatile and feminine, it unites both practicality and elegance:<br />&bull; Front flap with hidden press-stud closure<br />&bull; Logoed bigalvanic plate<br />&bull; On top handle with removable and adjustable aria calfskin strap<br />&bull; Printed fabric lining<br />&bull; Internal pocket with logoed zipper and smartphone pocket<br />&bull; Metal bag feet on the base<br />&bull; Item is equipped with a themed and logoed dust bag<br />&bull; Measurements: 26 x 21 x 12cm - 10 x 8 x 4.7 inches<br />&bull; Made in Italy</p>',
                 'unit_id' => 1,
@@ -92,7 +92,7 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2020-09-10 03:34:24',
                 'updated_at' => '2020-09-10 03:34:24',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'name' => 'Small Dg Girls In Calfskin',
@@ -118,7 +118,7 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => '2020-09-10 03:35:48',
             ),
         ));
-        
-        
+
+
     }
 }

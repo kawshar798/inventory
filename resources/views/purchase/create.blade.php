@@ -313,7 +313,7 @@
             }
         })
     }
-    console.log(ids);
+
     //removeProduct from purchase product list
     function removeProductPur(id) {
         $("#pro-" + id).remove();

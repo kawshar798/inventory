@@ -250,9 +250,6 @@ class SaleController extends Controller
             $return_product = SaleReturn::find($id);
             return view($this->path.'sale_return_product_show',compact('return_product'));
         }
-
-
-
     public  function  saleReturnProductUpdate(Request $request){
         DB::beginTransaction();
         try{
@@ -299,8 +296,12 @@ class SaleController extends Controller
             return $e->getMessage();
         }
     }
+        public  function  saleSinReturnProductDelete($id){
+            $product = ProductSaleReturn::find($id);
+            $product->delete();
+            return  "success";
 
-
+        }
         public  function  saleReturnProductDelete($id){
             $product = SaleReturn::find($id);
             $sale_return_product = ProductSaleReturn::where('sale_return_id',$product->id)->get();
